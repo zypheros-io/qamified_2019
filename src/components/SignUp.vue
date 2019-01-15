@@ -1,9 +1,91 @@
 <template>
-  <div>
-    <input v-model="newUser.email" type="text" placeholder="email">
-    <input v-model="newUser.password" type="password" placeholder="password">
-    <button v-on:click.prevent="signUp" type="submit">SIGNUP</button>
-    <a href="" v-on:click="goto('/signin')"> Already have an account? Sign in here </a>
+  <div class="hero is-fullheight">
+    <div class="hero-body">
+      <div class="container">
+        <!-- Form container -->
+        <div class="column is-4 is-offset-4">
+          <div class="box" id="signup-form-container">
+            <h3 class="subtitle has-text-primary has-text-centered">
+              Become an adventurer today.
+            </h3>
+            <!-- Email address -->
+            <b-field label="Email">
+              <b-input
+                      v-model="email"
+                      type="email"
+                      placeholder="johndoe@email.com"
+                      required=""
+                      rounded>
+              </b-input>
+            </b-field>
+            <!-- Username -->
+            <b-field label="Username">
+              <b-input
+                      v-model="username"
+                      maxlength="20"
+                      placeholder="johnnydoe"
+                      required=""
+                      rounded>
+              </b-input>
+            </b-field>
+            <!-- First name -->
+            <b-field label="First Name">
+              <b-input
+                      v-model="firstname"
+                      placeholder="Johnny"
+                      required=""
+                      rounded>
+              </b-input>
+            </b-field>
+            <!-- Last name -->
+            <b-field label="Last Name">
+              <b-input
+                      v-model="lastname"
+                      placeholder="Doe"
+                      required=""
+                      rounded>
+              </b-input>
+            </b-field>
+            <!-- Institution -->
+            <b-field label="Institution">
+              <b-input
+                      v-model="institution"
+                      placeholder="e.g., CAS, CAFS, CEAT..."
+                      required=""
+                      rounded>
+              </b-input>
+            </b-field>
+            <!-- Password -->
+            <b-field label="Password">
+              <b-input
+                      v-model="password"
+                      type="password"
+                      placeholder="Minimum of 6 characters"
+                      required="">
+              </b-input>
+            </b-field>
+            <!-- Confirm password -->
+            <b-field label="Confirm your password">
+              <b-input
+                      v-model="confirmPassword"
+                      type="password"
+                      placeholder="Confirm password"
+                      required=""
+                      rounded>
+              </b-input>
+            </b-field>
+            <button class="button is-block is-primary is-small is-fullwidth"
+                    v-if="!isLoading"
+                    v-on:click.prevent="signUp">
+                    Start your journey
+            </button>
+            <button class="button is-loading is-primary is-small is-fullwidth"
+                    v-if="isLoading">
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -12,15 +94,21 @@ export default {
   name: 'SignUp',
   data() {
     return {
-      newUser: {
-        email: '',
-        password: '',
-      },
+      email: '',
+      username: '',
+      password: '',
+      firstname: '',
+      lastname: '',
+      institution: '',
+      confirmPassword: '',
     };
   },
   computed: {
     getUser() {
       return this.$store.getters.getUser;
+    },
+    isLoading() {
+      return this.$store.getters.isLoading;
     },
   },
   watch: {
@@ -32,8 +120,19 @@ export default {
   },
   methods: {
     signUp: function signUp() {
-      // add a password confirmation)
-      this.$store.dispatch('signUp', { email: this.newUser.email, password: this.newUser.password });
+      // sign up if passwords matched
+      if (this.password === this.confirmPassword) {
+        this.$store.dispatch('signUp', {
+
+          email: this.email,
+          username: this.username,
+          password: this.password,
+          firstname: this.firstname,
+          lastname: this.lastname,
+          institution: this.institution,
+
+        });
+      }
     },
     goto: function goto(route) {
       this.route = route;
@@ -42,3 +141,13 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+  #signup-form-container {
+    border: solid 1px #8c67ef
+  }
+  .hero {
+    background-color: #F5F5F5
+  }
+</style>
+

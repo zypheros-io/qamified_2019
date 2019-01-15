@@ -2,9 +2,13 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import * as firebase from 'firebase';
 import Vue from 'vue';
+import Buefy from 'buefy';
 import App from './App';
 import router from './router';
 import { store } from './store';
+import '../node_modules/buefy/dist/buefy.css';
+
+Vue.use(Buefy);
 
 Vue.config.productionTip = false;
 

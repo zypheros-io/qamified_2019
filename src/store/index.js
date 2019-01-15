@@ -8,16 +8,22 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
   state: {
     user: null,
+    isLoading: false,
   },
   mutations: {
     setUser(state, payload) {
       state.user = payload;
     },
+    setLoading(state, payload) {
+      state.isLoading = payload;
+    }
   },
   actions: {
     signUp({ commit }, payload) {
+      commit('setLoading', true);
       firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password).then(
         (user) => {
+          commit('setLoading', false);
           const newUser = {
             id: user.uid,
           };
@@ -25,6 +31,7 @@ export const store = new Vuex.Store({
         },
       ).catch(
         (error) => {
+          commit('setLoading', false);
           const errorCode = error.code;
           const errorMessage = error.message;
           if (errorCode === 'auth/email-already-in-use') {
@@ -79,6 +86,9 @@ export const store = new Vuex.Store({
   getters: {
     getUser(state) {
       return state.user;
+    },
+    isLoading(state) {
+      return state.isLoading;
     },
   },
 });
