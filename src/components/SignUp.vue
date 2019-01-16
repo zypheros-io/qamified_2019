@@ -28,6 +28,25 @@
                       rounded>
               </b-input>
             </b-field>
+            <!-- Password -->
+            <b-field label="Password">
+              <b-input
+                      v-model="password"
+                      type="password"
+                      placeholder="Minimum of 6 characters"
+                      required="">
+              </b-input>
+            </b-field>
+            <!-- Confirm password -->
+            <b-field label="Confirm your password">
+              <b-input
+                      v-model="confirmPassword"
+                      type="password"
+                      placeholder="Confirm password"
+                      required=""
+                      rounded>
+              </b-input>
+            </b-field>
             <!-- First name -->
             <b-field label="First Name">
               <b-input
@@ -51,25 +70,6 @@
               <b-input
                       v-model="institution"
                       placeholder="e.g., CAS, CAFS, CEAT..."
-                      required=""
-                      rounded>
-              </b-input>
-            </b-field>
-            <!-- Password -->
-            <b-field label="Password">
-              <b-input
-                      v-model="password"
-                      type="password"
-                      placeholder="Minimum of 6 characters"
-                      required="">
-              </b-input>
-            </b-field>
-            <!-- Confirm password -->
-            <b-field label="Confirm your password">
-              <b-input
-                      v-model="confirmPassword"
-                      type="password"
-                      placeholder="Confirm password"
                       required=""
                       rounded>
               </b-input>
