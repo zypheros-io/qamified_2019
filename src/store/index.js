@@ -65,11 +65,35 @@ export const store = new Vuex.Store({
       commit('setLoading', true);
       firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password).then(
         (user) => {
-          commit('setLoading', false);
           const newUser = {
-            id: user.user.uid,
+            _id: user.user.uid,
+            email: payload.email,
+            username: payload.username,
+            firstname: payload.firstname,
+            lastname: payload.lastname,
+            institution: payload.institution,
+            is_banned: false,
+            description: '',
+            level: 1,
+            experience: 0,
+            level_exp: 10,
+            rank: 'Beginner',
           };
-          commit('setUser', newUser);
+          const updates = {}
+          updates['/user/' + newUser._id] = newUser;
+
+          firebase.database()
+            .ref()
+            .update(updates)
+            .then(() => {
+              commit('setUser', newUser);
+              commit('setLoading', false);
+            }).catch(
+              (error) => {
+                // eslint-disable-next-line
+                console.log(error);
+              }
+            )
         },
       ).catch(
         (error) => {
@@ -89,7 +113,7 @@ export const store = new Vuex.Store({
         },
       );
     },
-    signIn({ commit }, payload) {
+    loginViaEmail( { commit }, payload) {
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password).then(
         (user) => {
           const newUser = {
@@ -113,6 +137,17 @@ export const store = new Vuex.Store({
           }
         },
       );
+    },
+    loginViaUsername( { commit }, payload) {
+      // login via username here
+    },
+    loginMethod({ commit, dispatch }, payload) {
+      var reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      if (reg.test(payload.email)) {
+        this.dispatch('loginViaEmail', payload);
+      } else {
+        this.dispatch('loginViaUsername', payload);
+      }
     },
     relog({ commit }, payload) {
       // automatically relogs the user into the platform

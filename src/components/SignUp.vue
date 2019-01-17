@@ -34,7 +34,8 @@
                       v-model="password"
                       type="password"
                       placeholder="Minimum of 6 characters"
-                      required="">
+                      required=""
+                      rounded>
               </b-input>
             </b-field>
             <!-- Confirm password -->

@@ -8,7 +8,7 @@
             <div class="box" id="signup-form-container">
               <input v-model="newUser.email" type="text" placeholder="email">
               <input v-model="newUser.password" type="password" placeholder="password">
-              <button v-on:click.prevent="signUp" type="submit"> LOGIN </button>
+              <button v-on:click.prevent="signIn" type="submit"> LOGIN </button>
               <a href="" v-on:click="goto('/')"> Don't have an account? Sign up here. </a>
             </div>
           </div>
@@ -42,9 +42,9 @@ export default {
     },
   },
   methods: {
-    signUp: function signUp() {
+    signIn: function signIn() {
       // add a password confirmation)
-      this.$store.dispatch('signIn', { email: this.newUser.email, password: this.newUser.password });
+      this.$store.dispatch('loginMethod', { email: this.newUser.email, password: this.newUser.password });
     },
     goto: function goto(route) {
       this.route = route;
