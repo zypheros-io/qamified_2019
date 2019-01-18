@@ -2,8 +2,10 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import firebase from 'firebase';
+import moment from 'moment';
 
 Vue.use(Vuex);
+Vue.use(moment);
 // eslint-disable-next-line
 export const store = new Vuex.Store({
   state: {
@@ -11,42 +13,8 @@ export const store = new Vuex.Store({
       // Question 1
       {
         id: 'sdadasdasdasdadasfasczx',
-        category: 'Web Development',
-        time_posted: '2019',
-        description: 'What is web development?',
-        author: 'Kenichii Ana',
-        username: 'kenichiiana',
-        user_id: 'asdfamdascaxkzcm',
-        is_answered: false,
-        is_duplicate: false,
         title: 'This is too hard',
-        upvote: [],
-      },
-      {
-        id: 'dasdasdsadasddasczxczxcz',
-        category: 'Web Development',
-        time_posted: '1998',
-        description: 'Is it possible to create my SP in 5 months?',
-        author: 'Kenichii Ana',
-        username: 'kenichiiana',
-        user_id: 'asdfamdascaxkzcm',
-        is_answered: false,
-        is_duplicate: false,
-        title: 'I need help',
-        upvote: [],
-      },
-      {
-        id: 'zxczvzxvzvzxvzczx',
-        category: 'Web Development',
-        time_posted: '2006',
-        description: 'Will you be able to graduate?',
-        author: 'Kenichii Ana',
-        username: 'kenichiiana',
-        user_id: 'asdfamdascaxkzcm',
-        is_answered: false,
-        is_duplicate: false,
-        title: 'Let me graduate',
-        upvote: [],
+        description: 'What is web development?',
       },
     ],
     user: null,
@@ -58,6 +26,9 @@ export const store = new Vuex.Store({
     },
     setLoading(state, payload) {
       state.isLoading = payload;
+    },
+    createPost(state, payload) {
+      state.questions.push(payload);
     }
   },
   actions: {
@@ -85,7 +56,8 @@ export const store = new Vuex.Store({
           firebase.database()
             .ref()
             .update(updates)
-            .then(() => {
+            .then(
+              () => {
               commit('setUser', newUser);
               commit('setLoading', false);
             }).catch(
@@ -148,6 +120,41 @@ export const store = new Vuex.Store({
       } else {
         this.dispatch('loginViaUsername', payload);
       }
+    },
+    postQuest({ commit }, payload) {
+      commit('setLoading', true);
+      // eslint-disable-next-line
+      console.log("Hello 1")
+      const quest = {
+        id: '',
+        title: payload.title,
+        description: payload.desc,
+      };
+      // get key of the new quest
+      const newKey = firebase.database().ref().child('quest').push().key;
+      // update quest object's key
+      quest.id = newKey;
+      const updates = {};
+      updates['/quest/' + quest.id] = quest;
+
+      // update database
+      firebase.database()
+        .ref()
+        .update(updates)
+        .then(
+          () => {
+            // eslint-disable-next-line
+            console.log("Hello")
+            commit('setLoading', false);
+            commit('createPost', quest)
+        }).catch(
+          (error) => {
+            // eslint-disable-next-line
+            console.log(error);
+            commit('setLoading', false);
+          }
+        )
+
     },
     relog({ commit }, payload) {
       // automatically relogs the user into the platform
