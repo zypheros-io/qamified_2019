@@ -6,10 +6,22 @@
           <!-- Form container -->
           <div class="column is-4 is-offset-4">
             <div class="box" id="signup-form-container">
-              <input v-model="newUser.email" type="text" placeholder="email">
-              <input v-model="newUser.password" type="password" placeholder="password">
-              <button v-on:click.prevent="signIn" type="submit"> LOGIN </button>
-              <a href="" v-on:click="goto('/')"> Don't have an account? Sign up here. </a>
+              <input
+                v-model="newUser.email"
+                type="text"
+                placeholder="email">
+              <input
+                v-model="newUser.password"
+                type="password"
+                placeholder="password">
+              <button
+                v-on:click.prevent="signIn"
+                type="submit"> LOGIN </button>
+              <a
+                href=""
+                v-on:click="goto('/')">
+                  Don't have an account? Sign up here.
+              </a>
             </div>
           </div>
         </div>
