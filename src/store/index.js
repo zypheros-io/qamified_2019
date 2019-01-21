@@ -86,12 +86,14 @@ export const store = new Vuex.Store({
       );
     },
     loginViaEmail( { commit }, payload) {
+      commit('setLoading', true);
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password).then(
         (user) => {
           const newUser = {
             id: user.uid,
           };
           commit('setUser', newUser);
+          commit('setLoading', false);
         },
       ).catch(
         (error) => {
@@ -111,7 +113,44 @@ export const store = new Vuex.Store({
       );
     },
     loginViaUsername( { commit }, payload) {
+      commit('setLoading', true);
       // login via username here
+      firebase.database()
+        .ref('user')
+        .orderByChild('username')
+        .equalTo(payload.email)
+        .limitToFirst(1)
+        .once('value', user => {
+          // check if array is empty 
+          if(user !== undefined && user !== null) {
+            // set retrieved user as matching user
+            let matchingUser;
+            user.forEach(
+              (u) => {
+                matchingUser = u.val();
+              }
+            )
+            firebase.auth()
+              .signInAndRetrieveDataWithEmailAndPassword(matchingUser.email, payload.password)
+              .then(
+                (user) => {
+                  // set user in store to current user
+                  commit('setUser', user);
+                  commit('setLoading', false);
+                }
+              ).catch(
+                (error) => {
+                  // eslint-disable-next-line
+                  console.log(error);
+                }
+              ) 
+          } else {
+            // if user with 'username' not found
+            // alert uer
+            commit('setLoading', false);
+            alert('User does not exist.');
+          }
+        });
     },
     loginMethod({ commit, dispatch }, payload) {
       var reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/

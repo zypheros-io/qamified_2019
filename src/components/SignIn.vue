@@ -7,11 +7,11 @@
           <div class="column is-4 is-offset-4">
             <div class="box" id="signup-form-container">
               <input
-                v-model="newUser.email"
+                v-model="email"
                 type="text"
                 placeholder="email">
               <input
-                v-model="newUser.password"
+                v-model="password"
                 type="password"
                 placeholder="password">
               <button
@@ -35,10 +35,8 @@ export default {
   name: 'SignUp',
   data() {
     return {
-      newUser: {
-        email: '',
-        password: '',
-      },
+      email: '',
+      password: '',
     };
   },
   computed: {
@@ -56,7 +54,7 @@ export default {
   methods: {
     signIn: function signIn() {
       // add a password confirmation)
-      this.$store.dispatch('loginMethod', { email: this.newUser.email, password: this.newUser.password });
+      this.$store.dispatch('loginMethod', { email: this.email, password: this.password });
     },
     goto: function goto(route) {
       this.route = route;
