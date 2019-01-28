@@ -91,6 +91,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'SignUp',
   data() {
@@ -105,17 +107,15 @@ export default {
     };
   },
   computed: {
-    getUser() {
-      return this.$store.getters.getUser;
-    },
-    isLoading() {
-      return this.$store.getters.isLoading;
-    },
+    ...mapGetters({
+      getUser: 'user/getUser',
+      isLoading: 'register/isLoading',
+    }),
   },
   watch: {
     getUser(value) {
       if (value !== null) {
-        this.$router.push('/welcome');
+        this.$router.push('/');
       }
     },
   },
@@ -123,7 +123,7 @@ export default {
     signUp: function signUp() {
       // sign up if passwords matched
       if (this.password === this.confirmPassword) {
-        this.$store.dispatch('signUp', {
+        this.$store.dispatch('register/signUp', {
 
           email: this.email,
           username: this.username,
@@ -142,7 +142,6 @@ export default {
   },
 };
 </script>
-
 <style scoped>
   #signup-form-container {
     border: solid 1px #8c67ef

@@ -23,13 +23,12 @@
               </div>
             </div>
             <button class="button is-primary is-small is-fullwidth"
-                    v-if="!isLoading"
                     v-on:click.prevent="postQuest">
                     Post Quest
             </button>
-            <button class="button is-loading is-primary is-small is-fullwidth"
+            <!-- <button class="button is-loading is-primary is-small is-fullwidth"
                     v-if="isLoading">
-            </button>
+            </button> -->
           </div>
           <!-- FEED -->
           <div class="card" v-for="quest in questions" :key="quest.id">
@@ -76,12 +75,6 @@ export default {
     };
   },
   computed: {
-    questions() {
-      return this.$store.getters.loadQuestions;
-    },
-    isLoading() {
-      return this.$store.getters.isLoading;
-    },
   },
   methods: {
     postQuest: function postQuest() {

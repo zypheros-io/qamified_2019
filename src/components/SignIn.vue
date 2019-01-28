@@ -19,7 +19,7 @@
                 type="submit"> LOGIN </button>
               <a
                 href=""
-                v-on:click="goto('/')">
+                v-on:click="goto('/signup')">
                   Don't have an account? Sign up here.
               </a>
             </div>
@@ -31,8 +31,9 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
-  name: 'SignUp',
   data() {
     return {
       email: '',
@@ -40,21 +41,25 @@ export default {
     };
   },
   computed: {
-    getUser() {
-      return this.$store.getters.getUser;
-    },
+    ...mapGetters({
+      getUser: 'user/getUser',
+      isLoading: 'login/isLoading',
+    }),
   },
   watch: {
     getUser(value) {
       if (value !== null) {
-        this.$router.push('/welcome');
+        this.$router.push('/');
       }
     },
   },
   methods: {
     signIn: function signIn() {
-      // add a password confirmation)
-      this.$store.dispatch('loginMethod', { email: this.email, password: this.password });
+      this.$store.dispatch('login/checkSignInMethod',
+        {
+          email: this.email,
+          password: this.password,
+        });
     },
     goto: function goto(route) {
       this.route = route;

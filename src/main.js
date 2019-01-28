@@ -5,7 +5,7 @@ import Vue from 'vue';
 import Buefy from 'buefy';
 import App from './App';
 import router from './router';
-import { store } from './store';
+import store from './store';
 import '../node_modules/buefy/dist/buefy.css';
 
 Vue.use(Buefy);
@@ -30,7 +30,7 @@ new Vue({
     });
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.$store.dispatch('relog', user);
+        this.$store.dispatch('user/initUser', user);
       }
     });
   },

@@ -52,12 +52,12 @@
 export default {
   computed: {
     isAuthenticated() {
-      return this.$store.getters.getUser !== null && this.$store.getters.getUser !== undefined;
+      return this.$store.getters['user/getUser'] !== null && this.$store.getters['user/getUser'] !== undefined;
     },
   },
   methods: {
     signOut: function signOut() {
-      this.$store.dispatch('logout');
+      this.$store.dispatch('user/logOut');
       this.$router.push('/signin');
     },
     goto: function goto(route) {
