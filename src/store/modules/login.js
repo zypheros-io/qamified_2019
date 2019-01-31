@@ -72,6 +72,8 @@ const actions = {
             )
             .catch(
               (error) => {
+                const errorCode = error.code;
+                const errorMsg = error.message;
                 if (errorCode === 'auth/wrong-password') {
                   alert('Incorrect password, please try again.');
                 } else if (errorCode === 'auth/user-not-found') {
@@ -92,7 +94,7 @@ const actions = {
     if (reg.test(payload.email)) {
       dispatch('emailLogin', payload);
     } else {
-      console.log('woah username login')
+      dispatch('usernameLogin', payload);
     }
   },
 };

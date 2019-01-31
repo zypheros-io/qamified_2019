@@ -1,31 +1,34 @@
 <template>
-  <div class="has-navbar-fixed-top" id="app">
-    <nav class="navbar is-primary is-fixed-top" role="navigation" aria-label="main navigation">
+  <div id="app">
+    <nav class="navbar is-fixed-top is-transparent" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <a class="navbar-item" href="https://bulma.io">
-          <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+          <img src="https://via.placeholder.com/112x28" width="112" height="28">
         </a>
       </div>
-
       <div class="navbar-menu">
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="buttons">
-              <a class="button is-primary"
-                 @click="goto('signin')"
-                 v-if="!isAuthenticated"
+              <a
+                class="button"
+                @click="goto('signin')"
+                v-if="!isAuthenticated"
               >
                 <strong>Log In</strong>
               </a>
-              <a class="button is-warning"
-                 @click="goto('/')"
-                 v-if="!isAuthenticated"
+              <a
+                class="button"
+                id="nav-signup"
+                @click="goto('signup')"
+                v-if="!isAuthenticated"
               >
                 <strong>Sign Up</strong>
               </a>
-              <a class="button is-primary"
-                 @click="signOut"
-                 v-if="isAuthenticated"
+              <a
+                class="button is-primary"
+                @click="signOut"
+                v-if="isAuthenticated"
               >
                 <strong>Log Out</strong>
               </a>
@@ -48,7 +51,6 @@
 </template>
 
 <script>
-
 export default {
   computed: {
     isAuthenticated() {
@@ -69,4 +71,31 @@ export default {
 </script>
 
 <style>
+  @import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
+  @import '../node_modules/bulma-divider/dist/css/bulma-divider.min.css';
+  .navbar {
+    background-color: #F9C23E !important;
+  }
+  #nav-signup {
+    background-color: #79C354 !important;
+  }
+  #nav-signup:hover {
+    background-color: #fafbfc !important;
+    transition: 0.5s;
+    -moz-transition: 0.5s;
+    -webkit-transition: 0.5s;
+  }
+  .is-game {
+    font-family: 'Press Start 2P', cursive;
+  }
+  .form-title {
+    color: #F9C23E;
+  }
+  .form-subtitle, .sign-in-form-title {
+    margin: 10px 0px 25px 0px;
+  }
+  .form-subtitle {
+    margin-top: -20px;
+    font-style: italic;
+  }
 </style>

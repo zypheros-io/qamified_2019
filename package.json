@@ -12,6 +12,9 @@
   },
   "dependencies": {
     "buefy": "^0.7.1",
+    "bulma-divider": "^0.2.0",
+    "bulma-pageloader": "^2.1.0",
+    "bulma-steps": "^2.2.1",
     "firebase": "^5.7.3",
     "font-awesome": "^4.7.0",
     "moment": "^2.23.0",
