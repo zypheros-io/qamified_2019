@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import SignUp from '@/components/SignUp';
-import Landing from '@/components/Landing';
-import SignIn from '@/components/SignIn';
+import Register from '@/components/Register';
+import Feed from '@/components/Feed';
+import LogIn from '@/components/LogIn';
 import AuthGuard from './auth-guard';
 
 Vue.use(Router);
@@ -11,18 +11,18 @@ export default new Router({
   routes: [
     {
       path: '/signup',
-      name: 'SignUp',
-      component: SignUp,
+      name: 'Register',
+      component: Register,
     },
     {
       path: '/signin',
-      name: 'SignIn',
-      component: SignIn,
+      name: 'LogIn',
+      component: LogIn,
     },
     {
       path: '/',
-      name: 'Landing',
-      component: Landing,
+      name: 'Feed',
+      component: Feed,
       beforeEnter: AuthGuard,
     },
   ],

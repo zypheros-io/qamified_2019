@@ -38,15 +38,6 @@
       </div>
     </nav>
     <router-view/>
-    <footer class="footer">
-      <div class="content has-text-centered">
-        <p>
-          QamifiED is a web QnA platform made by <a href="www.facebook.com/zkenichii">
-          Kenichii A. Ana</a>, an undergraduate of BS Computer Science in the University
-          of the Philippines Los Banos.
-        </p>
-      </div>
-    </footer>
   </div>
 </template>
 

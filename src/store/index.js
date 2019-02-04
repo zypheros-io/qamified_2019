@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import user from './modules/user';
 import register from './modules/register';
 import login from './modules/login';
+import feed from './modules/feed';
 
 Vue.use(Vuex);
 
@@ -11,5 +12,6 @@ export default new Vuex.Store({
     user,
     register,
     login,
+    feed,
   },
 });

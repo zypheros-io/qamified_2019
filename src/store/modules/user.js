@@ -6,15 +6,6 @@ const state = {
   loading: false,
 };
 
-const getters = {
-  getUser(state) {
-    return state.user;
-  },
-  isLoading(state) {
-    return state.loading;
-  },
-};
-
 const mutations = {
   setUser(state, payload) {
     state.user = payload;
@@ -31,9 +22,45 @@ const actions = {
       id: payload.uid,
     });
   },
+  postQuest({ commit }, payload) {
+    commit('setLoading', true);
+    const q = payload;
+    const questKey = firebase.database().ref().child('quest').push.key;
+    q.id = questKey;
+    const updates = {};
+
+    updates[`/quest/${q.id}`] = q;
+    // eslint-disable-next-line
+    console.log(q);
+    // update user exp
+    // firebase.database()
+    //   .ref()
+    //   .update(updates)
+    //   .then(
+    //     () => {
+    //       commit('setLoading', false);
+    //     },
+    //   )
+    //   .catch(
+    //     (error) => {
+    //       commit('setLoading', false);
+    //       // eslint-disable-next-line
+    //       console.log(error);
+    //     },
+    //   );
+  },
   logOut({ commit }) {
     firebase.auth().signOut();
     commit('setUser', null);
+  },
+};
+
+const getters = {
+  getUser(state) {
+    return state.user;
+  },
+  isLoading(state) {
+    return state.loading;
   },
 };
 

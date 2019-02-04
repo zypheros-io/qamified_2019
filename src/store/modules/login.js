@@ -5,12 +5,6 @@ const state = {
   loading: false,
 };
 
-const getters = {
-  isLoading(state) {
-    return state.loading;
-  }
-};
-
 const mutations = {
   setLoading(state, payload) {
     state.loading = payload;
@@ -97,6 +91,12 @@ const actions = {
       dispatch('usernameLogin', payload);
     }
   },
+};
+
+const getters = {
+  isLoading(state) {
+    return state.loading;
+  }
 };
 
 export default {

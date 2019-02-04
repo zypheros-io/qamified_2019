@@ -12,8 +12,10 @@
               class="subtitle has-text-centered is-6 form-subtitle">
               Become an adventurer, no rupees needed.
             </p>
+            <div class="is-divider"></div>
             <!-- STEP 1 -->
             <div v-if="step === 1">
+              <p class="title has-text-centered is-game form-title is-4">STEP 1</p>
               <b-field label="Email">
                 <b-input
                   v-model="email"
@@ -50,6 +52,7 @@
             </div>
             <!-- STEP 2 -->
             <div v-if="step === 2">
+              <p class="title has-text-centered is-game form-title is-6">STEP 2</p>
               <b-field label="First Name">
                 <b-input
                   v-model="firstname"
