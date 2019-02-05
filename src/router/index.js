@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Register from '@/components/Register';
 import Feed from '@/components/Feed';
+import Quest from '@/components/Quest';
 import LogIn from '@/components/LogIn';
 import AuthGuard from './auth-guard';
 
@@ -24,6 +25,12 @@ export default new Router({
       name: 'Feed',
       component: Feed,
       beforeEnter: AuthGuard,
+    },
+    {
+      path: '/:id',
+      props: true,
+      name: 'Quest',
+      component: Quest,
     },
   ],
   mode: 'history',

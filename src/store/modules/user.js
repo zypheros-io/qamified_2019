@@ -11,43 +11,46 @@ const mutations = {
     state.user = payload;
   },
   setLoading(state, payload) {
-    this.loading = payload;
+    state.loading = payload;
   },
 };
 
 const actions = {
   initUser({ commit }, payload) {
-    // recode to reinitialize all user properties
-    commit('setUser', {
-      id: payload.uid,
-    });
+    commit('setLoading', true);
+    firebase.database()
+      .ref(`/user/${payload.uid}`)
+      .on('value', (u) => {
+        if (u.val() != null) {
+          commit('setUser', u.val());
+        }
+      });
   },
   postQuest({ commit }, payload) {
-    commit('setLoading', true);
+    commit('feed/setLoading', true, { root: true });
     const q = payload;
-    const questKey = firebase.database().ref().child('quest').push.key;
+    const questKey = firebase.database().ref().child('quest').push().key;
     q.id = questKey;
     const updates = {};
-
-    updates[`/quest/${q.id}`] = q;
     // eslint-disable-next-line
-    console.log(q);
+    console.log(questKey);
+    updates[`/quest/${q.id}`] = q;
     // update user exp
-    // firebase.database()
-    //   .ref()
-    //   .update(updates)
-    //   .then(
-    //     () => {
-    //       commit('setLoading', false);
-    //     },
-    //   )
-    //   .catch(
-    //     (error) => {
-    //       commit('setLoading', false);
-    //       // eslint-disable-next-line
-    //       console.log(error);
-    //     },
-    //   );
+    firebase.database()
+      .ref()
+      .update(updates)
+      .then(
+        () => {
+          commit('feed/setLoading', false, { root: true });
+        },
+      )
+      .catch(
+        (error) => {
+          commit('feed/setLoading', false, { root: true });
+          // eslint-disable-next-line
+          console.log(error);
+        },
+      );
   },
   logOut({ commit }) {
     firebase.auth().signOut();

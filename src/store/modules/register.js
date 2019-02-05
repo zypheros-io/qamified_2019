@@ -1,5 +1,6 @@
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 import firebase from 'firebase';
+import moment from 'moment';
 
 const state = {
   loading: false,
@@ -28,9 +29,12 @@ const actions = {
             is_banned: false,
             description: '',
             level: 1,
+            points: 0,
             experience: 0,
-            level_exp: 10,
+            level_exp: 50,
             rank: 'Beginner',
+            date_created: moment.format(),
+            last_access: moment.format(),
           };
           const updates = {};
           updates[`/user/${newUser.id}`] = newUser;

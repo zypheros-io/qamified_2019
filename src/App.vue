@@ -79,6 +79,29 @@ export default {
   .is-game {
     font-family: 'Press Start 2P', cursive;
   }
+  .is-game-btn {
+    margin-top: 25px !important;
+    color: #fafbfc !important;
+    background-color: #F9C23E !important;
+    -webkit-box-shadow: 3px 3px 0px #d3a945, 0px 3px 15px rgba(0,0,0,.4);
+    -moz-box-shadow: 3px 3px 0px #d3a945, 0px 3px 15px rgba(0,0,0,.4);
+    box-shadow: 3px 3px 0px #d3a945, 0px 3px 15px rgba(0,0,0,.4);
+    border: none;
+    border-style: none;
+  }
+  .is-game-btn:active {
+    background-color: #79C354 !important;
+    -webkit-transition: 0.2s;
+    -moz-transition: 0.2s;
+    -o-transition: 0.2s;
+    transition: 0.2s;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+  }
+  .game-btn-med {
+    font-size: 1.35rem;
+  }
   .form-title {
     color: #F9C23E;
   }
@@ -88,5 +111,21 @@ export default {
   .form-subtitle {
     margin-top: -20px;
     font-style: italic;
+  }
+  .is-anchor {
+    color: #79C354;
+  }
+  .is-anchor:hover {
+    -webkit-transition: 0.2s;
+    -moz-transition: 0.2s;
+    -o-transition: 0.2s;
+    transition: 0.2s;
+    color: #F9C23E;
+    text-decoration: underline;
+  }
+  .rounded-card {
+    border-radius: 5px !important;
+    border: 1px solid #F9C23E;
+    margin-top: 10px;
   }
 </style>

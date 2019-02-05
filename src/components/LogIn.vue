@@ -33,22 +33,20 @@
               <button
                 v-if="!isLoading"
                 @click.prevent="signIn"
-                class="button is-fullwidth is-medium is-game"
-                id="sign-in-btn">
+                class="button is-fullwidth is-medium is-game is-game-btn game-btn-med">
                 START GAME
               </button>
               <button
                 v-if="isLoading"
                 @click.prevent="signIn"
-                class="button is-fullwidth is-loading is-medium is-game"
-                id="sign-in-btn">
+                class="button is-fullwidth is-loading is-medium is-game is-game-btn game-btn-med">
               </button>
             </b-field>
             <div class="is-divider"></div>
             <b-field class="has-text-centered">
               <div>
                 <p> Not yet an adventurer?
-                  <a id="to-signup" @click.prevent="goto('/signup')">
+                  <a class="is-anchor" @click.prevent="goto('/signup')">
                     Sign up here!
                   </a>
                 </p>
@@ -115,38 +113,6 @@ export default {
     -webkit-box-shadow: 6px 6px 0px #caadada9, 3px 3px 15px rgba(0,0,0,.4);
     -moz-box-shadow: 6px 6px 0px #caadada9, 3px 3px 15px rgba(0,0,0,.4);
     box-shadow: 6px 6px 0px #caadada9, 3px 3px 15px rgba(0,0,0,.4);
-  }
-  #sign-in-btn {
-    margin-top: 25px !important;
-    color: #fafbfc !important;
-    background-color: #F9C23E !important;
-    font-size: 1.35rem;
-    -webkit-box-shadow: 3px 3px 0px #d3a945, 0px 3px 15px rgba(0,0,0,.4);
-    -moz-box-shadow: 3px 3px 0px #d3a945, 0px 3px 15px rgba(0,0,0,.4);
-    box-shadow: 3px 3px 0px #d3a945, 0px 3px 15px rgba(0,0,0,.4);
-    border: none;
-    border-style: none;
-  }
-  #sign-in-btn:active {
-    background-color: #79C354 !important;
-    -webkit-transition: 0.2s;
-    -moz-transition: 0.2s;
-    -o-transition: 0.2s;
-    transition: 0.2s;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-  }
-  #to-signup {
-    color: #79C354;
-  }
-  #to-signup:hover {
-    -webkit-transition: 0.2s;
-    -moz-transition: 0.2s;
-    -o-transition: 0.2s;
-    transition: 0.2s;
-    color: #F9C23E;
-    text-decoration: underline;
   }
 </style>
 

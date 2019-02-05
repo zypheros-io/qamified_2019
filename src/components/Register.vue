@@ -44,7 +44,7 @@
               </b-field>
               <b-field>
                 <button
-                  class="button is-fullwidth is-medium is-game sign-up-nav"
+                  class="button is-fullwidth is-medium is-game is-game-btn game-btn-med"
                   @click.prevent="next">
                   NEXT
                 </button>
@@ -82,20 +82,20 @@
               <b-field>
                 <button
                   v-if="!isLoading"
-                  class="button is-fullwidth is-medium is-game sign-up-nav"
+                  class="button is-fullwidth is-medium is-game is-game-btn game-btn-med"
                   @click.prevent="validate">
                   SIGN UP
                 </button>
                 <button
                   v-if="isLoading"
-                  class="button is-fullwidth is-medium is-game sign-up-nav"
+                  class="button is-fullwidth is-medium is-game is-game-btn game-btn-med"
                   @click.prevent="validate">
                   SIGN UP
                 </button>
               </b-field>
               <b-field class="has-text-centered">
                 <a
-                  id="prev-nav"
+                  class="is-anchor"
                   @click="prev"
                 > Go to back to previous step </a>
               </b-field>
@@ -193,38 +193,6 @@ export default {
   #sign-up-form {
     padding: 40px !important;
     border: 1px solid #79C354;
-  }
-  .sign-up-nav {
-    margin-top: 25px !important;
-    color: #fafbfc !important;
-    background-color: #F9C23E !important;
-    font-size: 1.35rem;
-    -webkit-box-shadow: 3px 3px 0px #d3a945, 0px 3px 15px rgba(0,0,0,.4);
-    -moz-box-shadow: 3px 3px 0px #d3a945, 0px 3px 15px rgba(0,0,0,.4);
-    box-shadow: 3px 3px 0px #d3a945, 0px 3px 15px rgba(0,0,0,.4);
-    border: none;
-    border-style: none;
-  }
-  .sign-up-nav:active {
-    background-color: #79C354 !important;
-    -webkit-transition: 0.2s;
-    -moz-transition: 0.2s;
-    -o-transition: 0.2s;
-    transition: 0.2s;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-  }
-  #prev-nav {
-    color: #79C354;
-  }
-  #prev-nav:hover {
-    -webkit-transition: 0.2s;
-    -moz-transition: 0.2s;
-    -o-transition: 0.2s;
-    transition: 0.2s;
-    color: #F9C23E;
-    text-decoration: underline;
   }
 </style>
 
