@@ -48,6 +48,8 @@
                   :to="'/' + quest.id">
                   {{quest.title}}
                 </router-link>
+                <!-- test button -->
+                <button class="button" @click.prevent="upvoteQuest(quest.id)"> UPVOTE THIS </button>
                 <br>
                 <span class="tag is-light">{{quest.category}}</span>
               </div>
@@ -59,7 +61,7 @@
             </div>
           </div>
           <footer class="card-footer">
-            <span class="card-footer-item" id="feed-quest-upvote"> {{quest.upvotes}} upvotes </span>
+            <span class="card-footer-item" id="feed-quest-upvote"> {{quest.votes}} votes </span>
             <span class="card-footer-item" id="feed-quest-solution"> 2 solutions </span>
             <span class="card-footer-item" id="feed-quest-views"> 3 views </span>
           </footer>
@@ -81,7 +83,7 @@ export default {
       title: '',
       description: '',
       category: 'Algorithm',
-      upvotes: 0,
+      votes: 0,
       user_id: this.$store.getters['user/getUser'].id,
       is_answered: false,
       username: this.$store.getters['user/getUser'].username,
@@ -95,6 +97,7 @@ export default {
       sortedQuests: 'feed/sortedQuests',
       getUser: 'user/getUser',
       isLoading: 'feed/isLoading',
+      loadQuest: 'feed/loadQuest',
     }),
   },
   methods: {
@@ -107,7 +110,7 @@ export default {
             title: this.title,
             description: this.description,
             category: this.category,
-            upvotes: this.upvotes,
+            votes: this.votes,
             user_id: this.user_id,
             is_answered: this.is_answered,
             username: this.username,
@@ -125,6 +128,10 @@ export default {
     },
     refreshFeed: function refreshFeed() {
       this.$store.dispatch('feed/initFeed');
+    },
+    upvoteQuest: function upvoteQuest(questId) {
+      this.$store.dispatch('feed/upvoteQuest',
+        this.$store.getters['feed/loadQuest'](questId));
     },
   },
   mounted() {

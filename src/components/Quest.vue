@@ -30,6 +30,13 @@ export default {
       return this.$store.getters['feed/loadQuest'](this.id);
     },
   },
+  methods: {
+    upvoteQuest: function upvoteQuest(questId) {
+      // looks for object with said id
+      // upvotes the object retured by loadQuest
+      this.$store.dispatch('feed/upvoteQuest', questId);
+    },
+  },
 };
 </script>
 

@@ -32,8 +32,6 @@ const actions = {
     const questKey = firebase.database().ref().child('quest').push().key;
     q.id = questKey;
     const updates = {};
-    // eslint-disable-next-line
-    console.log(questKey);
     updates[`/quest/${q.id}`] = q;
     // update user exp
     firebase.database()
