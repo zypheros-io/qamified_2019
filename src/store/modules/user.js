@@ -33,7 +33,6 @@ const actions = {
     q.id = questKey;
     const updates = {};
     updates[`/quest/${q.id}`] = q;
-    // update user exp
     firebase.database()
       .ref()
       .update(updates)

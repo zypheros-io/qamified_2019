@@ -32,9 +32,8 @@ export default {
   },
   methods: {
     upvoteQuest: function upvoteQuest(questId) {
-      // looks for object with said id
-      // upvotes the object retured by loadQuest
-      this.$store.dispatch('feed/upvoteQuest', questId);
+      this.$store.dispatch('feed/upvoteQuest',
+        this.$store.getters['feed/loadQuest'](questId));
     },
   },
 };

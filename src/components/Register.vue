@@ -43,8 +43,7 @@
                 </b-input>
               </b-field>
               <b-field>
-                <button
-                  class="button is-fullwidth is-medium is-game is-game-btn game-btn-med"
+                <button class="button is-fullwidth is-medium is-game is-game-btn game-btn-med"
                   @click.prevent="next">
                   NEXT
                 </button>
@@ -80,24 +79,19 @@
                 </b-input>
               </b-field>
               <b-field>
-                <button
+                <button class="button is-fullwidth is-medium is-game is-game-btn game-btn-med"
                   v-if="!isLoading"
-                  class="button is-fullwidth is-medium is-game is-game-btn game-btn-med"
                   @click.prevent="validate">
                   SIGN UP
                 </button>
-                <button
+                <button class="button is-fullwidth is-medium is-game is-game-btn game-btn-med"
                   v-if="isLoading"
-                  class="button is-fullwidth is-medium is-game is-game-btn game-btn-med"
                   @click.prevent="validate">
                   SIGN UP
                 </button>
               </b-field>
               <b-field class="has-text-centered">
-                <a
-                  class="is-anchor"
-                  @click="prev"
-                > Go to back to previous step </a>
+                <a class="is-anchor" @click="prev"> Go to back to previous step </a>
               </b-field>
             </div>
           </div>

@@ -29,27 +29,18 @@ const actions = {
               quest.id = q.key;
               const upvotes = [];
               const downvotes = [];
-              const solutions = [];
-              
-              if (quest.solution) {
-                Object.keys(quest.solution).forEach(s => {
-                  solutions.push(s);
-                });
-              }
               if (quest.upvote) {
-                Object.keys(quest.upvote).forEach(u => {
-                  upvotes.push(u);
+                Object.keys(quest.upvote).forEach(upvote => {
+                  upvotes.push(upvote);
                 })
               }
               if (quest.downvote) {
-                Object.keys(quest.upvote).forEach(d => {
-                  downvotes.push(d);
+                Object.keys(quest.downvote).forEach(downvote => {
+                  downvotes.push(downvote);
                 })
               }
-              quest.solution = solutions;
               quest.upvote = upvotes;
               quest.downvote = downvotes;
-              
               questArray.unshift(quest)
             },
           );
@@ -58,18 +49,28 @@ const actions = {
       });
   },
   upvoteQuest({ commit, rootGetters }, payload) {
-    // eslint-disable-next-line 
-    // console.log(payload.votes);
-    // payload.votes += 1;
-    // // eslint-disable-next-line 
-    // console.log(payload.votes);
-    // // eslint-disable-next-line
-    // console.log(rootGetters['user/getUser'].id);
     const updates = {};
-    if (!payload.upvote.includes(rootGetters['user/getUser'].id)) {
+    if (payload.downvote.length > 0 && payload.downvote.includes(rootGetters['user/getUser'].id)) {
+      updates[`/quest/${payload.id}/downvote/${rootGetters['user/getUser'].id}`] = null;
       updates[`/quest/${payload.id}/upvote/${rootGetters['user/getUser'].id}`] = true;
       updates[`/quest/${payload.id}/votes`] = payload.votes + 1;
-      
+      firebase.database()
+        .ref()
+        .update(updates)
+        .then(
+          () => {
+            payload.votes += 1;
+          }
+        )
+        .catch(
+          (error) => {
+            // es-lint-disable-next-line
+            console.log(error);
+          }
+        )
+    } else if (!payload.upvote.includes(rootGetters['user/getUser'].id)) {
+      updates[`/quest/${payload.id}/upvote/${rootGetters['user/getUser'].id}`] = true;
+      updates[`/quest/${payload.id}/votes`] = payload.votes + 1;
       firebase.database()
         .ref()
         .update(updates)
@@ -81,6 +82,28 @@ const actions = {
         .catch(
           (error) => {
             // es-lint-disable-next-line
+            console.log(error);
+          }
+        )
+    }
+  },
+  downvoteQuest({ commit, rootGetters }, payload) {
+    const updates = {};
+    if (!payload.downvote.includes(rootGetters['user/getUser'].id)) {
+      updates[`/quest/${payload.id}/downvote/${rootGetters['user/getUser'].id}`] = true;
+      updates[`/quest/${payload.id}/votes`] = payload.votes - 1;
+      payload.downvote.push(rootGetters['user/getUser'].id);
+      firebase.database()
+        .ref()
+        .update(updates)
+        .then(
+          () => {
+            payload.votes -= 1;
+          }
+        )
+        .catch(
+          (error) => {
+            // eslint-disable-next-line
             console.log(error);
           }
         )

@@ -4,12 +4,10 @@
       <div class="container">
         <div class="column is-4 is-offset-4">
           <div class="box" id="sign-in-form">
-            <p
-              class="title has-text-centered is-game form-title">
+            <p class="title has-text-centered is-game form-title">
               QAMIFIED
             </p>
-            <p
-              class="subtitle has-text-centered is-6 form-subtitle">
+            <p class="subtitle has-text-centered is-6 form-subtitle">
               "Not all those who wander are lost."
             </p>
             <b-field label="Email or Username">
@@ -30,16 +28,15 @@
               </b-input>
             </b-field>
             <b-field>
-              <button
+              <button class="button is-fullwidth is-medium is-game is-game-btn game-btn-med"
                 v-if="!isLoading"
-                @click.prevent="signIn"
-                class="button is-fullwidth is-medium is-game is-game-btn game-btn-med">
+                @click.prevent="signIn">
                 START GAME
               </button>
               <button
+                class="button is-fullwidth is-loading is-medium is-game is-game-btn game-btn-med"
                 v-if="isLoading"
-                @click.prevent="signIn"
-                class="button is-fullwidth is-loading is-medium is-game is-game-btn game-btn-med">
+                @click.prevent="signIn">
               </button>
             </b-field>
             <div class="is-divider"></div>

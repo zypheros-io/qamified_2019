@@ -83,7 +83,7 @@ const actions = {
         }
       })
   },
-  checkSignInMethod({ commit, dispatch }, payload) {
+  checkSignInMethod({ dispatch }, payload) {
     const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     if (reg.test(payload.email)) {
       dispatch('emailLogin', payload);

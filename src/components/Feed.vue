@@ -1,25 +1,17 @@
 <template>
   <div id="feed">
     <div class="columns">
-      <div class="column" id="feed-profile">
-        <!-- PLACEHOLDER -->
-      </div>
-      <div class="column"
-        id="feed-list">
+      <div class="column" id="feed-profile"></div>
+      <div class="column" id="feed-list">
         <div class="box">
-          <!-- Quest Title -->
-          <input
-            class="input"
-            id="quest-title-input"
+          <input class="input" id="quest-title-input"
             type="text"
             placeholder="Quest title"
             v-model="title"
           >
-          <!-- Quest desc -->
           <div id="quest-desc" class="field">
             <div class="control">
-              <textarea
-                class="textarea is-small"
+              <textarea class="textarea is-small"
                 placeholder="What's up, adventurer?"
                 v-model="description">
               </textarea>
@@ -38,9 +30,7 @@
             Post Quest
           </button>
         </div>
-        <div class="card rounded-card"
-          v-for="quest in sortedQuests"
-          :key="quest.id">
+        <div class="card rounded-card" v-for="quest in sortedQuests" :key="quest.id">
           <div class="card-content">
             <div class="media">
               <div class="media-content">
@@ -48,8 +38,8 @@
                   :to="'/' + quest.id">
                   {{quest.title}}
                 </router-link>
-                <!-- test button -->
                 <button class="button" @click.prevent="upvoteQuest(quest.id)"> UPVOTE THIS </button>
+                <button class="button" @click.prevent="downvoteQuest(quest.id)"> DOWN THIS </button>
                 <br>
                 <span class="tag is-light">{{quest.category}}</span>
               </div>
@@ -118,7 +108,6 @@ export default {
             solutions: this.solutions,
             is_duplicate: this.is_duplicate,
           });
-        // reset fields
         this.title = '';
         this.description = '';
       } else {
@@ -131,6 +120,10 @@ export default {
     },
     upvoteQuest: function upvoteQuest(questId) {
       this.$store.dispatch('feed/upvoteQuest',
+        this.$store.getters['feed/loadQuest'](questId));
+    },
+    downvoteQuest: function downvoteQuest(questId) {
+      this.$store.dispatch('feed/downvoteQuest',
         this.$store.getters['feed/loadQuest'](questId));
     },
   },
