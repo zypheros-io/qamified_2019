@@ -1,6 +1,5 @@
 /* eslint-disable */
 import firebase from 'firebase'
-import store from '..';
 
 const state = {
   quests: [],
@@ -11,102 +10,123 @@ const mutations = {
   setLoading(state, payload) {
     state.loading = payload;
   },
-  setQuests(state, payload) {
-    state.quests = payload;
+  setQuests(state, quests) {
+    state.quests = quests;
   }
 };
 
 const actions = {
-  initFeed({ commit }) {
+  populateFeed({ commit }) {
     firebase.database()
       .ref('/quest')
-      .on('value', (q) => {
-        if (q) {
+      .on('value', (quests) => {
+        if (quests) {
           const questArray = [];
-          q.forEach(
-            q => {
-              const quest = q.val();
-              quest.id = q.key;
+          quests.forEach(
+            quest => {
+              const currQuest = quest.val();
               const upvotes = [];
               const downvotes = [];
-              if (quest.upvote) {
-                Object.keys(quest.upvote).forEach(upvote => {
-                  upvotes.push(upvote);
-                })
+              const solutions = [];
+              currQuest.id = quest.key;
+              if (currQuest.upvote) {
+                Object.keys(currQuest.upvote)
+                  .forEach(upvote => {
+                    upvotes.push(upvote);
+                  })
               }
-              if (quest.downvote) {
-                Object.keys(quest.downvote).forEach(downvote => {
-                  downvotes.push(downvote);
-                })
+              if (currQuest.downvote) {
+                Object.keys(currQuest.downvote)
+                  .forEach(downvote => {
+                    downvotes.push(downvote);
+                  })
               }
-              quest.upvote = upvotes;
-              quest.downvote = downvotes;
-              questArray.unshift(quest)
+              if (currQuest.solutions) {
+                Object.keys(currQuest.solutions)
+                  .forEach(solution => {
+                    solutions.push(solution);
+                  })
+              }
+              currQuest.upvote = upvotes;
+              currQuest.downvote = downvotes;
+              currQuest.solutions = solutions;
+              questArray.unshift(currQuest)
             },
           );
           commit('setQuests', questArray);
         } 
       });
   },
-  upvoteQuest({ commit, rootGetters }, payload) {
+  upvoteQuest({ rootGetters }, quest) {
     const updates = {};
-    if (payload.downvote.length > 0 && payload.downvote.includes(rootGetters['user/getUser'].id)) {
-      updates[`/quest/${payload.id}/downvote/${rootGetters['user/getUser'].id}`] = null;
-      updates[`/quest/${payload.id}/upvote/${rootGetters['user/getUser'].id}`] = true;
-      updates[`/quest/${payload.id}/votes`] = payload.votes + 1;
+    const userId = rootGetters['user/getUser'].id;
+
+    if (quest.downvote.length > 0 && quest.downvote.includes(userId)) {
+      updates[`/quest/${quest.id}/downvote/${userId}`] = null;
+      updates[`/quest/${quest.id}/upvote/${userId}`] = true;
+      updates[`/quest/${quest.id}/votes`] = quest.votes + 1;
+
       firebase.database()
         .ref()
         .update(updates)
-        .then(
-          () => {
-            payload.votes += 1;
-          }
-        )
-        .catch(
-          (error) => {
-            // es-lint-disable-next-line
-            console.log(error);
-          }
-        )
-    } else if (!payload.upvote.includes(rootGetters['user/getUser'].id)) {
-      updates[`/quest/${payload.id}/upvote/${rootGetters['user/getUser'].id}`] = true;
-      updates[`/quest/${payload.id}/votes`] = payload.votes + 1;
+        .then(() => {
+          quest.votes += 1;
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.log(error);
+        });
+    } else if (!quest.upvote.includes(userId)) {
+      updates[`/quest/${quest.id}/upvote/${userId}`] = true;
+      updates[`/quest/${quest.id}/votes`] = quest.votes + 1;
+
       firebase.database()
         .ref()
         .update(updates)
-        .then(
-          () => {
-            payload.votes +=1;
-          }
-        )
-        .catch(
-          (error) => {
-            // es-lint-disable-next-line
-            console.log(error);
-          }
-        )
+        .then(() => {
+          quest.votes += 1;
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.log(error);
+        });
     }
   },
-  downvoteQuest({ commit, rootGetters }, payload) {
+  downvoteQuest({ rootGetters }, quest) {
     const updates = {};
-    if (!payload.downvote.includes(rootGetters['user/getUser'].id)) {
-      updates[`/quest/${payload.id}/downvote/${rootGetters['user/getUser'].id}`] = true;
-      updates[`/quest/${payload.id}/votes`] = payload.votes - 1;
-      payload.downvote.push(rootGetters['user/getUser'].id);
+    const userId = rootGetters['user/getUser'].id;
+    
+    if (quest.upvote.length > 0 && quest.upvote.includes(userId)) {
+      // eslint-disable-next-line
+      console.log('User downvoted from upvote');
+      updates[`/quest/${quest.id}/upvote/${userId}`] = null;
+      updates[`/quest/${quest.id}/downvote/${userId}`] = true;
+      updates[`/quest/${quest.id}/votes`] = quest.votes - 1;
+
       firebase.database()
         .ref()
         .update(updates)
-        .then(
-          () => {
-            payload.votes -= 1;
-          }
-        )
-        .catch(
-          (error) => {
-            // eslint-disable-next-line
-            console.log(error);
-          }
-        )
+        .then(() => {
+          quest.votes -= 1;
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.log(error);
+        });
+    } else if (!quest.downvote.includes(userId)) {
+      updates[`/quest/${quest.id}/downvote/${userId}`] = true;
+      updates[`/quest/${quest.id}/votes/`] = quest.votes - 1;
+
+      firebase.database()
+        .ref()
+        .update(updates)
+        .then(() => {
+          quest.votes -= 1;
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.log(error);
+        });
     }
   }
 };

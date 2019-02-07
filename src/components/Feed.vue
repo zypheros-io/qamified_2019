@@ -2,7 +2,7 @@
   <div id="feed">
     <div class="columns">
       <div class="column" id="feed-profile"></div>
-      <div class="column" id="feed-list">
+      <div class="column is-two-fifths" id="feed-list">
         <div class="box">
           <input class="input" id="quest-title-input"
             type="text"
@@ -112,11 +112,11 @@ export default {
         this.description = '';
       } else {
         // eslint-disable-next-line
-        alert("Please fill in the required fields.");
+        alert('Please fill in the required fields.');
       }
     },
-    refreshFeed: function refreshFeed() {
-      this.$store.dispatch('feed/initFeed');
+    populateFeed: function refreshFeed() {
+      this.$store.dispatch('feed/populateFeed');
     },
     upvoteQuest: function upvoteQuest(questId) {
       this.$store.dispatch('feed/upvoteQuest',
@@ -128,7 +128,7 @@ export default {
     },
   },
   mounted() {
-    this.refreshFeed();
+    this.populateFeed();
   },
 };
 </script>
