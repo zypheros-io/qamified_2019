@@ -1,5 +1,5 @@
 /* eslint-disable */
-import firebase from 'firebase'
+import firebase from 'firebase';
 
 const state = {
   quests: [],
@@ -17,44 +17,40 @@ const mutations = {
 
 const actions = {
   populateFeed({ commit }) {
-    firebase.database()
+    firebase
+      .database()
       .ref('/quest')
-      .on('value', (quests) => {
+      .on('value', quests => {
         if (quests) {
           const questArray = [];
-          quests.forEach(
-            quest => {
-              const currQuest = quest.val();
-              const upvotes = [];
-              const downvotes = [];
-              const solutions = [];
-              currQuest.id = quest.key;
-              if (currQuest.upvote) {
-                Object.keys(currQuest.upvote)
-                  .forEach(upvote => {
-                    upvotes.push(upvote);
-                  })
-              }
-              if (currQuest.downvote) {
-                Object.keys(currQuest.downvote)
-                  .forEach(downvote => {
-                    downvotes.push(downvote);
-                  })
-              }
-              if (currQuest.solutions) {
-                Object.keys(currQuest.solutions)
-                  .forEach(solution => {
-                    solutions.push(solution);
-                  })
-              }
-              currQuest.upvote = upvotes;
-              currQuest.downvote = downvotes;
-              currQuest.solutions = solutions;
-              questArray.unshift(currQuest)
-            },
-          );
+          quests.forEach(quest => {
+            const currQuest = quest.val();
+            const upvotes = [];
+            const downvotes = [];
+            const solutions = [];
+            currQuest.id = quest.key;
+            if (currQuest.upvote) {
+              Object.keys(currQuest.upvote).forEach(upvote => {
+                upvotes.push(upvote);
+              });
+            }
+            if (currQuest.downvote) {
+              Object.keys(currQuest.downvote).forEach(downvote => {
+                downvotes.push(downvote);
+              });
+            }
+            if (currQuest.solutions) {
+              Object.keys(currQuest.solutions).forEach(solution => {
+                solutions.push(solution);
+              });
+            }
+            currQuest.upvote = upvotes;
+            currQuest.downvote = downvotes;
+            currQuest.solutions = solutions;
+            questArray.unshift(currQuest);
+          });
           commit('setQuests', questArray);
-        } 
+        }
       });
   },
   upvoteQuest({ rootGetters }, quest) {
@@ -95,7 +91,6 @@ const actions = {
   downvoteQuest({ rootGetters }, quest) {
     const updates = {};
     const userId = rootGetters['user/getUser'].id;
-    
     if (quest.upvote.length > 0 && quest.upvote.includes(userId)) {
       // eslint-disable-next-line
       console.log('User downvoted from upvote');

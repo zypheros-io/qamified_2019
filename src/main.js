@@ -26,12 +26,12 @@ new Vue({
       databaseURL: 'https://qamifed-web-app.firebaseio.com',
       projectId: 'qamifed-web-app',
       storageBucket: 'qamifed-web-app.appspot.com',
-      messagingSenderId: '301016370722',
+      messagingSenderId: '301016370722'
     });
-    firebase.auth().onAuthStateChanged((user) => {
+    firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.$store.dispatch('user/initUser', user);
       }
     });
-  },
+  }
 });

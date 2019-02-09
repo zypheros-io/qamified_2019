@@ -13,25 +13,25 @@ export default new Router({
     {
       path: '/signup',
       name: 'Register',
-      component: Register,
+      component: Register
     },
     {
       path: '/signin',
       name: 'LogIn',
-      component: LogIn,
+      component: LogIn
     },
     {
       path: '/',
       name: 'Feed',
       component: Feed,
-      beforeEnter: AuthGuard,
+      beforeEnter: AuthGuard
     },
     {
       path: '/:id',
       props: true,
       name: 'Quest',
-      component: Quest,
-    },
+      component: Quest
+    }
   ],
-  mode: 'history',
+  mode: 'history'
 });

@@ -3,7 +3,7 @@ import firebase from 'firebase';
 
 const state = {
   user: null,
-  loading: false,
+  loading: false
 };
 
 const mutations = {
@@ -12,15 +12,16 @@ const mutations = {
   },
   setLoading(state, payload) {
     state.loading = payload;
-  },
+  }
 };
 
 const actions = {
   initUser({ commit }, currUser) {
     commit('setLoading', true);
-    firebase.database()
+    firebase
+      .database()
       .ref(`/user/${currUser.uid}`)
-      .on('value', (user) => {
+      .on('value', user => {
         if (user.val() != null) {
           commit('setUser', user.val());
         }
@@ -29,17 +30,22 @@ const actions = {
   postQuest({ commit }, quest) {
     commit('feed/setLoading', true, { root: true });
     const newQuest = quest;
-    const questKey = firebase.database().ref().child('quest').push().key;
+    const questKey = firebase
+      .database()
+      .ref()
+      .child('quest')
+      .push().key;
     newQuest.id = questKey;
     const updates = {};
     updates[`/quest/${newQuest.id}`] = newQuest;
-    firebase.database()
+    firebase
+      .database()
       .ref()
       .update(updates)
       .then(() => {
         commit('feed/setLoading', false, { root: true });
       })
-      .catch((error) => {
+      .catch(error => {
         commit('feed/setLoading', false, { root: true });
         // eslint-disable-next-line
         console.log(error);
@@ -48,7 +54,7 @@ const actions = {
   logOut({ commit }) {
     firebase.auth().signOut();
     commit('setUser', null);
-  },
+  }
 };
 
 const getters = {
@@ -57,7 +63,7 @@ const getters = {
   },
   isLoading(state) {
     return state.loading;
-  },
+  }
 };
 
 export default {
@@ -65,5 +71,5 @@ export default {
   state,
   getters,
   mutations,
-  actions,
+  actions
 };

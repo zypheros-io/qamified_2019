@@ -19,7 +19,11 @@ const actions = {
   postSolution({ commit }, solution) {
     commit('setLoading', true);
     const newSolution = solution;
-    const solutionKey = firebase.database().ref().child('/solution').push().key;
+    const solutionKey = firebase
+      .database()
+      .ref()
+      .child('/solution')
+      .push().key;
     const updates = {};
     newSolution.id = solutionKey;
     updates[`/user/${newSolution.user_id}/solution/${newSolution.id}`] = true;

@@ -1,5 +1,5 @@
 /* eslint-disable */
-import firebase from 'firebase'
+import firebase from 'firebase';
 
 const state = {
   loading: false,
@@ -14,8 +14,10 @@ const mutations = {
 const actions = {
   emailLogin({ commit }, payload) {
     commit('setLoading', true);
-    firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
-      .then((user) => {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(payload.email, payload.password)
+      .then(user => {
         const newUser = {
           id: user.uid,
         };
@@ -39,7 +41,8 @@ const actions = {
   },
   usernameLogin({ commit }, payload) {
     commit('setLoading', true);
-    firebase.database()
+    firebase
+      .database()
       .ref('user')
       .orderByChild('username')
       .equalTo(payload.email)
@@ -52,7 +55,7 @@ const actions = {
           });
           firebase.auth()
             .signInWithEmailAndPassword(matchingUser.email, payload.password)
-            .then((user) => {
+            .then(user => {
               commit('user/setUser', user, { root: true });
               commit('setLoading', false);
             })

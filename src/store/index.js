@@ -14,6 +14,6 @@ export default new Vuex.Store({
     register,
     login,
     feed,
-    quest,
-  },
+    quest
+  }
 });
