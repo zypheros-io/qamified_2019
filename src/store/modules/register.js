@@ -1,23 +1,24 @@
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
-import firebase from 'firebase';
-import moment from 'moment';
+import firebase from "firebase";
+import moment from "moment";
 
 const state = {
-  loading: false,
+  loading: false
 };
 
 const mutations = {
   setLoading(state, payload) {
     state.loading = payload;
-  },
+  }
 };
 
 const actions = {
   signUp({ commit }, payload) {
-    commit('setLoading', true);
-    firebase.auth()
+    commit("setLoading", true);
+    firebase
+      .auth()
       .createUserWithEmailAndPassword(payload.email, payload.password)
-      .then((user) => {
+      .then(user => {
         const newUser = {
           id: user.user.uid,
           email: payload.email,
@@ -26,41 +27,42 @@ const actions = {
           lname: payload.lastname,
           institution: payload.institution,
           is_banned: false,
-          description: '',
+          description: "",
           level: 1,
           points: 0,
           experience: 0,
           level_exp: 50,
-          rank: 'Beginner',
+          rank: "Beginner",
           date_created: moment().format(),
-          last_access: moment().format(),
+          last_access: moment().format()
         };
         const updates = {};
         updates[`/user/${newUser.id}`] = newUser;
 
-        firebase.database()
+        firebase
+          .database()
           .ref()
           .update(updates)
           .then(() => {
-            commit('user/setUser', newUser, { root: true });
-            commit('setLoading', false);
+            commit("user/setUser", newUser, { root: true });
+            commit("setLoading", false);
           })
-          .catch((error) => {
+          .catch(error => {
             // eslint-disable-next-line
             console.log(error);
           });
       })
-      .catch((error) => {
+      .catch(error => {
         // eslint-disable-next-line
         console.log(error);
       });
-  },
+  }
 };
 
 const getters = {
   isLoading() {
     return state.loading;
-  },
+  }
 };
 
 export default {
@@ -68,5 +70,5 @@ export default {
   state,
   getters,
   mutations,
-  actions,
+  actions
 };

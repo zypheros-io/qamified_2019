@@ -1,9 +1,9 @@
-import store from '../store';
+import store from "../store";
 
 export default (to, from, next) => {
-  if (store.getters['user/getUser']) {
+  if (store.getters["user/getUser"]) {
     next();
   } else {
-    next('/signin');
+    next("/signin");
   }
 };

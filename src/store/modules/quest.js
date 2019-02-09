@@ -1,9 +1,9 @@
 /* eslint-disable */
-import firebase from 'firebase';
+import firebase from "firebase";
 
 const state = {
   solutions: [],
-  loading: false,
+  loading: false
 };
 
 const mutations = {
@@ -13,37 +13,45 @@ const mutations = {
   addSolution(state, solution) {
     state.solutions.push(solution);
   },
+  setSolution(state, solution) {
+    state.solutions = solution;
+  }
 };
 
 const actions = {
   postSolution({ commit }, solution) {
-    commit('setLoading', true);
+    commit("setLoading", true);
     const newSolution = solution;
-    const solutionKey = firebase.database().ref().child('/solution').push().key;
+    const solutionKey = firebase
+      .database()
+      .ref()
+      .child("/solution")
+      .push().key;
     const updates = {};
     newSolution.id = solutionKey;
     updates[`/user/${newSolution.user_id}/solution/${newSolution.id}`] = true;
     updates[`/solution/${newSolution.id}`] = newSolution;
 
-    firebase.database()
+    firebase
+      .database()
       .ref()
       .update(updates)
       .then(() => {
-        commit('addSolution', newSolution);
-        commit('setLoading', false);
+        commit("addSolution", newSolution);
+        commit("setLoading", false);
       })
-      .catch((error) => {
+      .catch(error => {
         // eslint-disable-next-line
         console.log(error);
-        commit('setLoading', false);
+        commit("setLoading", false);
       });
   }
-}
+};
 
 const getters = {
   isLoading(state) {
     return state.loading;
-  },
+  }
 };
 
 export default {
@@ -51,5 +59,5 @@ export default {
   state,
   mutations,
   actions,
-  getters,
+  getters
 };
