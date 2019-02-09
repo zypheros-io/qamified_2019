@@ -13,6 +13,9 @@ const mutations = {
   addSolution(state, solution) {
     state.solutions.push(solution);
   },
+  setSolutions(state, newSolutions) {
+    state.solutions = newSolutions;
+  }
 };
 
 const actions = {
@@ -29,7 +32,8 @@ const actions = {
     updates[`/user/${newSolution.user_id}/solution/${newSolution.id}`] = true;
     updates[`/solution/${newSolution.id}`] = newSolution;
 
-    firebase.database()
+    firebase
+      .database()
       .ref()
       .update(updates)
       .then(() => {
@@ -41,6 +45,26 @@ const actions = {
         console.log(error);
         commit('setLoading', false);
       });
+  },
+  populateSolutions({ commit }, questId) {
+    firebase
+      .database()
+      .ref('solution')
+      .orderByChild('quest_id')
+      .equalTo(questId)
+      .once('value', solutions => {
+        if (solutions !== undefined && solutions !== null) {
+          let newSolution;
+          const newSolutions = [];
+          solutions.forEach(solution => {
+            newSolution = solution.val();
+            newSolutions.push(newSolution);
+          })
+          commit('setSolutions', newSolutions);
+        } else {
+          console.log('No solutions');
+        }
+      });
   }
 }
 
@@ -48,6 +72,9 @@ const getters = {
   isLoading(state) {
     return state.loading;
   },
+  sortedSolutions(state) {
+    return state.solutions;
+  }
 };
 
 export default {

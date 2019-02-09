@@ -39,7 +39,12 @@
         >
           <div class="card-content">
             <div class="media">
-              <div class="media-content">{{ solution.description }}</div>
+              <div class="media-content">
+                <p>{{ solution.description }}</p>
+                <p class="subtitle is-7">
+                  Posted by <a href>{{ solution.full_name }}</a>
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -125,7 +130,13 @@ export default {
         // eslint-disable-next-line
         alert('Please fill in the required fields.');
       }
+    },
+    populateSolutions: function populateSolutions() {
+      this.$store.dispatch('quest/populateSolutions', this.id);
     }
+  },
+  mounted() {
+    this.populateSolutions();
   }
 };
 </script>
