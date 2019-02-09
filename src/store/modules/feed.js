@@ -3,7 +3,7 @@ import firebase from 'firebase';
 
 const state = {
   quests: [],
-  loading: false,
+  loading: false
 };
 
 const mutations = {
@@ -62,13 +62,14 @@ const actions = {
       updates[`/quest/${quest.id}/upvote/${userId}`] = true;
       updates[`/quest/${quest.id}/votes`] = quest.votes + 1;
 
-      firebase.database()
+      firebase
+        .database()
         .ref()
         .update(updates)
         .then(() => {
           quest.votes += 1;
         })
-        .catch((error) => {
+        .catch(error => {
           // eslint-disable-next-line
           console.log(error);
         });
@@ -76,13 +77,14 @@ const actions = {
       updates[`/quest/${quest.id}/upvote/${userId}`] = true;
       updates[`/quest/${quest.id}/votes`] = quest.votes + 1;
 
-      firebase.database()
+      firebase
+        .database()
         .ref()
         .update(updates)
         .then(() => {
           quest.votes += 1;
         })
-        .catch((error) => {
+        .catch(error => {
           // eslint-disable-next-line
           console.log(error);
         });
@@ -98,13 +100,14 @@ const actions = {
       updates[`/quest/${quest.id}/downvote/${userId}`] = true;
       updates[`/quest/${quest.id}/votes`] = quest.votes - 1;
 
-      firebase.database()
+      firebase
+        .database()
         .ref()
         .update(updates)
         .then(() => {
           quest.votes -= 1;
         })
-        .catch((error) => {
+        .catch(error => {
           // eslint-disable-next-line
           console.log(error);
         });
@@ -112,13 +115,14 @@ const actions = {
       updates[`/quest/${quest.id}/downvote/${userId}`] = true;
       updates[`/quest/${quest.id}/votes/`] = quest.votes - 1;
 
-      firebase.database()
+      firebase
+        .database()
         .ref()
         .update(updates)
         .then(() => {
           quest.votes -= 1;
         })
-        .catch((error) => {
+        .catch(error => {
           // eslint-disable-next-line
           console.log(error);
         });
@@ -127,19 +131,19 @@ const actions = {
 };
 
 const getters = {
-  sortedQuests (state) {
+  sortedQuests(state) {
     return state.quests.sort((questA, questB) => {
       return questA.votes < questB.votes;
     });
   },
-  loadQuest (state) {
-    return (questId) => {
-      return state.quests.find((quest) => {
+  loadQuest(state) {
+    return questId => {
+      return state.quests.find(quest => {
         return quest.id === questId;
-      })
-    }
+      });
+    };
   },
-  isLoading (state) {
+  isLoading(state) {
     return state.loading;
   }
 };
@@ -149,5 +153,5 @@ export default {
   state,
   mutations,
   actions,
-  getters,
+  getters
 };

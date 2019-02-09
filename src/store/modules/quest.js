@@ -3,7 +3,7 @@ import firebase from 'firebase';
 
 const state = {
   solutions: [],
-  loading: false,
+  loading: false
 };
 
 const mutations = {
@@ -40,7 +40,7 @@ const actions = {
         commit('addSolution', newSolution);
         commit('setLoading', false);
       })
-      .catch((error) => {
+      .catch(error => {
         // eslint-disable-next-line
         console.log(error);
         commit('setLoading', false);
@@ -59,14 +59,14 @@ const actions = {
           solutions.forEach(solution => {
             newSolution = solution.val();
             newSolutions.push(newSolution);
-          })
+          });
           commit('setSolutions', newSolutions);
         } else {
           console.log('No solutions');
         }
       });
   }
-}
+};
 
 const getters = {
   isLoading(state) {
@@ -82,5 +82,5 @@ export default {
   state,
   mutations,
   actions,
-  getters,
+  getters
 };
