@@ -10,7 +10,7 @@
             type="text"
             placeholder="Quest title"
             v-model="title"
-          >
+          />
           <div id="quest-desc" class="field">
             <div class="control">
               <textarea
@@ -25,26 +25,39 @@
             id="submit-quest"
             v-if="!isLoading"
             v-on:click.prevent="postQuest"
-          >Post Quest</button>
+          >
+            Post Quest
+          </button>
           <button
             class="button is-primary is-loading is-small is-fullwidth is-game is-game-btn"
             id="submit-quest"
             v-if="isLoading"
             v-on:click.prevent="postQuest"
-          >Post Quest</button>
+          >
+            Post Quest
+          </button>
         </div>
-        <div class="card rounded-card" v-for="quest in sortedQuests" :key="quest.id">
+        <div
+          class="card rounded-card"
+          v-for="quest in sortedQuests"
+          :key="quest.id"
+        >
           <div class="card-content">
             <div class="media">
               <div class="media-content">
                 <router-link
                   class="title is-4 is-spaced feed-quest-title is-anchor"
                   :to="'/' + quest.id"
-                >{{quest.title}}</router-link>
-                <button class="button" @click.prevent="upvoteQuest(quest.id)">UPVOTE THIS</button>
-                <button class="button" @click.prevent="downvoteQuest(quest.id)">DOWN THIS</button>
-                <br>
-                <span class="tag is-light">{{quest.category}}</span>
+                  >{{ quest.title }}</router-link
+                >
+                <button class="button" @click.prevent="upvoteQuest(quest.id)">
+                  UPVOTE THIS
+                </button>
+                <button class="button" @click.prevent="downvoteQuest(quest.id)">
+                  DOWN THIS
+                </button>
+                <br />
+                <span class="tag is-light">{{ quest.category }}</span>
               </div>
             </div>
             <div class="content">
@@ -52,13 +65,17 @@
               <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
               <p class="subtitle is-7">
                 Posted by
-                <a href>{{quest.full_name}}</a>
+                <a href>{{ quest.full_name }}</a>
               </p>
             </div>
           </div>
           <footer class="card-footer">
-            <span class="card-footer-item" id="feed-quest-upvote">{{quest.votes}} votes</span>
-            <span class="card-footer-item" id="feed-quest-solution">2 solutions</span>
+            <span class="card-footer-item" id="feed-quest-upvote"
+              >{{ quest.votes }} votes</span
+            >
+            <span class="card-footer-item" id="feed-quest-solution"
+              >2 solutions</span
+            >
             <span class="card-footer-item" id="feed-quest-views">3 views</span>
           </footer>
         </div>
@@ -69,38 +86,38 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import moment from "moment";
+import { mapGetters } from 'vuex';
+import moment from 'moment';
 
 export default {
   data() {
     return {
       date_created: moment().format(),
-      title: "",
-      description: "",
-      category: "Algorithm",
+      title: '',
+      description: '',
+      category: 'Algorithm',
       votes: 0,
-      user_id: this.$store.getters["user/getUser"].id,
+      user_id: this.$store.getters['user/getUser'].id,
       is_answered: false,
-      username: this.$store.getters["user/getUser"].username,
-      full_name: this.$store.getters["user/getUser"].fname,
+      username: this.$store.getters['user/getUser'].username,
+      full_name: this.$store.getters['user/getUser'].fname,
       solutions: [],
       is_duplicate: false
     };
   },
   computed: {
     ...mapGetters({
-      sortedQuests: "feed/sortedQuests",
-      getUser: "user/getUser",
-      isLoading: "feed/isLoading",
-      loadQuest: "feed/loadQuest"
+      sortedQuests: 'feed/sortedQuests',
+      getUser: 'user/getUser',
+      isLoading: 'feed/isLoading',
+      loadQuest: 'feed/loadQuest'
     })
   },
   methods: {
     postQuest: function postQuest() {
       // if fields are not empty
       if (this.title && this.description) {
-        this.$store.dispatch("user/postQuest", {
+        this.$store.dispatch('user/postQuest', {
           date_created: this.date_created,
           title: this.title,
           description: this.description,
@@ -113,26 +130,26 @@ export default {
           solutions: this.solutions,
           is_duplicate: this.is_duplicate
         });
-        this.title = "";
-        this.description = "";
+        this.title = '';
+        this.description = '';
       } else {
         // eslint-disable-next-line
-        alert("Please fill in the required fields.");
+        alert('Please fill in the required fields.');
       }
     },
     populateFeed: function refreshFeed() {
-      this.$store.dispatch("feed/populateFeed");
+      this.$store.dispatch('feed/populateFeed');
     },
     upvoteQuest: function upvoteQuest(questId) {
       this.$store.dispatch(
-        "feed/upvoteQuest",
-        this.$store.getters["feed/loadQuest"](questId)
+        'feed/upvoteQuest',
+        this.$store.getters['feed/loadQuest'](questId)
       );
     },
     downvoteQuest: function downvoteQuest(questId) {
       this.$store.dispatch(
-        "feed/downvoteQuest",
-        this.$store.getters["feed/loadQuest"](questId)
+        'feed/downvoteQuest',
+        this.$store.getters['feed/loadQuest'](questId)
       );
     }
   },

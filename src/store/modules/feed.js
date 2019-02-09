@@ -1,5 +1,5 @@
 /* eslint-disable */
-import firebase from "firebase";
+import firebase from 'firebase';
 
 const state = {
   quests: [],
@@ -19,8 +19,8 @@ const actions = {
   populateFeed({ commit }) {
     firebase
       .database()
-      .ref("/quest")
-      .on("value", quests => {
+      .ref('/quest')
+      .on('value', quests => {
         if (quests) {
           const questArray = [];
           quests.forEach(quest => {
@@ -49,13 +49,13 @@ const actions = {
             currQuest.solutions = solutions;
             questArray.unshift(currQuest);
           });
-          commit("setQuests", questArray);
+          commit('setQuests', questArray);
         }
       });
   },
   upvoteQuest({ rootGetters }, quest) {
     const updates = {};
-    const userId = rootGetters["user/getUser"].id;
+    const userId = rootGetters['user/getUser'].id;
 
     if (quest.downvote.length > 0 && quest.downvote.includes(userId)) {
       updates[`/quest/${quest.id}/downvote/${userId}`] = null;
@@ -92,11 +92,11 @@ const actions = {
   },
   downvoteQuest({ rootGetters }, quest) {
     const updates = {};
-    const userId = rootGetters["user/getUser"].id;
+    const userId = rootGetters['user/getUser'].id;
 
     if (quest.upvote.length > 0 && quest.upvote.includes(userId)) {
       // eslint-disable-next-line
-      console.log("User downvoted from upvote");
+      console.log('User downvoted from upvote');
       updates[`/quest/${quest.id}/upvote/${userId}`] = null;
       updates[`/quest/${quest.id}/downvote/${userId}`] = true;
       updates[`/quest/${quest.id}/votes`] = quest.votes - 1;

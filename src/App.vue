@@ -1,9 +1,17 @@
 <template>
   <div id="app">
-    <nav class="navbar is-fixed-top is-transparent" role="navigation" aria-label="main navigation">
+    <nav
+      class="navbar is-fixed-top is-transparent"
+      role="navigation"
+      aria-label="main navigation"
+    >
       <div class="navbar-brand">
         <a class="navbar-item" href="https://bulma.io">
-          <img src="https://via.placeholder.com/112x28" width="112" height="28">
+          <img
+            src="https://via.placeholder.com/112x28"
+            width="112"
+            height="28"
+          />
         </a>
       </div>
       <div class="navbar-menu">
@@ -13,10 +21,19 @@
               <a class="button" @click="goto('signin')" v-if="!isAuthenticated">
                 <strong>Log In</strong>
               </a>
-              <a class="button" id="nav-signup" @click="goto('signup')" v-if="!isAuthenticated">
+              <a
+                class="button"
+                id="nav-signup"
+                @click="goto('signup')"
+                v-if="!isAuthenticated"
+              >
                 <strong>Sign Up</strong>
               </a>
-              <a class="button is-primary" @click="signOut" v-if="isAuthenticated">
+              <a
+                class="button is-primary"
+                @click="signOut"
+                v-if="isAuthenticated"
+              >
                 <strong>Log Out</strong>
               </a>
             </div>
@@ -24,7 +41,7 @@
         </div>
       </div>
     </nav>
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
@@ -33,15 +50,15 @@ export default {
   computed: {
     isAuthenticated() {
       return (
-        this.$store.getters["user/getUser"] !== null &&
-        this.$store.getters["user/getUser"] !== undefined
+        this.$store.getters['user/getUser'] !== null &&
+        this.$store.getters['user/getUser'] !== undefined
       );
     }
   },
   methods: {
     signOut: function signOut() {
-      this.$store.dispatch("user/logOut");
-      this.$router.push("/signin");
+      this.$store.dispatch('user/logOut');
+      this.$router.push('/signin');
     },
     goto: function goto(route) {
       this.route = route;
@@ -52,8 +69,8 @@ export default {
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css?family=Press+Start+2P");
-@import "../node_modules/bulma-divider/dist/css/bulma-divider.min.css";
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
+@import '../node_modules/bulma-divider/dist/css/bulma-divider.min.css';
 .navbar {
   background-color: #f9c23e !important;
 }
@@ -67,7 +84,7 @@ export default {
   -webkit-transition: 0.5s;
 }
 .is-game {
-  font-family: "Press Start 2P", cursive;
+  font-family: 'Press Start 2P', cursive;
 }
 .is-game-btn {
   margin-top: 25px !important;

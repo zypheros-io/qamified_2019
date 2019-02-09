@@ -1,5 +1,5 @@
 /* eslint-disable */
-import firebase from "firebase";
+import firebase from 'firebase';
 
 const state = {
   solutions: [],
@@ -20,12 +20,12 @@ const mutations = {
 
 const actions = {
   postSolution({ commit }, solution) {
-    commit("setLoading", true);
+    commit('setLoading', true);
     const newSolution = solution;
     const solutionKey = firebase
       .database()
       .ref()
-      .child("/solution")
+      .child('/solution')
       .push().key;
     const updates = {};
     newSolution.id = solutionKey;
@@ -37,13 +37,13 @@ const actions = {
       .ref()
       .update(updates)
       .then(() => {
-        commit("addSolution", newSolution);
-        commit("setLoading", false);
+        commit('addSolution', newSolution);
+        commit('setLoading', false);
       })
       .catch(error => {
         // eslint-disable-next-line
         console.log(error);
-        commit("setLoading", false);
+        commit('setLoading', false);
       });
   }
 };

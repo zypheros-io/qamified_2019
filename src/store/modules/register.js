@@ -1,6 +1,6 @@
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
-import firebase from "firebase";
-import moment from "moment";
+import firebase from 'firebase';
+import moment from 'moment';
 
 const state = {
   loading: false
@@ -14,7 +14,7 @@ const mutations = {
 
 const actions = {
   signUp({ commit }, payload) {
-    commit("setLoading", true);
+    commit('setLoading', true);
     firebase
       .auth()
       .createUserWithEmailAndPassword(payload.email, payload.password)
@@ -27,12 +27,12 @@ const actions = {
           lname: payload.lastname,
           institution: payload.institution,
           is_banned: false,
-          description: "",
+          description: '',
           level: 1,
           points: 0,
           experience: 0,
           level_exp: 50,
-          rank: "Beginner",
+          rank: 'Beginner',
           date_created: moment().format(),
           last_access: moment().format()
         };
@@ -44,8 +44,8 @@ const actions = {
           .ref()
           .update(updates)
           .then(() => {
-            commit("user/setUser", newUser, { root: true });
-            commit("setLoading", false);
+            commit('user/setUser', newUser, { root: true });
+            commit('setLoading', false);
           })
           .catch(error => {
             // eslint-disable-next-line
