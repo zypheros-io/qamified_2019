@@ -1,7 +1,13 @@
 <template>
   <div id="feed">
     <div class="columns">
-      <div class="column" id="feed-profile"></div>
+      <div class="column" id="feed-profile">
+        <div class="card">
+          <div class="card-content">
+            <span>hello {{ getUser.fname }}</span>
+          </div>
+        </div>
+      </div>
       <div class="column is-two-fifths" id="feed-list">
         <div class="box">
           <input
@@ -50,32 +56,63 @@
                   :to="'/' + quest.id"
                   >{{ quest.title }}</router-link
                 >
-                <button class="button" @click.prevent="upvoteQuest(quest.id)">
-                  UPVOTE THIS
-                </button>
-                <button class="button" @click.prevent="downvoteQuest(quest.id)">
-                  DOWN THIS
-                </button>
                 <br />
                 <span class="tag is-light">{{ quest.category }}</span>
+                <p class="subtitle is-7">
+                  <time datetime="2016-1-1">{{ quest.date_created }}</time>
+                  /Posted by <a href>{{ quest.full_name }}</a>
+                </p>
               </div>
             </div>
             <div class="content">
-              <p>{{ quest.description }}</p>
-              <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
-              <p class="subtitle is-7">
-                Posted by <a href>{{ quest.full_name }}</a>
-              </p>
+              <div class="quest-description-container">
+                <p>{{ quest.description }}</p>
+              </div>
+              <div class="quest-misc-container has-text-right">
+                <div class="has-text-centered">
+                  <router-link
+                    class="title is-4 is-spaced feed-quest-title is-anchor"
+                    :to="'/' + quest.id"
+                  >
+                    <button class="button is-game-btn is-game quest-btn">
+                      VIEW
+                    </button>
+                  </router-link>
+                  <button
+                    class="button is-game-btn is-game quest-btn"
+                    @click.prevent="upvoteQuest(quest.id)"
+                  >
+                    UPVOTE
+                  </button>
+                  <button
+                    class="button is-game-btn is-game quest-btn"
+                    @click.prevent="downvoteQuest(quest.id)"
+                  >
+                    DOWNVOTE
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-          <footer class="card-footer">
-            <span class="card-footer-item" id="feed-quest-upvote"
-              >{{ quest.votes }} votes</span
-            >
-            <span class="card-footer-item" id="feed-quest-solution"
-              >2 solutions</span
-            >
-            <span class="card-footer-item" id="feed-quest-views">3 views</span>
+          <footer class="card-footer level footer-pad">
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">Votes</p>
+                <p class="title quest-count">{{ quest.votes }}</p>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">Solutions</p>
+                <p class="title quest-count">123</p>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">Views</p>
+                <p class="title quest-count">456K</p>
+              </div>
+            </div>
           </footer>
         </div>
       </div>
@@ -175,5 +212,23 @@ export default {
 }
 #submit-quest {
   margin-top: 0 !important;
+}
+.footer-pad {
+  padding: 15px 0px 15px 0px;
+}
+.quest-count {
+  color: #79c354 !important;
+}
+.quest-description-container {
+  background-color: #f0f0f0;
+  padding: 15px;
+}
+.quest-misc-container {
+  margin-top: 10px;
+  padding: 10px 0px 15px 0px;
+}
+.quest-btn {
+  width: 30% !important;
+  margin: 5px;
 }
 </style>

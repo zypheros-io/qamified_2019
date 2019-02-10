@@ -17,14 +17,23 @@
                   Tags: &nbsp;
                   <span class="tag is-light">{{ quest.category }}</span>
                 </p>
+                <p class="subtitle is-7">
+                  Posted by <a href>{{ quest.full_name }}</a>
+                </p>
                 <div class="has-text-centered">
                   <button class="button is-game-btn is-game quest-btn">
                     RESPOND
                   </button>
-                  <button class="button is-game-btn is-game quest-btn">
+                  <button
+                    class="button is-game-btn is-game quest-btn"
+                    @click.prevent="upvoteQuest(quest.id)"
+                  >
                     UPVOTE
                   </button>
-                  <button class="button is-game-btn is-game quest-btn">
+                  <button
+                    class="button is-game-btn is-game quest-btn"
+                    @click.prevent="downvoteQuest(quest.id)"
+                  >
                     DOWNVOTE
                   </button>
                 </div>
@@ -32,22 +41,13 @@
             </div>
           </div>
         </div>
-        <div
-          class="card rounded-card"
+        <b-message
           v-for="solution in sortedSolutions"
           :key="solution.id"
+          class="solution-bubble"
         >
-          <div class="card-content">
-            <div class="media">
-              <div class="media-content">
-                <p>{{ solution.description }}</p>
-                <p class="subtitle is-7">
-                  Posted by <a href>{{ solution.full_name }}</a>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+          {{ solution.description }} <a class="solution-button">reply</a>
+        </b-message>
         <div class="is-divider"></div>
         <div class="box">
           <div class="field">
@@ -113,6 +113,12 @@ export default {
         this.$store.getters['feed/loadQuest'](questId)
       );
     },
+    downvoteQuest: function downvoteQuest(questId) {
+      this.$store.dispatch(
+        'feed/downvoteQuest',
+        this.$store.getters['feed/loadQuest'](questId)
+      );
+    },
     postSolution: function postSolution() {
       if (this.description) {
         this.$store.dispatch('quest/postSolution', {
@@ -158,5 +164,20 @@ export default {
 .quest-btn {
   width: 30% !important;
   margin: 5px;
+}
+.solution-card {
+  border-radius: 30px !important;
+  background-color: #f8f8f8;
+}
+.solution-bubble {
+  width: 50%;
+  margin-left: 2%;
+}
+.solution-button {
+  display: none;
+}
+.solution-bubble:hover a {
+  display: table-cell;
+  transition: 0.5s ease-in-out;
 }
 </style>
