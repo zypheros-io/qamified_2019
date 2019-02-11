@@ -2,6 +2,11 @@
   <div class="hero is-fullheight">
     <div class="hero-body">
       <div class="container">
+        <b-loading
+          :is-full-page="isFullPage"
+          :active.sync="isLoading"
+          :can-cancel="true"
+        ></b-loading>
         <div class="column is-4 is-offset-4">
           <div class="box" id="sign-in-form">
             <p class="title has-text-centered is-game form-title">QAMIFIED</p>

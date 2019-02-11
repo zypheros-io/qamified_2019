@@ -22,7 +22,6 @@ const actions = {
           id: user.uid,
         };
         commit('user/setUser', newUser, { root: true });
-        commit('setLoading', false);
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -36,8 +35,10 @@ const actions = {
         } else {
           alert(errorMsg);
         }
-        commit('setLoading', false);
       });
+    setTimeout(() => {
+      commit('setLoading', false);
+    }, 2*1000);
   },
   usernameLogin({ commit }, payload) {
     commit('setLoading', true);
@@ -57,7 +58,6 @@ const actions = {
             .signInWithEmailAndPassword(matchingUser.email, payload.password)
             .then(user => {
               commit('user/setUser', user, { root: true });
-              commit('setLoading', false);
             })
             .catch((error) => {
               const errorCode = error.code;
@@ -70,6 +70,9 @@ const actions = {
                 alert(errorMsg);
               }
             });
+          setTimeout(() => {
+            commit('setLoading', false);
+          }, 2*1000);
         } else {
           commit('setLoading', false);
           alert('The user is not in the database, please try again.');
