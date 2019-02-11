@@ -2,13 +2,13 @@
 import firebase from 'firebase';
 
 const state = {
-  loading: false,
+  loading: false
 };
 
 const mutations = {
   setLoading(state, payload) {
     state.loading = payload;
-  },
+  }
 };
 
 const actions = {
@@ -19,11 +19,11 @@ const actions = {
       .signInWithEmailAndPassword(payload.email, payload.password)
       .then(user => {
         const newUser = {
-          id: user.uid,
+          id: user.uid
         };
         commit('user/setUser', newUser, { root: true });
       })
-      .catch((error) => {
+      .catch(error => {
         const errorCode = error.code;
         const errorMsg = error.message;
         if (errorCode === 'auth/wrong-password') {
@@ -51,15 +51,16 @@ const actions = {
       .once('value', user => {
         if (user !== undefined && user !== null) {
           let matchingUser;
-          user.forEach((u) => {
+          user.forEach(u => {
             matchingUser = u.val();
           });
-          firebase.auth()
+          firebase
+            .auth()
             .signInWithEmailAndPassword(matchingUser.email, payload.password)
             .then(user => {
               commit('user/setUser', user, { root: true });
             })
-            .catch((error) => {
+            .catch(error => {
               const errorCode = error.code;
               const errorMsg = error.message;
               if (errorCode === 'auth/wrong-password') {
@@ -80,13 +81,13 @@ const actions = {
       });
   },
   checkSignInMethod({ dispatch }, payload) {
-    const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (reg.test(payload.email)) {
       dispatch('emailLogin', payload);
     } else {
       dispatch('usernameLogin', payload);
     }
-  },
+  }
 };
 
 const getters = {
@@ -100,5 +101,5 @@ export default {
   state,
   getters,
   mutations,
-  actions,
+  actions
 };
