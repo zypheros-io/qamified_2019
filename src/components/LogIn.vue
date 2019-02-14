@@ -3,7 +3,7 @@
     <div class="hero-body">
       <div class="container">
         <b-loading
-          :is-full-page="isFullPage"
+          :is-full-page="true"
           :active.sync="isLoading"
           :can-cancel="true"
         ></b-loading>
@@ -107,7 +107,7 @@ export default {
 
 <style scoped>
 .hero {
-  background-image: url('../assets/sign_in_wallpaper.png');
+  background-color: #fafbfc;
 }
 #sign-in-form {
   padding: 40px;

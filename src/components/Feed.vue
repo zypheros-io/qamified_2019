@@ -1,122 +1,142 @@
 <template>
   <div id="feed">
     <div class="columns">
-      <div class="column" id="feed-profile">
-        <div class="card">
-          <div class="card-content">
-            <span>hello {{ getUser.fname }}</span>
+      <div class="column">
+        <div class="box" id="user-card">
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-96x96">
+                <img
+                  class="is-rounded"
+                  src="https://bulma.io/images/placeholders/128x128.png"
+                  alt="Image"
+                />
+              </figure>
+            </div>
+            <div class="media-content" id="user-card-primary">
+              <h1 class="title is-2 has-text-success is-primary-text">
+                {{ getUser.fname }}
+              </h1>
+              <h2 class="subtitle is-6 has-text-grey is-secondary-text">
+                @{{ getUser.username }}
+              </h2>
+            </div>
+          </div>
+          <div class="level" id="user-card-secondary">
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">LEVEL</p>
+                <p class="title has-text-success">{{ getUser.level }}</p>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">REPUTATION</p>
+                <p class="title has-text-success">52</p>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">RESPONSES</p>
+                <p class="title has-text-success">91</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="column is-two-fifths" id="feed-list">
+      <div class="column is-two-fifths">
         <div class="box">
-          <input
-            class="input"
-            id="quest-title-input"
-            type="text"
-            placeholder="Quest title"
-            v-model="title"
-          />
-          <div id="quest-desc" class="field">
-            <div class="control">
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-48x48">
+                <img
+                  class="is-rounded"
+                  src="https://bulma.io/images/placeholders/128x128.png"
+                  alt="Image"
+                />
+              </figure>
+            </div>
+            <div class="media-content is-primary-text">
+              <b-field>
+                <b-input placeholder="Quest title" v-model="title"></b-input>
+              </b-field>
               <textarea
-                class="textarea is-small"
-                placeholder="What's up, adventurer?"
+                class="textarea has-fixed-size"
+                size="is-medium"
+                placeholder="Quest description"
                 v-model="description"
-              ></textarea>
+              >
+              </textarea>
+              <b-field class="is-pulled-left is-primary-text" id="quest-categ">
+                <b-select placeholder="Category" v-model="category">
+                  <optgroup label="Computer Science">
+                    <option value="Algorithm">Algorithm</option>
+                    <option value="Web Development">Web Development</option>
+                    <option value="Machine Learning">Machine Learning</option>
+                    <option value="Image Processing">Image Processing</option>
+                    <option value="Scripting">Scripting</option>
+                  </optgroup>
+                </b-select>
+              </b-field>
+              <button
+                class="button is-pulled-right is-primary-text bg-secondary color-white"
+                id="post-quest"
+                @click.prevent="postQuest"
+              >
+                POST QUEST
+              </button>
             </div>
           </div>
-          <button
-            class="button is-primary is-small is-fullwidth is-game is-game-btn"
-            id="submit-quest"
-            v-if="!isLoading"
-            v-on:click.prevent="postQuest"
-          >
-            Post Quest
-          </button>
-          <button
-            class="button is-primary is-loading is-small is-fullwidth is-game is-game-btn"
-            id="submit-quest"
-            v-if="isLoading"
-            v-on:click.prevent="postQuest"
-          >
-            Post Quest
-          </button>
         </div>
-        <div
-          class="card rounded-card"
-          v-for="quest in sortedQuests"
-          :key="quest.id"
-        >
-          <div class="card-content">
-            <div class="media">
-              <div class="media-content">
-                <router-link
-                  class="title is-4 is-spaced feed-quest-title is-anchor"
-                  :to="'/' + quest.id"
-                  >{{ quest.title }}</router-link
-                >
+        <!-- FEED -->
+        <div class="box" v-for="quest in sortedQuests" :key="quest.id">
+          <div class="media">
+            <div
+              class="media-left has-text-centered has-text-grey-lighter is-primary-text"
+            >
+              <p>
+                <span
+                  class="mdi mdi-arrow-up-thick"
+                  @click.prevent="upvoteQuest(quest.id)"
+                ></span>
+              </p>
+              <p>
+                <span class="is-primary-text">{{ quest.votes }}</span>
+              </p>
+              <p>
+                <span
+                  class="mdi mdi-arrow-down-thick"
+                  @click.prevent="downvoteQuest(quest.id)"
+                ></span>
+              </p>
+            </div>
+            <div class="media-content quest-content">
+              <router-link
+                class="title is-4 color-primary quest-title is-primary-text"
+                :to="`/${quest.id}`"
+              >
+                {{ quest.title }}
+              </router-link>
+              <div class="quest-description is-secondary-text">
+                {{ quest.description }}
+              </div>
+              <div class="is-primary-text">
                 <br />
-                <span class="tag is-light">{{ quest.category }}</span>
-                <p class="subtitle is-7">
-                  <time datetime="2016-1-1">{{ quest.date_created }}</time>
-                  /Posted by <a href>{{ quest.full_name }}</a>
+                <span class="subtitle is-7">Category:</span>&nbsp;
+                <span class="tag is-light quest-tag">{{ quest.category }}</span>
+                <p class="subtitle is-7 is-pulled-right">
+                  <span class="has-text-grey">{{ quest.date_created }}</span>
+                  &nbsp;
+                  <span class="has-text-grey">
+                    Posted by&nbsp;<a href="">{{ quest.full_name }}</a>
+                  </span>
                 </p>
               </div>
             </div>
-            <div class="content">
-              <div class="quest-description-container">
-                <p>{{ quest.description }}</p>
-              </div>
-              <div class="quest-misc-container has-text-right">
-                <div class="has-text-centered">
-                  <router-link
-                    class="title is-4 is-spaced feed-quest-title is-anchor"
-                    :to="'/' + quest.id"
-                  >
-                    <button class="button is-game-btn is-game quest-btn">
-                      VIEW
-                    </button>
-                  </router-link>
-                  <button
-                    class="button is-game-btn is-game quest-btn"
-                    @click.prevent="upvoteQuest(quest.id)"
-                  >
-                    UPVOTE
-                  </button>
-                  <button
-                    class="button is-game-btn is-game quest-btn"
-                    @click.prevent="downvoteQuest(quest.id)"
-                  >
-                    DOWNVOTE
-                  </button>
-                </div>
-              </div>
-            </div>
           </div>
-          <footer class="card-footer level footer-pad">
-            <div class="level-item has-text-centered">
-              <div>
-                <p class="heading">Votes</p>
-                <p class="title quest-count">{{ quest.votes }}</p>
-              </div>
-            </div>
-            <div class="level-item has-text-centered">
-              <div>
-                <p class="heading">Solutions</p>
-                <p class="title quest-count">123</p>
-              </div>
-            </div>
-            <div class="level-item has-text-centered">
-              <div>
-                <p class="heading">Views</p>
-                <p class="title quest-count">456K</p>
-              </div>
-            </div>
-          </footer>
         </div>
       </div>
-      <div class="column" id="feed-misc"></div>
+      <div class="column"></div>
     </div>
   </div>
 </template>
@@ -131,7 +151,7 @@ export default {
       date_created: moment().format(),
       title: '',
       description: '',
-      category: 'Algorithm',
+      category: '',
       votes: 0,
       user_id: this.$store.getters['user/getUser'].id,
       is_answered: false,
@@ -199,36 +219,60 @@ export default {
 #feed {
   height: 100vh;
   width: 100%;
-  padding-top: 52px;
+  padding: 72px;
 }
-#feed > .columns > .column {
-  padding: 25px !important;
+#user-card {
+  width: 450px;
+  border: 2px solid #f9c23e;
+  border-radius: 0;
 }
-.card-footer-item {
-  font-weight: 200;
+#user-card-primary {
+  padding: 2%;
 }
-#quest-desc {
-  margin-top: 15px;
+#user-card-secondary {
+  margin-top: 25px;
 }
-#submit-quest {
-  margin-top: 0 !important;
+#post-quest {
+  margin-top: 10px;
+  font-weight: bold;
 }
-.footer-pad {
-  padding: 15px 0px 15px 0px;
+#post-quest:hover {
+  color: #fafbfc;
 }
-.quest-count {
-  color: #79c354 !important;
+#quest-categ {
+  margin-top: 10px;
 }
-.quest-description-container {
+.quest-tag {
+  cursor: pointer;
+}
+.quest-tag:hover {
+  background-color: #ff9a44;
+  transition: 0.1s;
+}
+.quest-title {
+  margin-bottom: 15px;
+}
+.quest-title:hover {
+  color: #ff9a44;
+  transition: 0.2s;
+}
+.quest-description {
   background-color: #f0f0f0;
   padding: 15px;
+  margin-top: 15px;
 }
-.quest-misc-container {
-  margin-top: 10px;
-  padding: 10px 0px 15px 0px;
+.media-left p span {
+  cursor: pointer;
+  font-weight: bold;
 }
-.quest-btn {
-  width: 30% !important;
-  margin: 5px;
+.media-left p span:hover {
+  color: #fc6076;
+}
+/* OVERRIDES */
+.mdi {
+  font-size: 36px;
+}
+.box {
+  border-radius: 0px;
 }
 </style>
