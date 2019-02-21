@@ -84,9 +84,6 @@ export default {
       return replies.filter(r => r.solution_id === this.solution.id);
     }
   },
-  mounted() {
-    console.log();
-  },
   methods: {
     postReply: function postReply(solutionId) {
       this.$store.dispatch('solution/postReply', {
@@ -103,7 +100,13 @@ export default {
     },
     toggleReply: function toggleReply() {
       this.showReply = !this.showReply;
+    },
+    populateReplies: function populateReplies() {
+      this.$store.dispatch('solution/populateReplies');
     }
+  },
+  mounted() {
+    this.populateReplies();
   }
 };
 </script>

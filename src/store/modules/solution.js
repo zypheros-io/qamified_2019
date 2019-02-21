@@ -13,6 +13,9 @@ const mutations = {
   },
   addReply(state, reply) {
     state.replies.push(reply);
+  },
+  setReplies(state, newReplies) {
+    state.replies = newReplies;
   }
 };
 
@@ -42,6 +45,26 @@ const actions = {
       .catch(error => {
         console.log(error);
         commit('setLoading', false);
+      });
+  },
+  populateReplies({ commit }, solutionId) {
+    firebase
+      .database()
+      .ref('reply')
+      .orderByChild('solution_id')
+      .equalTo(solutionId)
+      .once('value', replies => {
+        if (replies !== undefined && replies !== null) {
+          let newReply;
+          const newReplies = [];
+          replies.forEach(reply => {
+            newReply = reply.val();
+            newReplies.push(newReply);
+          });
+          commit('setReplies', newReplies);
+        } else {
+          console.log('No replies');
+        }
       });
   }
 };
