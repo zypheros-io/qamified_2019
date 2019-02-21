@@ -1,79 +1,188 @@
 <template>
   <div id="quest">
     <div class="columns">
-      <div class="column" id="quest-left"></div>
-      <div class="column is-half" id="quest-column">
-        <div class="card rounded-card">
-          <div class="card-content">
+      <div class="column"></div>
+      <div class="column is-three-fifths">
+        <div class="box">
+          <div class="media">
+            <div
+              class="media-left has-text-centered has-text-grey-lighter is-primary-text"
+              id="quest-container"
+            >
+              <p>
+                <span
+                  class="mdi mdi-arrow-up-thick"
+                  @click.prevent="upvoteQuest(quest.id)"
+                ></span>
+              </p>
+              <p>
+                <span class="is-primary-text">{{ quest.votes }}</span>
+              </p>
+              <p>
+                <span
+                  class="mdi mdi-arrow-down-thick"
+                  @click.prevent="downvoteQuest(quest.id)"
+                ></span>
+              </p>
+            </div>
+            <div class="media-content">
+              <p
+                class="title is-2 color-primary is-primary-text"
+                id="quest-title"
+              >
+                {{ quest.title }}
+              </p>
+              <div class="is-secondary-text" id="quest-description">
+                {{ quest.description }}
+              </div>
+              <div class="is-primary-text">
+                <br />
+                <span class="subtitle is-7">Tagged as:</span>&nbsp;
+                <span class="tag is-light quest-tag">{{ quest.category }}</span>
+                <p class="subtitle is-7 is-pulled-right">
+                  <span class="has-text-grey">{{ quest.date_created }}</span>
+                  &nbsp;
+                  <span class="has-text-grey">
+                    Posted by&nbsp;<a href="">{{ quest.full_name }} </a>
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="box">
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-48x48">
+                <img
+                  class="is-rounded"
+                  src="https://bulma.io/images/placeholders/128x128.png"
+                  alt="Image"
+                />
+              </figure>
+            </div>
+            <div class="media-content is-primary-text">
+              <b-field>
+                <b-input
+                  placeholder="Quest description"
+                  v-model="newSol.description"
+                >
+                </b-input>
+              </b-field>
+              <div>
+                <button
+                  class="button is-pulled-right is-primary-text bg-secondary color-white"
+                  @click.prevent="postSolution"
+                >
+                  POST
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- mes -->
+        <div id="solutions">
+          <div
+            class="box solution-container"
+            v-for="solution in sortedSolutions"
+            :key="solution.id"
+          >
             <div class="media">
+              <div
+                class="media-left has-text-centered has-text-grey-lighter is-primary-text"
+              >
+                <p>
+                  <span
+                    class="mdi mdi-arrow-up-thick"
+                    @click.prevent="upvoteSolution(solution.id)"
+                  ></span>
+                </p>
+                <p>
+                  <span class="is-primary-text">{{ solution.votes }}</span>
+                </p>
+                <p>
+                  <span
+                    class="mdi mdi-arrow-down-thick"
+                    @click.prevent="downvoteSolution(solution.id)"
+                  ></span>
+                </p>
+              </div>
               <div class="media-content">
-                <p class="title is-2">{{ quest.title }}</p>
-                <div class="is-divider"></div>
-                <div id="quest-description-container">
-                  <p>{{ quest.description }}</p>
+                <span class="title is-6 is-primary-text color-secondary">
+                  {{ solution.username }}
+                </span>
+                <span class="title is-7 is-primary-text has-text-grey">
+                  Posted&nbsp;{{ solution.date_created }}
+                </span>
+                <div class="solution-description">
+                  {{ solution.description }}
                 </div>
                 <br />
-                <p id="tags">
-                  Tags: &nbsp;
-                  <span class="tag is-light">{{ quest.category }}</span>
+                <p class="subtitle is-7 is-secondary-text color-secondary">
+                  <a class="solution-reply" @click.prevent="toggleReply">
+                    Reply
+                  </a>
                 </p>
-                <p class="subtitle is-7">
-                  Posted by <a href>{{ quest.full_name }}</a>
-                </p>
-                <div class="has-text-centered">
-                  <button class="button is-game-btn is-game quest-btn">
-                    RESPOND
-                  </button>
-                  <button
-                    class="button is-game-btn is-game quest-btn"
-                    @click.prevent="upvoteQuest(quest.id)"
+                <div class="box" v-if="showReply">
+                  <b-field>
+                    <b-input
+                      placeholder="Quest description"
+                      v-model="newReply.description"
+                    >
+                    </b-input>
+                  </b-field>
+                  <div>
+                    <button
+                      class="button is-primary-text bg-secondary color-white"
+                      @click.prevent="postReply(solution.id)"
+                    >
+                      POST
+                    </button>
+                  </div>
+                </div>
+                <!-- repliess -->
+                <div
+                  class="media reply-container"
+                  v-for="reply in filteredReplies"
+                  :key="reply.id"
+                >
+                  <div
+                    class="media-left has-text-grey-lighter is-primary-text has-text-centered"
                   >
-                    UPVOTE
-                  </button>
-                  <button
-                    class="button is-game-btn is-game quest-btn"
-                    @click.prevent="downvoteQuest(quest.id)"
-                  >
-                    DOWNVOTE
-                  </button>
+                    <p>
+                      <span
+                        class="mdi mdi-arrow-up-thick"
+                        @click.prevent="upvoteReply(reply.id)"
+                      ></span>
+                    </p>
+                    <p><span class="is-primary-text">0</span></p>
+                    <p>
+                      <span
+                        class="mdi mdi-arrow-down-thick"
+                        @click.prevent="downvoteReply(reply.id)"
+                      ></span>
+                    </p>
+                  </div>
+                  <div class="media-content">
+                    <span class="title is-6 is-primary-text color-secondary">
+                      {{ reply.username }}
+                    </span>
+                    <span class="title is-7 is-primary-text has-text-grey">
+                      Posted&nbsp;{{ reply.date_created }}
+                    </span>
+                    <div class="solution-description">
+                      {{ reply.description }}
+                    </div>
+                    <br />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <b-message
-          v-for="solution in sortedSolutions"
-          :key="solution.id"
-          class="solution-bubble"
-        >
-          {{ solution.description }} <a class="solution-button">reply</a>
-        </b-message>
-        <div class="is-divider"></div>
-        <div class="box">
-          <div class="field">
-            <textarea
-              class="textarea is-small"
-              placeholder="Know the answer?"
-              v-model="description"
-            ></textarea>
-            <button
-              class="button is-primary is-small is-game is-game-btn"
-              id="submit-quest"
-              v-on:click.prevent="postSolution"
-              v-if="!isLoading"
-            >
-              Post Solution
-            </button>
-            <button
-              class="button is-primary is-loading is-small is-game is-game-btn"
-              id="submit-quest"
-              v-on:click.prevent="postSolution"
-              v-if="isLoading"
-            ></button>
-          </div>
-        </div>
+        <!-- ssage -->
       </div>
-      <div class="column" id="quest-right"></div>
+      <div class="column"></div>
     </div>
   </div>
 </template>
@@ -86,21 +195,35 @@ export default {
   props: ['id'],
   data() {
     return {
-      description: '',
-      date_created: moment().format(),
-      votes: 0,
-      user_id: this.$store.getters['user/getUser'].id,
-      username: this.$store.getters['user/getUser'].username,
-      full_name: this.$store.getters['user/getUser'].fname,
-      is_correct: false,
-      quest_id: this.id
+      newSol: {
+        description: '',
+        date_created: moment().format(),
+        votes: 0,
+        user_id: this.$store.getters['user/getUser'].id,
+        username: this.$store.getters['user/getUser'].username,
+        full_name: this.$store.getters['user/getUser'].fname,
+        is_correct: false,
+        quest_id: this.id
+      },
+      newReply: {
+        description: '',
+        date_created: moment().format(),
+        votes: 0,
+        user_id: this.$store.getters['user/getUser'].id,
+        username: this.$store.getters['user/getUser'].username,
+        full_name: this.$store.getters['user/getUser'].fname,
+        is_correct: false
+      },
+      showReply: false,
+      showSolution: false
     };
   },
   computed: {
     ...mapGetters({
       getUser: 'user/getUser',
       isLoading: 'quest/isLoading',
-      sortedSolutions: 'quest/sortedSolutions'
+      sortedSolutions: 'quest/sortedSolutions',
+      filteredReplies: 'solution/filteredReplies'
     }),
     quest() {
       return this.$store.getters['feed/loadQuest'](this.id);
@@ -120,25 +243,50 @@ export default {
       );
     },
     postSolution: function postSolution() {
-      if (this.description) {
+      if (this.newSol.description) {
         this.$store.dispatch('quest/postSolution', {
-          description: this.description,
-          date_created: this.date_created,
-          votes: this.votes,
-          user_id: this.user_id,
-          username: this.username,
-          full_name: this.full_name,
-          is_correct: this.is_correct,
-          quest_id: this.quest_id
+          description: this.newSol.description,
+          date_created: this.newSol.date_created,
+          votes: this.newSol.votes,
+          user_id: this.newSol.user_id,
+          username: this.newSol.username,
+          full_name: this.newSol.full_name,
+          is_correct: this.newSol.is_correct,
+          quest_id: this.newSol.quest_id
         });
-        this.description = '';
+        this.newSol.description = '';
       } else {
         // eslint-disable-next-line
         alert('Please fill in the required fields.');
       }
     },
+    upvoteSolution: function upvoteSolution() {
+      this.$store.dispatch('solution/upvoteSolution');
+    },
+    downvoteSolution: function downvoteSolution() {
+      this.$store.dispatch('solution/downvoteSolution');
+    },
     populateSolutions: function populateSolutions() {
       this.$store.dispatch('quest/populateSolutions', this.id);
+    },
+    postReply: function postReply(solutionId) {
+      this.$store.dispatch('solution/postReply', {
+        description: this.newReply.description,
+        date_created: this.newReply.date_created,
+        votes: this.newReply.votes,
+        user_id: this.newReply.user_id,
+        username: this.newReply.username,
+        full_name: this.newReply.full_name,
+        is_correct: this.newReply.is_correct,
+        solution_id: solutionId
+      });
+      this.newReply.description = '';
+    },
+    toggleReply: function toggleReply() {
+      this.showReply = !this.showReply;
+    },
+    toggleSolution: function toggleSolution() {
+      this.showSolution = !this.showSolution;
     }
   },
   mounted() {
@@ -149,35 +297,47 @@ export default {
 
 <style scoped>
 #quest {
-  padding: 52px;
+  padding: 72px;
 }
-.card {
-  margin: 15px !important;
+#quest-title {
+  margin-bottom: 15px;
+  margin-top: 10px;
 }
-#quest-description-container {
+#quest-description {
   background-color: #f0f0f0;
   padding: 15px;
+  margin-top: 15px;
 }
-#tags {
-  font-size: 0.75rem;
+.media-left p span {
+  cursor: pointer;
+  font-weight: bold;
 }
-.quest-btn {
-  width: 30% !important;
-  margin: 5px;
+.media-left p span:hover {
+  color: #fc6076;
 }
-.solution-card {
-  border-radius: 30px !important;
-  background-color: #f8f8f8;
+/* OVERRIDES */
+#quest-container .mdi {
+  font-size: 36px;
 }
-.solution-bubble {
-  width: 50%;
-  margin-left: 2%;
+.solution-container {
+  border-radius: 25px !important;
 }
-.solution-button {
-  display: none;
+.solution-container .mdi {
+  font-size: 24px;
 }
-.solution-bubble:hover a {
-  display: table-cell;
-  transition: 0.5s ease-in-out;
+.solution-description {
+  padding-top: 15px;
+}
+.solution-reply {
+  color: #fc6076;
+}
+.solution-reply:hover {
+  color: #ff9a44;
+}
+.reply-container .mdi {
+  font-size: 24px;
+}
+.box {
+  border-radius: 0px;
 }
 </style>

@@ -32,6 +32,12 @@ export default new Router({
       name: 'Quest',
       component: Quest
     }
+    // {
+    //   path: '/:id',
+    //   props: true,
+    //   name: 'Profile',
+    //   component: Profile
+    // }
   ],
   mode: 'history'
 });

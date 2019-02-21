@@ -107,6 +107,7 @@ export default {
 <style>
 @import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
 @import '../node_modules/bulma-divider/dist/css/bulma-divider.min.css';
+
 .navbar {
   background: rgb(252, 96, 118);
   background: -moz-linear-gradient(

@@ -1,5 +1,6 @@
 /* eslint-disable */
 import firebase from 'firebase';
+import { Toast } from 'buefy/dist/components/toast';
 
 const state = {
   solutions: [],
@@ -39,6 +40,7 @@ const actions = {
       .then(() => {
         commit('addSolution', newSolution);
         commit('setLoading', false);
+        Toast.open('Solution successfully posted!')
       })
       .catch(error => {
         // eslint-disable-next-line

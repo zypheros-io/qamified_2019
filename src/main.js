@@ -1,14 +1,17 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import * as firebase from 'firebase';
+import 'v-markdown-editor/dist/index.css';
 import Vue from 'vue';
 import Buefy from 'buefy';
+import Editor from 'v-markdown-editor';
 import App from './App';
 import router from './router';
 import store from './store';
 import '../node_modules/buefy/dist/buefy.css';
 
 Vue.use(Buefy);
+Vue.use(Editor);
 
 Vue.config.productionTip = false;
 

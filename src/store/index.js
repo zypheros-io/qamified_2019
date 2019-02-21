@@ -5,6 +5,7 @@ import register from './modules/register';
 import login from './modules/login';
 import feed from './modules/feed';
 import quest from './modules/quest';
+import solution from './modules/solution';
 
 Vue.use(Vuex);
 
@@ -14,6 +15,7 @@ export default new Vuex.Store({
     register,
     login,
     feed,
-    quest
+    quest,
+    solution
   }
 });
