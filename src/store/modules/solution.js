@@ -42,8 +42,8 @@ const actions = {
       .catch(error => {
         console.log(error);
         commit('setLoading', false);
-      })
-  },
+      });
+  }
 };
 
 const getters = {
@@ -61,4 +61,4 @@ export default {
   mutations,
   actions,
   getters
-}
+};

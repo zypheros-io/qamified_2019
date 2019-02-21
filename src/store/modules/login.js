@@ -38,7 +38,7 @@ const actions = {
       });
     setTimeout(() => {
       commit('setLoading', false);
-    }, 2*1000);
+    }, 2 * 1000);
   },
   usernameLogin({ commit }, payload) {
     commit('setLoading', true);
@@ -73,7 +73,7 @@ const actions = {
             });
           setTimeout(() => {
             commit('setLoading', false);
-          }, 2*1000);
+          }, 2 * 1000);
         } else {
           commit('setLoading', false);
           alert('The user is not in the database, please try again.');

@@ -40,7 +40,7 @@ const actions = {
       .then(() => {
         commit('addSolution', newSolution);
         commit('setLoading', false);
-        Toast.open('Solution successfully posted!')
+        Toast.open('Solution successfully posted!');
       })
       .catch(error => {
         // eslint-disable-next-line

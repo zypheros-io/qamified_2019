@@ -43,7 +43,7 @@
                   <span class="has-text-grey">{{ quest.date_created }}</span>
                   &nbsp;
                   <span class="has-text-grey">
-                    Posted by&nbsp;<a href="">{{ quest.full_name }} </a>
+                    Posted by&nbsp; <a href>{{ quest.full_name }}</a>
                   </span>
                 </p>
               </div>
@@ -66,8 +66,7 @@
                 <b-input
                   placeholder="Quest description"
                   v-model="newSol.description"
-                >
-                </b-input>
+                ></b-input>
               </b-field>
               <div>
                 <button
@@ -82,103 +81,11 @@
         </div>
         <!-- mes -->
         <div id="solutions">
-          <div
-            class="box solution-container"
+          <Solution
             v-for="solution in sortedSolutions"
             :key="solution.id"
-          >
-            <div class="media">
-              <div
-                class="media-left has-text-centered has-text-grey-lighter is-primary-text"
-              >
-                <p>
-                  <span
-                    class="mdi mdi-arrow-up-thick"
-                    @click.prevent="upvoteSolution(solution.id)"
-                  ></span>
-                </p>
-                <p>
-                  <span class="is-primary-text">{{ solution.votes }}</span>
-                </p>
-                <p>
-                  <span
-                    class="mdi mdi-arrow-down-thick"
-                    @click.prevent="downvoteSolution(solution.id)"
-                  ></span>
-                </p>
-              </div>
-              <div class="media-content">
-                <span class="title is-6 is-primary-text color-secondary">
-                  {{ solution.username }}
-                </span>
-                <span class="title is-7 is-primary-text has-text-grey">
-                  Posted&nbsp;{{ solution.date_created }}
-                </span>
-                <div class="solution-description">
-                  {{ solution.description }}
-                </div>
-                <br />
-                <p class="subtitle is-7 is-secondary-text color-secondary">
-                  <a class="solution-reply" @click.prevent="toggleReply">
-                    Reply
-                  </a>
-                </p>
-                <div class="box" v-if="showReply">
-                  <b-field>
-                    <b-input
-                      placeholder="Quest description"
-                      v-model="newReply.description"
-                    >
-                    </b-input>
-                  </b-field>
-                  <div>
-                    <button
-                      class="button is-primary-text bg-secondary color-white"
-                      @click.prevent="postReply(solution.id)"
-                    >
-                      POST
-                    </button>
-                  </div>
-                </div>
-                <!-- repliess -->
-                <div
-                  class="media reply-container"
-                  v-for="reply in filteredReplies"
-                  :key="reply.id"
-                >
-                  <div
-                    class="media-left has-text-grey-lighter is-primary-text has-text-centered"
-                  >
-                    <p>
-                      <span
-                        class="mdi mdi-arrow-up-thick"
-                        @click.prevent="upvoteReply(reply.id)"
-                      ></span>
-                    </p>
-                    <p><span class="is-primary-text">0</span></p>
-                    <p>
-                      <span
-                        class="mdi mdi-arrow-down-thick"
-                        @click.prevent="downvoteReply(reply.id)"
-                      ></span>
-                    </p>
-                  </div>
-                  <div class="media-content">
-                    <span class="title is-6 is-primary-text color-secondary">
-                      {{ reply.username }}
-                    </span>
-                    <span class="title is-7 is-primary-text has-text-grey">
-                      Posted&nbsp;{{ reply.date_created }}
-                    </span>
-                    <div class="solution-description">
-                      {{ reply.description }}
-                    </div>
-                    <br />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+            v-bind:solution="solution"
+          />
         </div>
         <!-- ssage -->
       </div>
@@ -190,9 +97,13 @@
 <script>
 import moment from 'moment';
 import { mapGetters } from 'vuex';
+import Solution from './Solution';
 
 export default {
   props: ['id'],
+  components: {
+    Solution
+  },
   data() {
     return {
       newSol: {
@@ -205,16 +116,6 @@ export default {
         is_correct: false,
         quest_id: this.id
       },
-      newReply: {
-        description: '',
-        date_created: moment().format(),
-        votes: 0,
-        user_id: this.$store.getters['user/getUser'].id,
-        username: this.$store.getters['user/getUser'].username,
-        full_name: this.$store.getters['user/getUser'].fname,
-        is_correct: false
-      },
-      showReply: false,
       showSolution: false
     };
   },
