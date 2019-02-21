@@ -48,6 +48,7 @@ const actions = {
       });
   },
   populateReplies({ commit }, solutionId) {
+    console.log(solutionId)
     firebase
       .database()
       .ref('reply')
@@ -66,7 +67,7 @@ const actions = {
           console.log('No replies');
         }
       });
-  }
+  },
 };
 
 const getters = {

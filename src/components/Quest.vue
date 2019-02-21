@@ -161,27 +161,8 @@ export default {
         alert('Please fill in the required fields.');
       }
     },
-    upvoteSolution: function upvoteSolution() {
-      this.$store.dispatch('solution/upvoteSolution');
-    },
-    downvoteSolution: function downvoteSolution() {
-      this.$store.dispatch('solution/downvoteSolution');
-    },
     populateSolutions: function populateSolutions() {
       this.$store.dispatch('quest/populateSolutions', this.id);
-    },
-    postReply: function postReply(solutionId) {
-      this.$store.dispatch('solution/postReply', {
-        description: this.newReply.description,
-        date_created: this.newReply.date_created,
-        votes: this.newReply.votes,
-        user_id: this.newReply.user_id,
-        username: this.newReply.username,
-        full_name: this.newReply.full_name,
-        is_correct: this.newReply.is_correct,
-        solution_id: solutionId
-      });
-      this.newReply.description = '';
     },
     toggleReply: function toggleReply() {
       this.showReply = !this.showReply;
@@ -219,26 +200,5 @@ export default {
 /* OVERRIDES */
 #quest-container .mdi {
   font-size: 36px;
-}
-.solution-container {
-  border-radius: 25px !important;
-}
-.solution-container .mdi {
-  font-size: 24px;
-}
-.solution-description {
-  padding-top: 15px;
-}
-.solution-reply {
-  color: #fc6076;
-}
-.solution-reply:hover {
-  color: #ff9a44;
-}
-.reply-container .mdi {
-  font-size: 24px;
-}
-.box {
-  border-radius: 0px;
 }
 </style>

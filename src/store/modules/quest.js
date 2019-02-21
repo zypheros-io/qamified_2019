@@ -66,7 +66,40 @@ const actions = {
         } else {
           console.log('No solutions');
         }
-      });
+    });
+  },
+  upvoteSolution({ rootGetters }, solution) {
+    const updates = {};
+    const userId = rootGetters['user/getUser'].id;
+    console.log(solution);
+    if(solution.downvote.length > 0 && solution.downvote.includes(userId)) {
+      updates[`/solution/${solution.id}/downvote/${userId}`] = null;
+      updates[`/solution/${solution.id}/upvote/${userId}`] = true;
+      updates[`/solution/${solution.id}/votes`] = solution.votes + 1;
+      firebase
+        .database()
+        .ref()
+        .update(updates)
+        .then(() => {
+          solution.votes += 1;
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    } else if (!solution.upvote.includes(userId)) {
+      updates[`/solution/${solution.id}/upvote/${userId}`] = true;
+      updates[`/solution/${solution.id}/votes`] = solution.votes + 1;
+      firebase
+        .database()
+        .ref()
+        .update(updates)
+        .then(() => {
+          solution.votes += 1;
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    }
   }
 };
 
@@ -76,6 +109,13 @@ const getters = {
   },
   sortedSolutions(state) {
     return state.solutions;
+  },
+  loadSolution(state) {
+    return solutionId => {
+      return state.solutions.find(solution => {
+        return solution.id === solutionId;
+      });
+    }
   }
 };
 

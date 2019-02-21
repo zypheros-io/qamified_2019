@@ -102,7 +102,16 @@ export default {
       this.showReply = !this.showReply;
     },
     populateReplies: function populateReplies() {
-      this.$store.dispatch('solution/populateReplies');
+      this.$store.dispatch('solution/populateReplies', this.solution.id);
+    },
+    upvoteSolution: function upvoteSolution(solutionId) {
+      this.$store.dispatch(
+        'quest/upvoteSolution',
+        this.$store.getters['quest/loadSolution'](solutionId)
+      );
+    },
+    downvoteSolution: function downvoteSolution() {
+      this.$store.dispatch('solution/downvoteSolution');
     }
   },
   mounted() {
@@ -110,3 +119,26 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.solution-container {
+  border-radius: 25px !important;
+}
+.solution-description {
+  padding-top: 15px;
+}
+.solution-reply {
+  color: #fc6076;
+}
+.solution-reply:hover {
+  color: #ff9a44;
+}
+.media-left p span {
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 24px;
+}
+.media-left p span:hover {
+  color: #fc6076;
+}
+</style>
