@@ -49,11 +49,7 @@
           </div>
         </div>
         <!-- repliess -->
-        <Reply
-          v-for="reply in filteredReplies"
-          :key="reply.id"
-          v-bind:reply="reply"
-        />
+        <Reply v-for="reply in replies" :key="reply.id" v-bind:reply="reply" />
       </div>
     </div>
   </div>
@@ -61,7 +57,6 @@
 
 <script>
 import moment from 'moment';
-import { mapGetters } from 'vuex';
 import Reply from './Reply';
 
 export default {
@@ -84,9 +79,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      filteredReplies: 'solution/filteredReplies'
-    })
+    replies() {
+      const replies = this.$store.getters['solution/replies'];
+      return replies.filter(r => r.solution_id === this.solution.id);
+    }
   },
   mounted() {
     console.log();

@@ -9,7 +9,7 @@
           @click.prevent="upvoteReply(reply.id)"
         ></span>
       </p>
-      <p><span class="is-primary-text">{{ reply.solution_id }}</span></p>
+      <p><span class="is-primary-text">0</span></p>
       <p>
         <span
           class="mdi mdi-arrow-down-thick"

@@ -50,7 +50,7 @@ const getters = {
   isLoading(state) {
     return state.loading;
   },
-  filteredReplies(state, solutionId) {
+  replies(state) {
     return state.replies;
   }
 };
