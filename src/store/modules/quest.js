@@ -30,8 +30,8 @@ const actions = {
       .push().key;
     const updates = {};
     newSolution.id = solutionKey;
-    newSolution.upvote = [];
-    newSolution.downvote = [];
+    newSolution.upvote = {};
+    newSolution.downvote = {};
     updates[`/user/${newSolution.user_id}/solution/${newSolution.id}`] = true;
     updates[`/solution/${newSolution.id}`] = newSolution;
 
@@ -40,7 +40,6 @@ const actions = {
       .ref()
       .update(updates)
       .then(() => {
-        commit('addSolution', newSolution);
         commit('setLoading', false);
         Toast.open('Solution successfully posted!');
       })
@@ -56,7 +55,7 @@ const actions = {
       .ref('solution')
       .orderByChild('quest_id')
       .equalTo(questId)
-      .once('value', solutions => {
+      .on('value', solutions => {
         if (solutions !== undefined && solutions !== null) {
           let newSolution;
           const newSolutions = [];
@@ -84,13 +83,15 @@ const actions = {
         .ref()
         .update(updates)
         .then(() => {
-          solution.downvote[userId] = true;
           solution.votes += 1;
         })
         .catch(error => {
           console.log(error);
         });
-    } else if (!Object.keys(solution.upvote).includes(userId)) {
+    } else if (
+      !solution.upvote ||
+      !Object.keys(solution.upvote).includes(userId)
+    ) {
       updates[`/solution/${solution.id}/upvote/${userId}`] = true;
       updates[`/solution/${solution.id}/votes`] = solution.votes + 1;
       firebase
@@ -98,13 +99,12 @@ const actions = {
         .ref()
         .update(updates)
         .then(() => {
-          solution.upvote[userId] = true;
           solution.votes += 1;
         })
         .catch(error => {
           console.log(error);
         });
-    } else if (solution.upvote.includes(userId)) {
+    } else if (Object.keys(solution.upvote).includes(userId)) {
       console.log('Already upvoted!');
     }
   }
