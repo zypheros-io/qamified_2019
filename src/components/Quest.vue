@@ -109,7 +109,7 @@ export default {
       newSol: {
         description: '',
         date_created: moment().format(),
-        votes: 0,
+        votes: 1,
         user_id: this.$store.getters['user/getUser'].id,
         username: this.$store.getters['user/getUser'].username,
         full_name: this.$store.getters['user/getUser'].fname,

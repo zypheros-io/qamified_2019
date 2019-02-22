@@ -58,6 +58,7 @@ const actions = {
     const userId = rootGetters['user/getUser'].id;
 
     if (quest.downvote.length > 0 && quest.downvote.includes(userId)) {
+      console.log('Bye');
       updates[`/quest/${quest.id}/downvote/${userId}`] = null;
       updates[`/quest/${quest.id}/upvote/${userId}`] = true;
       updates[`/quest/${quest.id}/votes`] = quest.votes + 1;
@@ -74,6 +75,7 @@ const actions = {
           console.log(error);
         });
     } else if (!quest.upvote.includes(userId)) {
+      console.log('HELLO');
       updates[`/quest/${quest.id}/upvote/${userId}`] = true;
       updates[`/quest/${quest.id}/votes`] = quest.votes + 1;
 

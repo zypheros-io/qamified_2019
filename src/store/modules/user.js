@@ -1,4 +1,4 @@
-/* eslint no-shadow: ["error", { "allow": ["state"] }] */
+/* eslint-disable */
 import firebase from 'firebase';
 
 const state = {

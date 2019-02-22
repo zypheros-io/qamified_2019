@@ -32,7 +32,6 @@ const actions = {
     newReply.id = replyKey;
     updates[`/user/${newReply.user_id}/solution/${newReply.id}`] = true;
     updates[`/reply/${newReply.id}`] = newReply;
-
     firebase
       .database()
       .ref()
@@ -48,7 +47,6 @@ const actions = {
       });
   },
   populateReplies({ commit }, solutionId) {
-    console.log(solutionId)
     firebase
       .database()
       .ref('reply')

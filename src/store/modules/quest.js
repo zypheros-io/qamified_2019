@@ -30,6 +30,8 @@ const actions = {
       .push().key;
     const updates = {};
     newSolution.id = solutionKey;
+    newSolution.upvote = [];
+    newSolution.downvote = [];
     updates[`/user/${newSolution.user_id}/solution/${newSolution.id}`] = true;
     updates[`/solution/${newSolution.id}`] = newSolution;
 
@@ -63,6 +65,7 @@ const actions = {
             newSolutions.push(newSolution);
           });
           commit('setSolutions', newSolutions);
+          console.log(newSolutions);
         } else {
           console.log('No solutions');
         }
@@ -72,7 +75,7 @@ const actions = {
     const updates = {};
     const userId = rootGetters['user/getUser'].id;
     console.log(solution);
-    if(solution.downvote.length > 0 && solution.downvote.includes(userId)) {
+    if(solution.downvote && solution.downvote.includes(userId)) {
       updates[`/solution/${solution.id}/downvote/${userId}`] = null;
       updates[`/solution/${solution.id}/upvote/${userId}`] = true;
       updates[`/solution/${solution.id}/votes`] = solution.votes + 1;
@@ -99,6 +102,8 @@ const actions = {
         .catch(error => {
           console.log(error);
         })
+    } else if (solution.upvote.includes(userId)) {
+      console.log('Already upvoted!');
     }
   }
 };
