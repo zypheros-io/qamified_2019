@@ -65,7 +65,7 @@ const actions = {
           console.log('No replies');
         }
       });
-  },
+  }
 };
 
 const getters = {
