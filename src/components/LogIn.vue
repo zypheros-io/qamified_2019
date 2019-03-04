@@ -1,60 +1,59 @@
 <template>
-  <div class="hero is-fullheight">
+  <div class="hero is-fullheight bg-primary">
     <div class="hero-body">
       <div class="container">
+        <!-- Pageloader -->
         <b-loading
           :is-full-page="true"
           :active.sync="isLoading"
-          :can-cancel="true"
+          :can-cancel="false"
         ></b-loading>
-        <div class="column is-4 is-offset-4">
-          <div class="box" id="sign-in-form">
-            <p class="title has-text-centered is-game form-title">QAMIFIED</p>
-            <p class="subtitle has-text-centered is-6 form-subtitle">
-              "Not all those who wander are lost."
-            </p>
-            <b-field label="Email or Username">
-              <b-input
-                v-model="email"
-                placeholder="Enter your username"
-                size="is-medium"
-                required
-              ></b-input>
-            </b-field>
-            <b-field label="Password">
-              <b-input
-                v-model="password"
-                type="password"
-                placeholder="Enter your password"
-                size="is-medium"
-                required
-              ></b-input>
-            </b-field>
-            <b-field>
-              <button
-                class="button is-fullwidth is-medium is-game is-game-btn game-btn-med"
-                v-if="!isLoading"
-                @click.prevent="signIn"
-              >
-                START GAME
-              </button>
-              <button
-                class="button is-fullwidth is-loading is-medium is-game is-game-btn game-btn-med"
-                v-if="isLoading"
-                @click.prevent="signIn"
-              ></button>
-            </b-field>
-            <div class="is-divider"></div>
-            <b-field class="has-text-centered">
-              <div>
+        <div class="columns">
+          <div class="column is-4 is-offset-4">
+            <div class="box bg-white" id="login-container">
+              <div class="has-text-centered">
+                <img src="https://via.placeholder.com/350x65" />
+              </div>
+              <div class="is-divider"></div>
+              <!-- Username -->
+              <b-field class="margin-top-1">
+                <b-input
+                  v-model="email"
+                  type="text"
+                  placeholder="Username"
+                  size="is-medium"
+                  required
+                ></b-input>
+              </b-field>
+              <!-- Password -->
+              <b-field class="margin-top-1">
+                <b-input
+                  v-model="password"
+                  type="password"
+                  placeholder="Password"
+                  size="is-medium"
+                  required
+                ></b-input>
+              </b-field>
+              <!-- Login button -->
+              <b-field class="margin-top-1">
+                <button
+                  class="button is-medium is-fullwidth is-primary-text main-btn"
+                  @click.prevent="signIn"
+                >
+                  START GAME
+                </button>
+              </b-field>
+              <div class="is-divider" data-content="OR"></div>
+              <div class="has-text-centered is-secondary-text">
                 <p>
                   Not yet an adventurer?
-                  <a class="is-anchor" @click.prevent="goto('/signup')"
-                    >Sign up here!</a
-                  >
+                  <a class="is-anchor" @click.prevent="goto('/signup')">
+                    Sign up
+                  </a>
                 </p>
               </div>
-            </b-field>
+            </div>
           </div>
         </div>
       </div>
@@ -107,13 +106,15 @@ export default {
 
 <style scoped>
 .hero {
-  background-color: #fafbfc;
+  background-image: url('../assets/bg.png');
 }
-#sign-in-form {
+#login-container {
   padding: 40px;
-  border: 1px solid #79c354;
-  -webkit-box-shadow: 6px 6px 0px #caadada9, 3px 3px 15px rgba(0, 0, 0, 0.4);
-  -moz-box-shadow: 6px 6px 0px #caadada9, 3px 3px 15px rgba(0, 0, 0, 0.4);
-  box-shadow: 6px 6px 0px #caadada9, 3px 3px 15px rgba(0, 0, 0, 0.4);
+  width: 450px !important;
+  border: 15px solid #203d66;
+  border-radius: 5px;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
 }
 </style>

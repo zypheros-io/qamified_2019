@@ -5,107 +5,123 @@
         <b-loading
           :is-full-page="isFullPage"
           :active.sync="isLoading"
-          :can-cancel="true"
+          :can-cancel="false"
         ></b-loading>
         <div class="column is-4 is-offset-4">
-          <div class="box" id="sign-up-form">
-            <p class="title has-text-centered is-game form-title">QAMIFIED</p>
-            <p class="subtitle has-text-centered is-6 form-subtitle">
-              Become an adventurer, no rupees needed.
+          <div class="box bg-white" id="signup-container">
+            <div class="has-text-centered">
+              <img src="https://via.placeholder.com/350x65" />
+            </div>
+            <p
+              class="subtitle has-text-centered is-6 is-secondary-text color-primary"
+              style="font-weight: bold; margin-top: 10px; font-style: italic"
+            >
+              Become an adventurer now. Don't worry, it's free! Forever!
             </p>
             <div class="is-divider"></div>
-            <!-- STEP 1 -->
             <div v-if="step === 1">
-              <p class="title has-text-centered is-game form-title is-4">
-                STEP 1
-              </p>
-              <b-field label="Email">
+              <!-- First step -->
+              <!-- Email -->
+              <b-field class="margin-top-1">
                 <b-input
                   v-model="email"
-                  placeholder="Enter your email address"
+                  type="text"
+                  placeholder="Email"
                   size="is-medium"
                   required
                 ></b-input>
               </b-field>
-              <b-field label="Username">
+              <!-- Username -->
+              <b-field class="margin-top-1">
                 <b-input
                   v-model="username"
-                  placeholder="Enter your username"
+                  type="text"
+                  placeholder="Username"
                   size="is-medium"
                   required
                 ></b-input>
               </b-field>
-              <b-field label="Password">
+              <!-- Password -->
+              <b-field class="margin-top-1">
                 <b-input
                   v-model="password"
                   type="password"
-                  placeholder="Enter your password"
+                  placeholder="Password"
                   size="is-medium"
                   password-reveal
                   required
                 ></b-input>
               </b-field>
-              <b-field>
+              <!-- Proceed to next step -->
+              <b-field class="margin-top-1">
                 <button
-                  class="button is-fullwidth is-medium is-game is-game-btn game-btn-med"
+                  class="button is-medium is-fullwidth is-primary-text main-btn"
                   @click.prevent="next"
                 >
-                  NEXT
+                  NEXT STEP
                 </button>
               </b-field>
+              <!-- end step 1 -->
             </div>
-            <!-- STEP 2 -->
-            <div v-if="step === 2">
-              <p class="title has-text-centered is-game form-title is-6">
-                STEP 2
-              </p>
-              <b-field label="First Name">
+            <div v-else-if="step === 2">
+              <!-- Second step -->
+              <!-- First name -->
+              <b-field class="margin-top-1">
                 <b-input
                   v-model="firstname"
-                  placeholder="ex. John"
+                  placeholder="First Name"
                   size="is-medium"
                   required
                 ></b-input>
               </b-field>
-              <b-field label="Last Name">
+              <!-- Last name -->
+              <b-field class="margin-top-1">
                 <b-input
                   v-model="lastname"
-                  placeholder="ex. Doe"
+                  placeholder="Last Name"
                   size="is-medium"
                   required
                 ></b-input>
               </b-field>
-              <div class="is-divider"></div>
-              <b-field label="Institution">
+              <!-- offset -->
+              <b-field></b-field>
+              <!-- Institution -->
+              <b-field class="margin-top-1">
                 <b-input
-                  type="text"
                   v-model="institution"
-                  placeholder="ex. CAS, CEM, CEAT, CAFS, CFNR..."
+                  placeholder="Institution ex. CAS, CEM, etc."
                   size="is-medium"
                   required
                 ></b-input>
               </b-field>
-              <b-field>
+              <b-field class="margin-top-1">
                 <button
-                  class="button is-fullwidth is-medium is-game is-game-btn game-btn-med"
-                  v-if="!isLoading"
-                  @click.prevent="validate"
-                >
-                  SIGN UP
-                </button>
-                <button
-                  class="button is-fullwidth is-medium is-game is-game-btn game-btn-med"
-                  v-if="isLoading"
+                  class="button is-medium is-fullwidth is-primary-text main-btn"
                   @click.prevent="validate"
                 >
                   SIGN UP
                 </button>
               </b-field>
-              <b-field class="has-text-centered">
-                <a class="is-anchor" @click="prev"
-                  >Go to back to previous step</a
-                >
-              </b-field>
+              <div class="has-text-centered is-secondary">
+                <p>
+                  <a
+                    @click.prevent="prev"
+                    class="is-anchor"
+                    style="font-size: 13px;"
+                  >
+                    Go back to previous step
+                  </a>
+                </p>
+              </div>
+            </div>
+            <div class="is-divider" data-content="OR"></div>
+            <div class="has-text-centered is-secondary-text">
+              <p>
+                Already an adventurer?
+                <a class="is-anchor" @click.prevent="goto('/signin')">
+                  Log in
+                </a>
+              </p>
             </div>
           </div>
         </div>
@@ -167,10 +183,6 @@ export default {
         console.log('RIP');
       }
     },
-    goto: function goto(route) {
-      this.route = route;
-      this.$router.push(route);
-    },
     next: function next() {
       if (this.password.length >= 6) {
         if (this.email && this.username && this.password) {
@@ -193,10 +205,15 @@ export default {
 </script>
 <style scoped>
 .hero {
-  background-image: url('../assets/sign_up_wallpaper.png');
+  background-image: url('../assets/bg.png');
 }
-#sign-up-form {
-  padding: 40px !important;
-  border: 1px solid #79c354;
+#signup-container {
+  padding: 40px;
+  width: 450px !important;
+  border: 15px solid #203d66;
+  border-radius: 5px;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
 }
 </style>

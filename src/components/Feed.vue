@@ -1,50 +1,8 @@
 <template>
-  <div id="feed">
+  <div class="bg-primary" id="feed">
     <div class="columns">
-      <div class="column">
-        <div class="box" id="user-card">
-          <div class="media">
-            <div class="media-left">
-              <figure class="image is-96x96">
-                <img
-                  class="is-rounded"
-                  src="https://bulma.io/images/placeholders/128x128.png"
-                  alt="Image"
-                />
-              </figure>
-            </div>
-            <div class="media-content" id="user-card-primary">
-              <h1 class="title is-2 has-text-success is-primary-text">
-                {{ getUser.fname }}
-              </h1>
-              <h2 class="subtitle is-6 has-text-grey is-secondary-text">
-                @{{ getUser.username }}
-              </h2>
-            </div>
-          </div>
-          <div class="level" id="user-card-secondary">
-            <div class="level-item has-text-centered">
-              <div>
-                <p class="heading">LEVEL</p>
-                <p class="title has-text-success">{{ getUser.level }}</p>
-              </div>
-            </div>
-            <div class="level-item has-text-centered">
-              <div>
-                <p class="heading">REPUTATION</p>
-                <p class="title has-text-success">52</p>
-              </div>
-            </div>
-            <div class="level-item has-text-centered">
-              <div>
-                <p class="heading">RESPONSES</p>
-                <p class="title has-text-success">91</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="column is-two-fifths">
+      <div class="column"></div>
+      <div class="column is-three-fifths" id="quest-feed">
         <div class="box">
           <div class="media">
             <div class="media-left">
@@ -217,20 +175,12 @@ export default {
 
 <style scoped>
 #feed {
-  height: 100vh;
   width: 100%;
-  padding: 72px;
+  padding: 90px 72px 72px 72px;
 }
-#user-card {
-  width: 450px;
-  border: 2px solid #f9c23e;
-  border-radius: 0;
-}
-#user-card-primary {
-  padding: 2%;
-}
-#user-card-secondary {
-  margin-top: 25px;
+#quest-feed {
+  padding: 20px;
+  background-color: red;
 }
 #post-quest {
   margin-top: 10px;
@@ -242,6 +192,7 @@ export default {
 #quest-categ {
   margin-top: 10px;
 }
+
 .quest-tag {
   cursor: pointer;
 }
