@@ -225,5 +225,7 @@ export default {
 }
 input {
   font-family: 'Roboto Condened', sans-serif !important;
+  height: 50px !important;
+  font-size: 13px !important;
 }
 </style>
