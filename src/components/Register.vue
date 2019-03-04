@@ -199,6 +199,9 @@ export default {
     },
     prev: function prev() {
       this.step -= 1;
+    },
+    goto: function goto(route) {
+      this.$router.push(route);
     }
   }
 };
