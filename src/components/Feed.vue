@@ -1,8 +1,8 @@
 <template>
-  <div class="bg-primary" id="feed">
+  <div class="bg-white" id="feed">
     <div class="columns">
       <div class="column"></div>
-      <div class="column is-three-fifths" id="quest-feed">
+      <div class="column is-one-third" id="quest-feed">
         <div class="box">
           <div class="media">
             <div class="media-left">
@@ -16,17 +16,20 @@
             </div>
             <div class="media-content is-primary-text">
               <b-field>
-                <b-input placeholder="Quest title" v-model="title"></b-input>
+                <b-input
+                  placeholder="Quest title"
+                  v-model="quest.title"
+                ></b-input>
               </b-field>
               <textarea
                 class="textarea has-fixed-size"
                 size="is-medium"
                 placeholder="Quest description"
-                v-model="description"
+                v-model="quest.description"
               >
               </textarea>
               <b-field class="is-pulled-left is-primary-text" id="quest-categ">
-                <b-select placeholder="Category" v-model="category">
+                <b-select placeholder="Category" v-model="quest.category">
                   <optgroup label="Computer Science">
                     <option value="Algorithm">Algorithm</option>
                     <option value="Web Development">Web Development</option>
@@ -106,17 +109,19 @@ import moment from 'moment';
 export default {
   data() {
     return {
-      date_created: moment().format(),
-      title: '',
-      description: '',
-      category: '',
-      votes: 0,
-      user_id: this.$store.getters['user/getUser'].id,
-      is_answered: false,
-      username: this.$store.getters['user/getUser'].username,
-      full_name: this.$store.getters['user/getUser'].fname,
-      solutions: [],
-      is_duplicate: false
+      quest: {
+        date_created: moment().format(),
+        title: '',
+        description: '',
+        category: '',
+        votes: 0,
+        user_id: this.$store.getters['user/getUser'].id,
+        is_answered: false,
+        username: this.$store.getters['user/getUser'].username,
+        full_name: this.$store.getters['user/getUser'].fname,
+        solutions: [],
+        is_duplicate: false
+      }
     };
   },
   computed: {
@@ -131,21 +136,9 @@ export default {
     postQuest: function postQuest() {
       // if fields are not empty
       if (this.title && this.description) {
-        this.$store.dispatch('user/postQuest', {
-          date_created: this.date_created,
-          title: this.title,
-          description: this.description,
-          category: this.category,
-          votes: this.votes,
-          user_id: this.user_id,
-          is_answered: this.is_answered,
-          username: this.username,
-          full_name: this.full_name,
-          solutions: this.solutions,
-          is_duplicate: this.is_duplicate
-        });
-        this.title = '';
-        this.description = '';
+        this.$store.dispatch('user/postQuest', this.quest);
+        this.quest.title = '';
+        this.quest.description = '';
       } else {
         // eslint-disable-next-line
         alert('Please fill in the required fields.');
@@ -155,16 +148,10 @@ export default {
       this.$store.dispatch('feed/populateFeed');
     },
     upvoteQuest: function upvoteQuest(questId) {
-      this.$store.dispatch(
-        'feed/upvoteQuest',
-        this.$store.getters['feed/loadQuest'](questId)
-      );
+      this.$store.dispatch('feed/upvoteQuest', this.loadQuest(questId));
     },
     downvoteQuest: function downvoteQuest(questId) {
-      this.$store.dispatch(
-        'feed/downvoteQuest',
-        this.$store.getters['feed/loadQuest'](questId)
-      );
+      this.$store.dispatch('feed/downvoteQuest', this.loadQuest(questId));
     }
   },
   mounted() {
@@ -180,7 +167,6 @@ export default {
 }
 #quest-feed {
   padding: 20px;
-  background-color: red;
 }
 #post-quest {
   margin-top: 10px;
@@ -225,5 +211,6 @@ export default {
 }
 .box {
   border-radius: 0px;
+  margin-bottom: 10px;
 }
 </style>

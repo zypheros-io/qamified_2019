@@ -36,7 +36,7 @@
           <b-field>
             <b-input
               placeholder="Enter Reply"
-              v-model="newReply.description"
+              v-model="reply.description"
             ></b-input>
           </b-field>
           <div>
@@ -66,10 +66,9 @@ export default {
   },
   data() {
     return {
-      newReply: {
+      reply: {
         description: '',
         date_created: moment().format(),
-        votes: 0,
         user_id: this.$store.getters['user/getUser'].id,
         username: this.$store.getters['user/getUser'].username,
         full_name: this.$store.getters['user/getUser'].fname,
@@ -87,16 +86,10 @@ export default {
   methods: {
     postReply: function postReply(solutionId) {
       this.$store.dispatch('solution/postReply', {
-        description: this.newReply.description,
-        date_created: this.newReply.date_created,
-        votes: this.newReply.votes,
-        user_id: this.newReply.user_id,
-        username: this.newReply.username,
-        full_name: this.newReply.full_name,
-        is_correct: this.newReply.is_correct,
+        ...this.reply,
         solution_id: solutionId
       });
-      this.newReply.description = '';
+      this.reply.description = '';
     },
     toggleReply: function toggleReply() {
       this.showReply = !this.showReply;

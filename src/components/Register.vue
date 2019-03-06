@@ -3,7 +3,7 @@
     <div class="hero-body">
       <div class="container">
         <b-loading
-          :is-full-page="isFullPage"
+          :is-full-page="true"
           :active.sync="isLoading"
           :can-cancel="false"
         ></b-loading>
@@ -24,7 +24,7 @@
               <!-- Email -->
               <b-field class="margin-top-1">
                 <b-input
-                  v-model="email"
+                  v-model="user.email"
                   type="text"
                   placeholder="Email"
                   size="is-medium"
@@ -34,7 +34,7 @@
               <!-- Username -->
               <b-field class="margin-top-1">
                 <b-input
-                  v-model="username"
+                  v-model="user.username"
                   type="text"
                   placeholder="Username"
                   size="is-medium"
@@ -44,7 +44,7 @@
               <!-- Password -->
               <b-field class="margin-top-1">
                 <b-input
-                  v-model="password"
+                  v-model="user.password"
                   type="password"
                   placeholder="Password"
                   size="is-medium"
@@ -68,7 +68,7 @@
               <!-- First name -->
               <b-field class="margin-top-1">
                 <b-input
-                  v-model="firstname"
+                  v-model="user.firstname"
                   placeholder="First Name"
                   size="is-medium"
                   required
@@ -77,7 +77,7 @@
               <!-- Last name -->
               <b-field class="margin-top-1">
                 <b-input
-                  v-model="lastname"
+                  v-model="user.lastname"
                   placeholder="Last Name"
                   size="is-medium"
                   required
@@ -88,7 +88,7 @@
               <!-- Institution -->
               <b-field class="margin-top-1">
                 <b-input
-                  v-model="institution"
+                  v-model="user.institution"
                   placeholder="Institution ex. CAS, CEM, etc."
                   size="is-medium"
                   required
@@ -137,12 +137,14 @@ export default {
   name: 'SignUp',
   data() {
     return {
-      email: '',
-      username: '',
-      password: '',
-      firstname: '',
-      lastname: '',
-      institution: '',
+      user: {
+        email: '',
+        username: '',
+        password: '',
+        firstname: '',
+        lastname: '',
+        institution: ''
+      },
       step: 1,
       formOneClear: false,
       formTwoClear: false
@@ -156,45 +158,39 @@ export default {
   },
   watch: {
     getUser(value) {
-      if (value !== null) {
-        this.$router.push('/');
-      }
+      if (value !== null) this.$router.push('/');
     }
   },
   methods: {
     validate: function signUp() {
-      if (this.firstname && this.lastname && this.institution) {
-        this.formTwoClear = true;
+      if (this.user.firstname && this.user.lastname && this.user.institution) {
+        this.$store.dispatch('register/signUp', this.user);
       } else {
-        // eslint-disable-next-line
-        alert('Please fill the required fields before proceeding  ');
-      }
-      if (this.formOneClear && this.formTwoClear) {
-        this.$store.dispatch('register/signUp', {
-          email: this.email,
-          username: this.username,
-          password: this.password,
-          firstname: this.firstname,
-          lastname: this.lastname,
-          institution: this.institution
+        this.$toast.open({
+          message: 'Please fill in the required fields',
+          duration: 2000,
+          type: 'is-error'
         });
-      } else {
-        // eslint-disable-next-line
-        console.log('RIP');
       }
     },
     next: function next() {
-      if (this.password.length >= 6) {
-        if (this.email && this.username && this.password) {
+      if (this.user.password.length >= 6) {
+        if (this.user.email && this.user.username && this.user.password) {
           this.step += 1;
           this.formOneClear = true;
         } else {
-          // eslint-disable-next-line
-          alert('Please fill the required fields before proceeding  ');
+          this.$toast.open({
+            message: 'Please fill in the required fields',
+            duration: 2000,
+            type: 'is-error'
+          });
         }
       } else {
-        // eslint-disable-next-line
-        alert('Password must be at least 6 characters');
+        this.$toast.open({
+          message: 'Passwords must be 6 characters long.',
+          duration: 2000,
+          type: 'is-danger'
+        });
       }
     },
     prev: function prev() {

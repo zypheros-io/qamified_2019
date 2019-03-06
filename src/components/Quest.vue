@@ -65,7 +65,7 @@
               <b-field>
                 <b-input
                   placeholder="Quest description"
-                  v-model="newSol.description"
+                  v-model="solution.description"
                 ></b-input>
               </b-field>
               <div>
@@ -106,17 +106,16 @@ export default {
   },
   data() {
     return {
-      newSol: {
+      solution: {
         description: '',
         date_created: moment().format(),
-        votes: 1,
+        votes: 0,
         user_id: this.$store.getters['user/getUser'].id,
         username: this.$store.getters['user/getUser'].username,
         full_name: this.$store.getters['user/getUser'].fname,
         is_correct: false,
         quest_id: this.id
-      },
-      showSolution: false
+      }
     };
   },
   computed: {
@@ -124,7 +123,7 @@ export default {
       getUser: 'user/getUser',
       isLoading: 'quest/isLoading',
       sortedSolutions: 'quest/sortedSolutions',
-      filteredReplies: 'solution/filteredReplies'
+      loadQuest: 'feed/loadQuest'
     }),
     quest() {
       return this.$store.getters['feed/loadQuest'](this.id);
@@ -132,30 +131,15 @@ export default {
   },
   methods: {
     upvoteQuest: function upvoteQuest(questId) {
-      this.$store.dispatch(
-        'feed/upvoteQuest',
-        this.$store.getters['feed/loadQuest'](questId)
-      );
+      this.$store.dispatch('feed/upvoteQuest', this.loadQuest(questId));
     },
     downvoteQuest: function downvoteQuest(questId) {
-      this.$store.dispatch(
-        'feed/downvoteQuest',
-        this.$store.getters['feed/loadQuest'](questId)
-      );
+      this.$store.dispatch('feed/downvoteQuest', this.loadQuest(questId));
     },
     postSolution: function postSolution() {
-      if (this.newSol.description) {
-        this.$store.dispatch('quest/postSolution', {
-          description: this.newSol.description,
-          date_created: this.newSol.date_created,
-          votes: this.newSol.votes,
-          user_id: this.newSol.user_id,
-          username: this.newSol.username,
-          full_name: this.newSol.full_name,
-          is_correct: this.newSol.is_correct,
-          quest_id: this.newSol.quest_id
-        });
-        this.newSol.description = '';
+      if (this.solution.description) {
+        this.$store.dispatch('quest/postSolution', this.solution);
+        this.solution.description = '';
       } else {
         // eslint-disable-next-line
         alert('Please fill in the required fields.');
@@ -163,12 +147,6 @@ export default {
     },
     populateSolutions: function populateSolutions() {
       this.$store.dispatch('quest/populateSolutions', this.id);
-    },
-    toggleReply: function toggleReply() {
-      this.showReply = !this.showReply;
-    },
-    toggleSolution: function toggleSolution() {
-      this.showSolution = !this.showSolution;
     }
   },
   mounted() {

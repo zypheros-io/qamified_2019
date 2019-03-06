@@ -20,8 +20,11 @@ const mutations = {
 };
 
 const actions = {
-  postSolution({ commit }, solution) {
+  postSolution({ commit, rootGetters }, solution) {
     commit('setLoading', true);
+
+    let leveledUp = false;
+    const user = rootGetters['user/getUser'];
     const newSolution = solution;
     const solutionKey = firebase
       .database()
@@ -29,19 +32,46 @@ const actions = {
       .child('/solution')
       .push().key;
     const updates = {};
+
     newSolution.id = solutionKey;
     newSolution.upvote = {};
     newSolution.downvote = {};
+    user.experience = user.experience + 5;
+
+    if (user.experience >= user.level_exp) {
+      user.level = user.level + 1;
+      user.level_exp = user.level_exp * 2;
+      console.log('success');
+      leveledUp = true;
+    }
+
     updates[`/user/${newSolution.user_id}/solution/${newSolution.id}`] = true;
     updates[`/solution/${newSolution.id}`] = newSolution;
+    updates[`user/${user.id}/experience`] = user.experience;
+    updates[`user/${user.id}/level_exp`] = user.level_exp;
+    updates[`user/${user.id}/level`] = user.level;
 
     firebase
       .database()
       .ref()
       .update(updates)
       .then(() => {
+        Toast.open({
+          message: 'Solution successfully posted!',
+          duration: 3000,
+          type: 'is-success'
+        });
+        commit('user/updateExp', user.experience, { root: true });
+        if (leveledUp) {
+          commit('user/updateLevel', user.level, { root: true });
+          commit('user/updateExpToLevel', user.level_exp, { root: true });
+          Toast.open({
+            message: 'Congratulations! You have leveled up!',
+            duration: 5000,
+            type: 'is-success'
+          });
+        }
         commit('setLoading', false);
-        Toast.open('Solution successfully posted!');
       })
       .catch(error => {
         // eslint-disable-next-line
@@ -64,7 +94,6 @@ const actions = {
             newSolutions.push(newSolution);
           });
           commit('setSolutions', newSolutions);
-          console.log(newSolutions);
         } else {
           console.log('No solutions');
         }

@@ -18,7 +18,7 @@
               <!-- Username -->
               <b-field class="margin-top-1">
                 <b-input
-                  v-model="email"
+                  v-model="user.email"
                   type="text"
                   placeholder="Username"
                   size="is-medium"
@@ -28,7 +28,7 @@
               <!-- Password -->
               <b-field class="margin-top-1">
                 <b-input
-                  v-model="password"
+                  v-model="user.password"
                   type="password"
                   placeholder="Password"
                   size="is-medium"
@@ -67,8 +67,10 @@ import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
-      email: '',
-      password: ''
+      user: {
+        email: '',
+        password: ''
+      }
     };
   },
   computed: {
@@ -79,18 +81,13 @@ export default {
   },
   watch: {
     getUser(value) {
-      if (value !== null) {
-        this.$router.push('/');
-      }
+      if (value !== null) this.$router.push('/');
     }
   },
   methods: {
     signIn: function signIn() {
-      if (this.email && this.password) {
-        this.$store.dispatch('login/checkSignInMethod', {
-          email: this.email,
-          password: this.password
-        });
+      if (this.user.email && this.user.password) {
+        this.$store.dispatch('login/checkSignInMethod', this.user);
       } else {
         // eslint-disable-next-line
         alert('Please fill out the required fields.');

@@ -31,7 +31,7 @@ const actions = {
           level: 1,
           points: 0,
           experience: 0,
-          level_exp: 50,
+          level_exp: 20,
           rank: 'Beginner',
           date_created: moment().format(),
           last_access: moment().format()
