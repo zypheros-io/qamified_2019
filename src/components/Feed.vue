@@ -72,12 +72,20 @@
               </p>
             </div>
             <div class="media-content quest-content">
-              <router-link
-                class="title is-4 color-primary quest-title is-primary-text"
-                :to="`/${quest.id}`"
-              >
-                {{ quest.title }}
-              </router-link>
+              <div>
+                <router-link
+                  class="title is-4 color-primary quest-title is-primary-text"
+                  :to="`/${quest.id}`"
+                >
+                  {{ quest.title }}
+                </router-link>
+                <span
+                  style="font-size: 15px; color: #b9b9b9; cursor: pointer"
+                  v-if="getUser.id === quest.user_id"
+                  class="mdi mdi-close is-pulled-right"
+                  @click.prevent="confirmDelete"
+                ></span>
+              </div>
               <div class="quest-description is-secondary-text">
                 {{ quest.description }}
               </div>
@@ -135,7 +143,7 @@ export default {
   methods: {
     postQuest: function postQuest() {
       // if fields are not empty
-      if (this.title && this.description) {
+      if (this.quest.title && this.quest.description) {
         this.$store.dispatch('user/postQuest', this.quest);
         this.quest.title = '';
         this.quest.description = '';
@@ -152,6 +160,17 @@ export default {
     },
     downvoteQuest: function downvoteQuest(questId) {
       this.$store.dispatch('feed/downvoteQuest', this.loadQuest(questId));
+    },
+    confirmDelete: function confirmDelete() {
+      this.$dialog.confirm({
+        title: 'Deleting quest',
+        message:
+          'Are you sure you want to <b>delete</b> this quest? This action cannot be undone.',
+        confirmText: 'Yes, I am sure.',
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: () => this.$toast.open('Rip quest')
+      });
     }
   },
   mounted() {

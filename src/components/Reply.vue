@@ -8,12 +8,20 @@
       <p><span class="mdi mdi-arrow-down-thick"></span></p>
     </div>
     <div class="media-content">
-      <span class="title is-6 is-primary-text color-secondary">{{
-        reply.username
-      }}</span>
-      <span class="title is-7 is-primary-text has-text-grey"
-        >Posted&nbsp;{{ reply.date_created }}</span
-      >
+      <div>
+        <span class="title is-6 is-primary-text color-secondary">{{
+          reply.username
+        }}</span>
+        <span class="title is-7 is-primary-text has-text-grey"
+          >Posted&nbsp;{{ reply.date_created }}</span
+        >
+        <span
+          style="font-size: 15px; color: #b9b9b9; cursor: pointer"
+          v-if="user.id === reply.user_id"
+          class="mdi mdi-close is-pulled-right"
+          @click.prevent="confirmDelete"
+        ></span>
+      </div>
       <div class="reply-description">{{ reply.description }}</div>
       <br />
     </div>
@@ -21,8 +29,28 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
-  props: ['reply']
+  props: ['reply'],
+  computed: {
+    ...mapGetters({
+      user: 'user/getUser'
+    })
+  },
+  methods: {
+    confirmDelete: function confirmDelete() {
+      this.$dialog.confirm({
+        title: 'Deleting quest',
+        message:
+          'Are you sure you want to <b>delete</b> this reply? This action cannot be undone.',
+        confirmText: 'Yes, I am sure.',
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: () => this.$toast.open('Rip reply')
+      });
+    }
+  }
 };
 </script>
 

@@ -21,12 +21,20 @@
         </p>
       </div>
       <div class="media-content">
-        <span class="title is-6 is-primary-text color-secondary">{{
-          solution.username
-        }}</span>
-        <span class="title is-7 is-primary-text has-text-grey"
-          >Posted&nbsp;{{ solution.date_created }}</span
-        >
+        <div>
+          <span class="title is-6 is-primary-text color-secondary">{{
+            solution.username
+          }}</span>
+          <span class="title is-7 is-primary-text has-text-grey"
+            >Posted&nbsp;{{ solution.date_created }}</span
+          >
+          <span
+            style="font-size: 15px; color: #b9b9b9; cursor: pointer"
+            v-if="getUser.id === solution.user_id"
+            class="mdi mdi-close is-pulled-right"
+            @click.prevent="confirmDelete"
+          ></span>
+        </div>
         <div class="solution-description">{{ solution.description }}</div>
         <br />
         <p class="subtitle is-7 is-secondary-text color-secondary">
@@ -56,6 +64,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import moment from 'moment';
 import Reply from './Reply';
 
@@ -78,6 +87,9 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      getUser: 'user/getUser'
+    }),
     replies() {
       const replies = this.$store.getters['solution/replies'];
       return replies.filter(r => r.solution_id === this.solution.id);
@@ -103,8 +115,22 @@ export default {
         this.$store.getters['quest/loadSolution'](solutionId)
       );
     },
-    downvoteSolution: function downvoteSolution() {
-      this.$store.dispatch('solution/downvoteSolution');
+    downvoteSolution: function downvoteSolution(solutionId) {
+      this.$store.dispatch(
+        'quest/downvoteSolution',
+        this.$store.getters['quest/loadSolution'](solutionId)
+      );
+    },
+    confirmDelete: function confirmDelete() {
+      this.$dialog.confirm({
+        title: 'Deleting solution',
+        message:
+          'Are you sure you want to <b>delete</b> this solution? This action cannot be undone.',
+        confirmText: 'Yes, I am sure.',
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: () => this.$toast.open('Rip solution')
+      });
     }
   },
   mounted() {

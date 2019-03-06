@@ -136,6 +136,41 @@ const actions = {
     } else if (Object.keys(solution.upvote).includes(userId)) {
       console.log('Already upvoted!');
     }
+  },
+  downvoteSolution({ rootGetters }, solution) {
+    const updates = {};
+    const user = rootGetters['user/getUser'];
+
+    if (solution.upvote && Object.keys(solution.upvote).includes(user.id)) {
+      updates[`solution/${solution.id}/upvote/${user.id}`] = null;
+      updates[`solution/${solution.id}/downvote/${user.id}`] = true;
+      updates[`solution/${solution.id}/votes`] = solution.votes - 1;
+      
+      firebase
+        .database()
+        .ref()
+        .update(updates)
+        .then(() => {
+          solution.votes -= 1;
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    } else if (!solution.downvote || !Object.keys(solution.downvote).includes(user.id)) {
+      updates[`solution/${solution.id}/downvote/${user.id}`] = true;
+      updates[`solution/${solution.id}/votes`] = solution.votes -= 1;
+      
+      firebase
+        .database()
+        .ref()
+        .update(updates)
+        .then(() => {
+          solution.votes -= 1;
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    }
   }
 };
 
