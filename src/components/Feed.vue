@@ -83,7 +83,7 @@
                   style="font-size: 15px; color: #b9b9b9; cursor: pointer"
                   v-if="getUser.id === quest.user_id"
                   class="mdi mdi-close is-pulled-right"
-                  @click.prevent="confirmDelete"
+                  @click.prevent="confirmDelete(quest.id)"
                 ></span>
               </div>
               <div class="quest-description is-secondary-text">
@@ -161,7 +161,7 @@ export default {
     downvoteQuest: function downvoteQuest(questId) {
       this.$store.dispatch('feed/downvoteQuest', this.loadQuest(questId));
     },
-    confirmDelete: function confirmDelete() {
+    confirmDelete: function confirmDelete(questId) {
       this.$dialog.confirm({
         title: 'Deleting quest',
         message:
@@ -169,7 +169,7 @@ export default {
         confirmText: 'Yes, I am sure.',
         type: 'is-danger',
         hasIcon: true,
-        onConfirm: () => this.$toast.open('Rip quest')
+        onConfirm: () => this.$store.dispatch('feed/deleteQuest', questId)
       });
     }
   },

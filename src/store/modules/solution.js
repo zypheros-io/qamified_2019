@@ -80,8 +80,6 @@ const actions = {
     firebase
       .database()
       .ref('reply')
-      .orderByChild('solution_id')
-      .equalTo(solutionId)
       .on('value', replies => {
         if (replies !== undefined && replies !== null) {
           let newReply;
@@ -95,6 +93,24 @@ const actions = {
           console.log('No replies');
         }
       });
+  },
+  deleteReply({ commit }, replyId) {
+    console.log(replyId);
+    const updates = {};
+    firebase
+      .database()
+      .ref(`reply/${replyId}`)
+      .on('value', () => {
+        updates[`reply/${replyId}`] = null;
+      })
+
+    firebase
+      .database()
+      .ref()
+      .update(updates)
+      .then(() => {
+        Toast.open('Reply has been deleted')
+      })
   }
 };
 

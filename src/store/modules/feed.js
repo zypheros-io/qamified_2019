@@ -129,6 +129,63 @@ const actions = {
           console.log(error);
         });
     }
+  },
+  deleteQuest({ commit }, questId) {
+    /* 
+      1. Delete the replies
+      2. Delete the solutions
+      3. Delete the quest itself
+    */
+    const updates = {};
+    // delete reply -> sol'n
+    firebase
+      .database()
+      .ref('solution')
+      .orderByChild('quest_id')
+      .equalTo(questId)
+      .on('value', solutions => {
+        if (solutions !== null && solutions !== undefined) {
+          let currSolution;
+          solutions.forEach(solution => {
+            console.log('hello?');
+            currSolution = solution.val();
+            console.log(currSolution);
+            firebase
+              .database()
+              .ref('reply')
+              .orderByChild('solution_id')
+              .equalTo(currSolution.id)
+              .on('value', replies => {
+                let currReply;
+                replies.forEach(reply => {
+                  currReply = reply.val();
+                  updates[`reply/${currReply.id}`] = null;
+                })
+              });
+            updates[`solution/${currSolution.id}`] = null;    
+          });
+        }
+      });
+    
+    // delete quest
+    firebase
+      .database()
+      .ref(`quest/${questId}`)
+      .on('value', () => {
+        updates[`quest/${questId}`] = null;
+      });
+    // commit changes
+    firebase
+      .database()
+      .ref()
+      .update(updates)
+      .then(() => {
+        Toast.open({
+          message: 'Message has been successfully deleted!',
+          type: 'is-success',
+          duration: 3000,
+        })
+      });
   }
 };
 

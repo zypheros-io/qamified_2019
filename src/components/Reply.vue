@@ -47,7 +47,8 @@ export default {
         confirmText: 'Yes, I am sure.',
         type: 'is-danger',
         hasIcon: true,
-        onConfirm: () => this.$toast.open('Rip reply')
+        onConfirm: () =>
+          this.$store.dispatch('solution/deleteReply', this.reply.id)
       });
     }
   }

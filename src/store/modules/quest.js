@@ -171,6 +171,39 @@ const actions = {
           console.log(error);
         })
     }
+  },
+  deleteSolution({ commit }, solutionId) {
+    const updates = {};
+    // find all replies to solution
+    firebase
+      .database()
+      .ref('reply')
+      .orderByChild('solution_id')
+      .equalTo(solutionId)
+      .on('value', replies => {
+        if (replies !== undefined && replies !== null) {
+          let currReply;
+          replies.forEach(reply => {
+            currReply = reply.val();
+            updates[`reply/${currReply.id}`] = null;
+          });
+        }
+      });
+    // find all solutions
+    firebase
+      .database()
+      .ref(`solution/${solutionId}`)
+      .on('value', () => {
+        updates[`solution/${solutionId}`] = null;
+      });
+    // commit changes
+    firebase
+      .database()
+      .ref()
+      .update(updates)
+      .then(() => {
+        Toast.open('Solution has been deleted!');
+      })
   }
 };
 
