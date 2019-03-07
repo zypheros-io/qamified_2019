@@ -147,6 +147,13 @@ export default {
         this.$store.dispatch('user/postQuest', this.quest);
         this.quest.title = '';
         this.quest.description = '';
+        this.$store.dispatch('user/updateLogs', {
+          description: 'POST_QUEST',
+          date_created: this.quest.date_created,
+          full_name: this.quest.full_name,
+          username: this.quest.username,
+          user_id: this.quest.user_id
+        });
       } else {
         // eslint-disable-next-line
         alert('Please fill in the required fields.');
@@ -157,9 +164,23 @@ export default {
     },
     upvoteQuest: function upvoteQuest(questId) {
       this.$store.dispatch('feed/upvoteQuest', this.loadQuest(questId));
+      this.$store.dispatch('user/updateLogs', {
+        description: 'UPVOTE_QUEST',
+        date_created: moment().format(),
+        full_name: this.getUser.fname,
+        username: this.getUser.username,
+        user_id: this.getUser.id
+      });
     },
     downvoteQuest: function downvoteQuest(questId) {
       this.$store.dispatch('feed/downvoteQuest', this.loadQuest(questId));
+      this.$store.dispatch('user/updateLogs', {
+        description: 'DOWNVOTE_QUEST',
+        date_created: moment().format(),
+        full_name: this.getUser.fname,
+        username: this.getUser.username,
+        user_id: this.getUser.id
+      });
     },
     confirmDelete: function confirmDelete(questId) {
       this.$dialog.confirm({
@@ -170,6 +191,13 @@ export default {
         type: 'is-danger',
         hasIcon: true,
         onConfirm: () => this.$store.dispatch('feed/deleteQuest', questId)
+      });
+      this.$store.dispatch('user/updateLogs', {
+        description: 'DELETE_QUEST',
+        date_created: moment().format(),
+        full_name: this.getUser.fname,
+        username: this.getUser.username,
+        user_id: this.getUser.id
       });
     }
   },

@@ -1,6 +1,7 @@
 /* eslint-disable */
 import firebase from 'firebase';
 import { Toast } from 'buefy/dist/components/toast';
+import { Snackbar } from 'buefy/dist/components/snackbar'
 
 const state = {
   user: null,
@@ -94,6 +95,32 @@ const actions = {
   logOut({ commit }) {
     firebase.auth().signOut();
     commit('setUser', null);
+  },
+  updateLogs({}, log) {
+    const logKey = firebase
+      .database()
+      .ref()
+      .child('logs')
+      .push().key;
+    const updates = {};
+    const newLog = log;
+    
+    newLog.id = logKey;
+    updates[`/logs/${newLog.id}`] = newLog;
+
+    firebase
+      .database()
+      .ref()
+      .update(updates)
+      .then(() => {
+        Snackbar.open({
+          duration: 2000,
+          message: newLog.description,
+          type: 'is-danger',
+          position: 'is-bottom-right',
+          queue: false
+        })
+      })
   }
 };
 
