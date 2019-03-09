@@ -50,7 +50,7 @@
           </div>
         </div>
         <!-- FEED -->
-        <div class="box" v-for="quest in sortedQuests" :key="quest.id">
+        <div class="box" v-for="quest in quests" :key="quest.id">
           <div class="media">
             <div
               class="media-left has-text-centered has-text-grey-lighter is-primary-text"
@@ -81,7 +81,7 @@
                 </router-link>
                 <span
                   style="font-size: 15px; color: #b9b9b9; cursor: pointer"
-                  v-if="getUser.id === quest.user_id"
+                  v-if="user.id === quest.user_id"
                   class="mdi mdi-close is-pulled-right"
                   @click.prevent="confirmDelete(quest.id)"
                 ></span>
@@ -111,7 +111,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import moment from 'moment';
 
 export default {
@@ -134,53 +134,36 @@ export default {
   },
   computed: {
     ...mapGetters({
-      sortedQuests: 'feed/sortedQuests',
-      getUser: 'user/getUser',
-      isLoading: 'feed/isLoading',
-      loadQuest: 'feed/loadQuest'
+      quests: 'feed/sortedQuests',
+      user: 'user/getUser', 
+      load: 'feed/loadQuest',
+      loading: 'feed/isLoading'
     })
   },
   methods: {
+    ...mapActions({
+      post: 'user/postQuest',
+      upvote: 'feed/upvoteQuest',
+      downvote: 'feed/downvoteQuest',
+      delete: 'feed/deleteQuest',
+      refresh: 'feed/populateFeed'
+    }),
     postQuest: function postQuest() {
       // if fields are not empty
       if (this.quest.title && this.quest.description) {
-        this.$store.dispatch('user/postQuest', this.quest);
-        this.quest.title = '';
-        this.quest.description = '';
-        this.$store.dispatch('user/updateLogs', {
-          description: 'POST_QUEST',
-          date_created: this.quest.date_created,
-          full_name: this.quest.full_name,
-          username: this.quest.username,
-          user_id: this.quest.user_id
-        });
+        this.post(this.quest)
+        this.quest.title = ''
+        this.quest.description = ''
       } else {
         // eslint-disable-next-line
-        alert('Please fill in the required fields.');
+        alert('Please fill in the required fields.')
       }
     },
-    populateFeed: function refreshFeed() {
-      this.$store.dispatch('feed/populateFeed');
-    },
     upvoteQuest: function upvoteQuest(questId) {
-      this.$store.dispatch('feed/upvoteQuest', this.loadQuest(questId));
-      this.$store.dispatch('user/updateLogs', {
-        description: 'UPVOTE_QUEST',
-        date_created: moment().format(),
-        full_name: this.getUser.fname,
-        username: this.getUser.username,
-        user_id: this.getUser.id
-      });
+      this.upvote(this.load(questId));
     },
     downvoteQuest: function downvoteQuest(questId) {
-      this.$store.dispatch('feed/downvoteQuest', this.loadQuest(questId));
-      this.$store.dispatch('user/updateLogs', {
-        description: 'DOWNVOTE_QUEST',
-        date_created: moment().format(),
-        full_name: this.getUser.fname,
-        username: this.getUser.username,
-        user_id: this.getUser.id
-      });
+      this.$store.dispatch('feed/downvoteQuest', this.load(questId));
     },
     confirmDelete: function confirmDelete(questId) {
       this.$dialog.confirm({
@@ -190,15 +173,11 @@ export default {
         confirmText: 'Yes, I am sure.',
         type: 'is-danger',
         hasIcon: true,
-        onConfirm: () => this.$store.dispatch('feed/deleteQuest', questId)
+        onConfirm: () => this.delete(questId)
       });
-      this.$store.dispatch('user/updateLogs', {
-        description: 'DELETE_QUEST',
-        date_created: moment().format(),
-        full_name: this.getUser.fname,
-        username: this.getUser.username,
-        user_id: this.getUser.id
-      });
+    },
+    populateFeed: function refreshFeed() {
+      this.refresh();
     }
   },
   mounted() {

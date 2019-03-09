@@ -20,7 +20,7 @@ const mutations = {
 };
 
 const actions = {
-  postReply({ commit, rootGetters }, reply) {
+  postReply({ commit, dispatch, rootGetters }, reply) {
     commit('setLoading', true);
 
     let leveledUp = false;
@@ -69,6 +69,7 @@ const actions = {
             type: 'is-success'
           });
         }
+        dispatch('user/updateLogs', 'POST_REPLY', { root: true });
         commit('setLoading', false);
       })
       .catch(error => {
@@ -94,8 +95,8 @@ const actions = {
         }
       });
   },
-  deleteReply({ commit }, replyId) {
-    console.log(replyId);
+  deleteReply({ dispatch }, replyId) {
+    console.log('DELETING REPLY!');
     const updates = {};
     firebase
       .database()
@@ -103,13 +104,17 @@ const actions = {
       .on('value', () => {
         updates[`reply/${replyId}`] = null;
       })
-
+    
     firebase
       .database()
       .ref()
       .update(updates)
       .then(() => {
+        dispatch('user/updateLogs', 'DELETE_REPLY', { root: true });
         Toast.open('Reply has been deleted')
+      })
+      .catch(error => {
+        console.log(error);
       })
   }
 };

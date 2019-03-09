@@ -96,7 +96,7 @@
 
 <script>
 import moment from 'moment';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import Solution from './Solution';
 
 export default {
@@ -130,15 +130,21 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      upvote: 'feed/upvoteQuest',
+      downvote: 'feed/downvoteQuest',
+      post: 'quest/postSolution',
+      refresh: 'quest/populateSolutions'
+    }),
     upvoteQuest: function upvoteQuest(questId) {
-      this.$store.dispatch('feed/upvoteQuest', this.loadQuest(questId));
+      this.upvote(this.loadQuest(questId));
     },
     downvoteQuest: function downvoteQuest(questId) {
-      this.$store.dispatch('feed/downvoteQuest', this.loadQuest(questId));
+      this.downvote(this.loadQuest(questId));
     },
     postSolution: function postSolution() {
       if (this.solution.description) {
-        this.$store.dispatch('quest/postSolution', this.solution);
+        this.post(this.solution);
         this.solution.description = '';
       } else {
         // eslint-disable-next-line
@@ -146,7 +152,7 @@ export default {
       }
     },
     populateSolutions: function populateSolutions() {
-      this.$store.dispatch('quest/populateSolutions', this.id);
+      this.refresh(this.id);
     }
   },
   mounted() {

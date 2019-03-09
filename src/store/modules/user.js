@@ -1,5 +1,6 @@
 /* eslint-disable */
 import firebase from 'firebase';
+import moment from 'moment';
 import { Toast } from 'buefy/dist/components/toast';
 import { Snackbar } from 'buefy/dist/components/snackbar'
 
@@ -38,7 +39,8 @@ const actions = {
         }
       });
   },
-  postQuest({ commit, rootGetters }, quest) {
+  postQuest({ commit, dispatch, rootGetters }, quest) {
+    console.log(moment().format());
     commit('feed/setLoading', true, { root: true });
     
     let leveledUp = false;
@@ -85,7 +87,8 @@ const actions = {
             type: 'is-success'
           });
         }
-        commit('feed/setLoading', false, { root: true });
+        dispatch('updateLogs', 'POST_QUEST');
+        commit('feed/setLoading', false, { root: true }); 
       })
       .catch(error => {
         commit('feed/setLoading', false, { root: true });
@@ -96,16 +99,23 @@ const actions = {
     firebase.auth().signOut();
     commit('setUser', null);
   },
-  updateLogs({}, log) {
+  updateLogs({ dispatch, rootGetters }, log) {
+    const user = rootGetters['user/getUser'];
     const logKey = firebase
       .database()
       .ref()
       .child('logs')
       .push().key;
     const updates = {};
-    const newLog = log;
     
+    const newLog = {};
+    newLog.context = log;
+    newLog.date_created = moment().format();
+    newLog.user_id = user.id;
+    newLog.username = user.username;
+    newLog.fullname = user.fname;
     newLog.id = logKey;
+
     updates[`/logs/${newLog.id}`] = newLog;
 
     firebase
@@ -115,12 +125,15 @@ const actions = {
       .then(() => {
         Snackbar.open({
           duration: 2000,
-          message: newLog.description,
+          message: newLog.context,
           type: 'is-danger',
           position: 'is-bottom-right',
           queue: false
         })
       })
+      .catch(error => {
+        console.log(error);
+      });
   }
 };
 

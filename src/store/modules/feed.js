@@ -1,5 +1,6 @@
 /* eslint-disable */
 import firebase from 'firebase';
+import { Toast } from 'buefy/dist/components/toast';
 
 const state = {
   quests: [],
@@ -53,7 +54,7 @@ const actions = {
         }
       });
   },
-  upvoteQuest({ rootGetters }, quest) {
+  upvoteQuest({ rootGetters, dispatch }, quest) {
     const updates = {};
     const userId = rootGetters['user/getUser'].id;
 
@@ -68,6 +69,7 @@ const actions = {
         .ref()
         .update(updates)
         .then(() => {
+          dispatch('user/updateLogs', 'UPVOTE_QUEST', { root: true });
           quest.votes += 1;
         })
         .catch(error => {
@@ -85,6 +87,7 @@ const actions = {
         .update(updates)
         .then(() => {
           quest.votes += 1;
+          dispatch('user/updateLogs', 'UPVOTE_QUEST', { root: true });
         })
         .catch(error => {
           // eslint-disable-next-line
@@ -92,7 +95,7 @@ const actions = {
         });
     }
   },
-  downvoteQuest({ rootGetters }, quest) {
+  downvoteQuest({ dispatch, rootGetters }, quest) {
     const updates = {};
     const userId = rootGetters['user/getUser'].id;
     if (quest.upvote.length > 0 && quest.upvote.includes(userId)) {
@@ -107,6 +110,7 @@ const actions = {
         .ref()
         .update(updates)
         .then(() => {
+          dispatch('user/updateLogs', 'DOWNVOTE_QUEST', { root: true });
           quest.votes -= 1;
         })
         .catch(error => {
@@ -123,6 +127,7 @@ const actions = {
         .update(updates)
         .then(() => {
           quest.votes -= 1;
+          dispatch('user/updateLogs', 'DOWNVOTE_QUEST', { root: true });
         })
         .catch(error => {
           // eslint-disable-next-line
@@ -130,14 +135,9 @@ const actions = {
         });
     }
   },
-  deleteQuest({ commit }, questId) {
-    /* 
-      1. Delete the replies
-      2. Delete the solutions
-      3. Delete the quest itself
-    */
+  deleteQuest({ dispatch }, questId) {
     const updates = {};
-    // delete reply -> sol'n
+
     firebase
       .database()
       .ref('solution')
@@ -147,9 +147,7 @@ const actions = {
         if (solutions !== null && solutions !== undefined) {
           let currSolution;
           solutions.forEach(solution => {
-            console.log('hello?');
             currSolution = solution.val();
-            console.log(currSolution);
             firebase
               .database()
               .ref('reply')
@@ -167,14 +165,14 @@ const actions = {
         }
       });
     
-    // delete quest
     firebase
       .database()
       .ref(`quest/${questId}`)
       .on('value', () => {
         updates[`quest/${questId}`] = null;
       });
-    // commit changes
+    
+    console.log(updates);
     firebase
       .database()
       .ref()
@@ -185,6 +183,10 @@ const actions = {
           type: 'is-success',
           duration: 3000,
         })
+        dispatch('user/updateLogs', 'DELETE_QUEST', { root: true });
+      })
+      .catch(error => {
+        console.log(error);
       });
   }
 };

@@ -20,7 +20,7 @@ const mutations = {
 };
 
 const actions = {
-  postSolution({ commit, rootGetters }, solution) {
+  postSolution({ commit, dispatch, rootGetters }, solution) {
     commit('setLoading', true);
 
     let leveledUp = false;
@@ -71,6 +71,7 @@ const actions = {
             type: 'is-success'
           });
         }
+        dispatch('user/updateLogs', 'POST_SOLUTIION', { root: true });
         commit('setLoading', false);
       })
       .catch(error => {
@@ -99,7 +100,7 @@ const actions = {
         }
       });
   },
-  upvoteSolution({ rootGetters }, solution) {
+  upvoteSolution({ dispatch, rootGetters }, solution) {
     const updates = {};
     const userId = rootGetters['user/getUser'].id;
     console.log(solution);
@@ -112,6 +113,7 @@ const actions = {
         .ref()
         .update(updates)
         .then(() => {
+          dispatch('user/updateLogs', 'UPVOTE_SOLUTION', { root: true });
           solution.votes += 1;
         })
         .catch(error => {
@@ -128,6 +130,7 @@ const actions = {
         .ref()
         .update(updates)
         .then(() => {
+          dispatch('user/updateLogs', 'UPVOTE_SOLUTION', { root: true });
           solution.votes += 1;
         })
         .catch(error => {
@@ -137,7 +140,7 @@ const actions = {
       console.log('Already upvoted!');
     }
   },
-  downvoteSolution({ rootGetters }, solution) {
+  downvoteSolution({ dispatch, rootGetters }, solution) {
     const updates = {};
     const user = rootGetters['user/getUser'];
 
@@ -151,6 +154,7 @@ const actions = {
         .ref()
         .update(updates)
         .then(() => {
+          dispatch('user/updateLogs', 'DOWNVOTE_SOLUTION', { root: true });
           solution.votes -= 1;
         })
         .catch(error => {
@@ -165,6 +169,7 @@ const actions = {
         .ref()
         .update(updates)
         .then(() => {
+          dispatch('user/updateLogs', 'DOWNVOTE_SOLUTION', { root: true });
           solution.votes -= 1;
         })
         .catch(error => {
@@ -172,7 +177,7 @@ const actions = {
         })
     }
   },
-  deleteSolution({ commit }, solutionId) {
+  deleteSolution({ dispatch }, solutionId) {
     const updates = {};
     // find all replies to solution
     firebase
@@ -202,7 +207,10 @@ const actions = {
       .ref()
       .update(updates)
       .then(() => {
+        dispatch('user/updateLogs', 'DELETE_SOLUTION', { root: true });
         Toast.open('Solution has been deleted!');
+      }).catch(error => {
+        console.log(error);
       })
   }
 };
