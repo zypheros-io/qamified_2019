@@ -82,7 +82,7 @@
         <!-- mes -->
         <div id="solutions">
           <Solution
-            v-for="solution in sortedSolutions"
+            v-for="solution in solutions"
             :key="solution.id"
             v-bind:solution="solution"
           />
@@ -120,9 +120,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getUser: 'user/getUser',
-      isLoading: 'quest/isLoading',
-      sortedSolutions: 'quest/sortedSolutions',
+      user: 'user/getUser',
+      loading: 'quest/isLoading',
+      solutions: 'quest/sortedSolutions',
       loadQuest: 'feed/loadQuest'
     }),
     quest() {

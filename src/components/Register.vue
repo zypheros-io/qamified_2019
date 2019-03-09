@@ -4,7 +4,7 @@
       <div class="container">
         <b-loading
           :is-full-page="true"
-          :active.sync="isLoading"
+          :active.sync="loading"
           :can-cancel="false"
         ></b-loading>
         <div class="column is-4 is-offset-4">
@@ -152,12 +152,12 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getUser: 'user/getUser',
-      isLoading: 'register/isLoading'
+      user: 'user/getUser',
+      loading: 'register/isLoading'
     })
   },
   watch: {
-    getUser(value) {
+    user(value) {
       if (value !== null) this.$router.push('/');
     }
   },

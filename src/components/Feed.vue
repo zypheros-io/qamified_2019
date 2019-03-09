@@ -135,7 +135,7 @@ export default {
   computed: {
     ...mapGetters({
       quests: 'feed/sortedQuests',
-      user: 'user/getUser', 
+      user: 'user/getUser',
       load: 'feed/loadQuest',
       loading: 'feed/isLoading'
     })
@@ -151,9 +151,9 @@ export default {
     postQuest: function postQuest() {
       // if fields are not empty
       if (this.quest.title && this.quest.description) {
-        this.post(this.quest)
-        this.quest.title = ''
-        this.quest.description = ''
+        this.post(this.quest);
+        this.quest.title = '';
+        this.quest.description = '';
       } else {
         // eslint-disable-next-line
         alert('Please fill in the required fields.')

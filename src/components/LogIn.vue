@@ -5,7 +5,7 @@
         <!-- Pageloader -->
         <b-loading
           :is-full-page="true"
-          :active.sync="isLoading"
+          :active.sync="loading"
           :can-cancel="false"
         ></b-loading>
         <div class="columns">
@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -76,7 +76,7 @@ export default {
   computed: {
     ...mapGetters({
       getUser: 'user/getUser',
-      isLoading: 'login/isLoading'
+      loading: 'login/isLoading'
     })
   },
   watch: {
@@ -85,12 +85,9 @@ export default {
     }
   },
   methods: {
-    ...mapActions({
-      login: 'login/checkSignInMethod'
-    }),
     signIn: function signIn() {
       if (this.user.email && this.user.password) {
-        this.login(this.user);
+        this.$store.dispatch('login/checkSignInMethod', this.user);
       } else {
         // eslint-disable-next-line
         alert('Please fill out the required fields.');
