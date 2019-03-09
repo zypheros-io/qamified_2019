@@ -2,7 +2,7 @@
 import firebase from 'firebase';
 import moment from 'moment';
 import { Toast } from 'buefy/dist/components/toast';
-import { Snackbar } from 'buefy/dist/components/snackbar'
+import { Snackbar } from 'buefy/dist/components/snackbar';
 
 const state = {
   user: null,
@@ -20,7 +20,7 @@ const mutations = {
     state.user.experience = payload;
   },
   updateExpToLevel(state, payload) {
-    state.user.level_exp = payload
+    state.user.level_exp = payload;
   },
   updateLevel(state, payload) {
     state.user.level = payload;
@@ -42,7 +42,7 @@ const actions = {
   postQuest({ commit, dispatch, rootGetters }, quest) {
     console.log(moment().format());
     commit('feed/setLoading', true, { root: true });
-    
+
     let leveledUp = false;
     const user = rootGetters['user/getUser'];
     const newQuest = quest;
@@ -88,7 +88,7 @@ const actions = {
           });
         }
         dispatch('updateLogs', 'POST_QUEST');
-        commit('feed/setLoading', false, { root: true }); 
+        commit('feed/setLoading', false, { root: true });
       })
       .catch(error => {
         commit('feed/setLoading', false, { root: true });
@@ -107,7 +107,7 @@ const actions = {
       .child('logs')
       .push().key;
     const updates = {};
-    
+
     const newLog = {};
     newLog.context = log;
     newLog.date_created = moment().format();
@@ -129,7 +129,7 @@ const actions = {
           type: 'is-danger',
           position: 'is-bottom-right',
           queue: false
-        })
+        });
       })
       .catch(error => {
         console.log(error);

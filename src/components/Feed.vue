@@ -156,7 +156,7 @@ export default {
         this.quest.description = '';
       } else {
         // eslint-disable-next-line
-        alert('Please fill in the required fields.')
+        alert('Please fill in the required fields.');
       }
     },
     upvoteQuest: function upvoteQuest(questId) {

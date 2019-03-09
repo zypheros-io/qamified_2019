@@ -148,7 +148,7 @@ const actions = {
       updates[`solution/${solution.id}/upvote/${user.id}`] = null;
       updates[`solution/${solution.id}/downvote/${user.id}`] = true;
       updates[`solution/${solution.id}/votes`] = solution.votes - 1;
-      
+
       firebase
         .database()
         .ref()
@@ -159,11 +159,14 @@ const actions = {
         })
         .catch(error => {
           console.log(error);
-        })
-    } else if (!solution.downvote || !Object.keys(solution.downvote).includes(user.id)) {
+        });
+    } else if (
+      !solution.downvote ||
+      !Object.keys(solution.downvote).includes(user.id)
+    ) {
       updates[`solution/${solution.id}/downvote/${user.id}`] = true;
       updates[`solution/${solution.id}/votes`] = solution.votes -= 1;
-      
+
       firebase
         .database()
         .ref()
@@ -174,7 +177,7 @@ const actions = {
         })
         .catch(error => {
           console.log(error);
-        })
+        });
     }
   },
   deleteSolution({ dispatch }, solutionId) {
@@ -209,9 +212,10 @@ const actions = {
       .then(() => {
         dispatch('user/updateLogs', 'DELETE_SOLUTION', { root: true });
         Toast.open('Solution has been deleted!');
-      }).catch(error => {
-        console.log(error);
       })
+      .catch(error => {
+        console.log(error);
+      });
   }
 };
 

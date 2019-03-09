@@ -158,20 +158,20 @@ const actions = {
                 replies.forEach(reply => {
                   currReply = reply.val();
                   updates[`reply/${currReply.id}`] = null;
-                })
+                });
               });
-            updates[`solution/${currSolution.id}`] = null;    
+            updates[`solution/${currSolution.id}`] = null;
           });
         }
       });
-    
+
     firebase
       .database()
       .ref(`quest/${questId}`)
       .on('value', () => {
         updates[`quest/${questId}`] = null;
       });
-    
+
     console.log(updates);
     firebase
       .database()
@@ -181,8 +181,8 @@ const actions = {
         Toast.open({
           message: 'Message has been successfully deleted!',
           type: 'is-success',
-          duration: 3000,
-        })
+          duration: 3000
+        });
         dispatch('user/updateLogs', 'DELETE_QUEST', { root: true });
       })
       .catch(error => {

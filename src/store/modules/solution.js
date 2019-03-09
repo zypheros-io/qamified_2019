@@ -103,19 +103,19 @@ const actions = {
       .ref(`reply/${replyId}`)
       .on('value', () => {
         updates[`reply/${replyId}`] = null;
-      })
-    
+      });
+
     firebase
       .database()
       .ref()
       .update(updates)
       .then(() => {
         dispatch('user/updateLogs', 'DELETE_REPLY', { root: true });
-        Toast.open('Reply has been deleted')
+        Toast.open('Reply has been deleted');
       })
       .catch(error => {
         console.log(error);
-      })
+      });
   }
 };
 
