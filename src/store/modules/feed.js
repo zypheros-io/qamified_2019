@@ -143,7 +143,7 @@ const actions = {
       .ref('solution')
       .orderByChild('quest_id')
       .equalTo(questId)
-      .on('value', solutions => {
+      .once('value', solutions => {
         if (solutions !== null && solutions !== undefined) {
           let currSolution;
           solutions.forEach(solution => {
@@ -159,8 +159,15 @@ const actions = {
                   currReply = reply.val();
                   updates[`reply/${currReply.id}`] = null;
                 });
+                updates[`solution/${currSolution.id}`] = null;
+                firebase
+                  .database()
+                  .ref()
+                  .update(updates)
+                  .catch(error => {
+                    console.log(error);
+                  });
               });
-            updates[`solution/${currSolution.id}`] = null;
           });
         }
       });
