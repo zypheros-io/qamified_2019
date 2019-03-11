@@ -50,60 +50,64 @@
           </div>
         </div>
         <!-- FEED -->
-        <div class="box" v-for="quest in quests" :key="quest.id">
-          <div class="media">
-            <div
-              class="media-left has-text-centered has-text-grey-lighter is-primary-text"
-            >
-              <p>
-                <span
-                  class="mdi mdi-arrow-up-thick"
-                  @click.prevent="upvoteQuest(quest.id)"
-                ></span>
-              </p>
-              <p>
-                <span class="is-primary-text">{{ quest.votes }}</span>
-              </p>
-              <p>
-                <span
-                  class="mdi mdi-arrow-down-thick"
-                  @click.prevent="downvoteQuest(quest.id)"
-                ></span>
-              </p>
-            </div>
-            <div class="media-content quest-content">
-              <div>
-                <router-link
-                  class="title is-4 color-primary quest-title is-primary-text"
-                  :to="`/${quest.id}`"
-                >
-                  {{ quest.title }}
-                </router-link>
-                <span
-                  style="font-size: 15px; color: #b9b9b9; cursor: pointer"
-                  v-if="user.id === quest.user_id"
-                  class="mdi mdi-close is-pulled-right"
-                  @click.prevent="confirmDelete(quest.id)"
-                ></span>
-              </div>
-              <div class="quest-description is-secondary-text">
-                {{ quest.description }}
-              </div>
-              <div class="is-primary-text">
-                <br />
-                <span class="subtitle is-7">Category:</span>&nbsp;
-                <span class="tag is-light quest-tag">{{ quest.category }}</span>
-                <p class="subtitle is-7 is-pulled-right">
-                  <span class="has-text-grey">{{ quest.date_created }}</span>
-                  &nbsp;
-                  <span class="has-text-grey">
-                    Posted by&nbsp;<a href="">{{ quest.full_name }}</a>
-                  </span>
+        <animated-group-tada tag="div">
+          <div class="box" v-for="quest in quests" :key="quest.id">
+            <div class="media">
+              <div
+                class="media-left has-text-centered has-text-grey-lighter is-primary-text"
+              >
+                <p>
+                  <span
+                    class="mdi mdi-arrow-up-thick"
+                    @click.prevent="upvoteQuest(quest.id)"
+                  ></span>
                 </p>
+                <p>
+                  <span class="is-primary-text">{{ quest.votes }}</span>
+                </p>
+                <p>
+                  <span
+                    class="mdi mdi-arrow-down-thick"
+                    @click.prevent="downvoteQuest(quest.id)"
+                  ></span>
+                </p>
+              </div>
+              <div class="media-content quest-content">
+                <div>
+                  <router-link
+                    class="title is-4 color-primary quest-title is-primary-text"
+                    :to="`/${quest.id}`"
+                  >
+                    {{ quest.title }}
+                  </router-link>
+                  <span
+                    style="font-size: 15px; color: #b9b9b9; cursor: pointer"
+                    v-if="user.id === quest.user_id"
+                    class="mdi mdi-close is-pulled-right"
+                    @click.prevent="confirmDelete(quest.id)"
+                  ></span>
+                </div>
+                <div class="quest-description is-secondary-text">
+                  {{ quest.description }}
+                </div>
+                <div class="is-primary-text">
+                  <br />
+                  <span class="subtitle is-7">Category:</span>&nbsp;
+                  <span class="tag is-light quest-tag">
+                    {{ quest.category }}
+                  </span>
+                  <p class="subtitle is-7 is-pulled-right">
+                    <span class="has-text-grey">{{ quest.date_created }}</span>
+                    &nbsp;
+                    <span class="has-text-grey">
+                      Posted by&nbsp;<a href="">{{ quest.full_name }}</a>
+                    </span>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </animated-group-tada>
       </div>
       <div class="column"></div>
     </div>

@@ -1,127 +1,135 @@
 <template>
-  <div class="hero is-fullheight">
-    <div class="hero-body">
-      <div class="container">
-        <b-loading
-          :is-full-page="true"
-          :active.sync="loading"
-          :can-cancel="false"
-        ></b-loading>
-        <div class="column is-4 is-offset-4">
-          <div class="box bg-white" id="signup-container">
+  <div class="bg-white" id="signup_page">
+    <b-loading
+      :is-full-page="true"
+      :active.sync="loading"
+      :can-cancel="false"
+    ></b-loading>
+    <div class="columns">
+      <div class="column">
+        <div class="level">
+          <div class="level-item">
+            <img src="../assets/09.png" alt="signup_image" />
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="level">
+          <div class="level-item">
             <div class="has-text-centered">
-              <img src="https://via.placeholder.com/350x65" />
-            </div>
-            <p
-              class="subtitle has-text-centered is-6 is-secondary-text color-primary"
-              style="font-weight: bold; margin-top: 10px; font-style: italic"
-            >
-              Become an adventurer now. Don't worry, it's free! Forever!
-            </p>
-            <div class="is-divider"></div>
-            <div v-if="step === 1">
-              <!-- First step -->
-              <!-- Email -->
-              <b-field class="margin-top-1">
-                <b-input
-                  v-model="user.email"
-                  type="text"
-                  placeholder="Email"
-                  size="is-medium"
-                  required
-                ></b-input>
-              </b-field>
-              <!-- Username -->
-              <b-field class="margin-top-1">
-                <b-input
-                  v-model="user.username"
-                  type="text"
-                  placeholder="Username"
-                  size="is-medium"
-                  required
-                ></b-input>
-              </b-field>
-              <!-- Password -->
-              <b-field class="margin-top-1">
-                <b-input
-                  v-model="user.password"
-                  type="password"
-                  placeholder="Password"
-                  size="is-medium"
-                  password-reveal
-                  required
-                ></b-input>
-              </b-field>
-              <!-- Proceed to next step -->
-              <b-field class="margin-top-1">
-                <button
-                  class="button is-medium is-fullwidth is-primary-text main-btn"
-                  @click.prevent="next"
-                >
-                  NEXT STEP
-                </button>
-              </b-field>
-              <!-- end step 1 -->
-            </div>
-            <div v-else-if="step === 2">
-              <!-- Second step -->
-              <!-- First name -->
-              <b-field class="margin-top-1">
-                <b-input
-                  v-model="user.firstname"
-                  placeholder="First Name"
-                  size="is-medium"
-                  required
-                ></b-input>
-              </b-field>
-              <!-- Last name -->
-              <b-field class="margin-top-1">
-                <b-input
-                  v-model="user.lastname"
-                  placeholder="Last Name"
-                  size="is-medium"
-                  required
-                ></b-input>
-              </b-field>
-              <!-- offset -->
-              <b-field></b-field>
-              <!-- Institution -->
-              <b-field class="margin-top-1">
-                <b-input
-                  v-model="user.institution"
-                  placeholder="Institution ex. CAS, CEM, etc."
-                  size="is-medium"
-                  required
-                ></b-input>
-              </b-field>
-              <b-field class="margin-top-1">
-                <button
-                  class="button is-medium is-fullwidth is-primary-text main-btn"
-                  @click.prevent="validate"
-                >
-                  SIGN UP
-                </button>
-              </b-field>
-              <div class="has-text-centered is-secondary">
-                <p>
-                  <a
-                    @click.prevent="prev"
-                    class="is-anchor"
-                    style="font-size: 13px;"
-                  >
-                    Go back to previous step
-                  </a>
-                </p>
-              </div>
-            </div>
-            <div class="is-divider" data-content="OR"></div>
-            <div class="has-text-centered is-secondary-text">
-              <p>
-                Already an adventurer?
-                <a class="is-anchor" @click.prevent="goto('/signin')">
-                  Log in
-                </a>
+              <span
+                class="color-primary"
+                style="font-weight: bold; font-size: 5rem;"
+              >
+                QAmifi<span style="color: #ff9a44;">ED</span>
+              </span>
+              <div class="is-divider"></div>
+              <p class="title is-3 is-primary-text color-primary">
+                Become an adventurer now. It's free!
               </p>
+              <div class="box" id="signup_container">
+                <div v-if="step === 1">
+                  <!-- Email -->
+                  <b-field class="margin-top-1">
+                    <b-input
+                      v-model="user.email"
+                      type="text"
+                      placeholder="Email address"
+                      size="is-medium"
+                      required
+                    ></b-input>
+                  </b-field>
+                  <!-- Username -->
+                  <b-field class="margin-top-1">
+                    <b-input
+                      v-model="user.username"
+                      type="text"
+                      placeholder="Username"
+                      size="is-medium"
+                      required
+                    ></b-input>
+                  </b-field>
+                  <!-- Password -->
+                  <b-field class="margin-top-1">
+                    <b-input
+                      v-model="user.password"
+                      type="text"
+                      placeholder="Password"
+                      size="is-medium"
+                      password-reveal
+                      required
+                    ></b-input>
+                  </b-field>
+                  <b-field class="margin-top-1">
+                    <button
+                      class="button is-medium is-fullwidth is-primary-text main-btn"
+                      @click.prevent="next"
+                    >
+                      <span class="mdi mdi-arrow-right-bold"></span>
+                    </button>
+                  </b-field>
+                </div>
+                <div v-else-if="step === 2">
+                  <!-- First Name -->
+                  <b-field class="margin-top-1">
+                    <b-input
+                      v-model="user.firstname"
+                      placeholder="First name"
+                      size="is-medium"
+                      required
+                    ></b-input>
+                  </b-field>
+                  <!-- Last Name -->
+                  <b-field class="margin-top-1">
+                    <b-input
+                      v-model="user.lastname"
+                      placeholder="Last name"
+                      size="is-medium"
+                      required
+                    ></b-input>
+                  </b-field>
+                  <!-- ghost -->
+                  <b-fiel></b-fiel>
+                  <!-- Institution -->
+                  <b-field class="margin-top-1">
+                    <b-input
+                      v-model="user.institution"
+                      placeholder="Institution ex. CAS, CEM, etc."
+                      size="is-medium"
+                      required
+                    ></b-input>
+                  </b-field>
+                  <b-field class="margin-top-1">
+                    <button
+                      class="button is-medium is-fullwidth is-primary-text main-btn"
+                      @click.prevent="validate"
+                    >
+                      SIGN UP
+                    </button>
+                  </b-field>
+                  <div class="has-text-centered is-secondary-text">
+                    <p>
+                      <a
+                        @click.prevent="prev"
+                        class="is-anchor"
+                        style="font-size: 13px;"
+                      >
+                        Go back to previous step
+                      </a>
+                    </p>
+                  </div>
+                </div>
+                <div class="is-divider" date-content="OR"></div>
+                <div class="has-text-centered is-secondary-text">
+                  <p style="font-size: 1.3rem;">
+                    Oh, you're already an adventurer?
+                    <a class="is-anchor" @click.prevent="goto('/signin')">
+                      Login
+                    </a>
+                    instead.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -158,7 +166,7 @@ export default {
   },
   watch: {
     user(value) {
-      if (value !== null) this.$router.push('/');
+      if (value !== null) this.$router.push('/feed');
     }
   },
   methods: {
@@ -203,14 +211,23 @@ export default {
 };
 </script>
 <style scoped>
-.hero {
-  background-image: url('../assets/bg.png');
+#signup_page {
+  height: 100vh;
+  width: 100%;
 }
-#signup-container {
+#signup_page .columns,
+#signup_page .columns .column {
+  height: inherit;
+  width: 100%;
+}
+.level,
+.level-item {
+  height: inherit;
+  width: 100%;
+}
+#signup_container {
+  width: 550px;
   padding: 40px;
-  width: 450px !important;
-  border: 15px solid #203d66;
-  border-radius: 5px;
   box-shadow: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;

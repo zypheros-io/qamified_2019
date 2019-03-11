@@ -4,12 +4,18 @@ import Register from '@/components/Register';
 import Feed from '@/components/Feed';
 import Quest from '@/components/Quest';
 import LogIn from '@/components/LogIn';
+import Landing from '@/components/Landing';
 import AuthGuard from './auth-guard';
 
 Vue.use(Router);
 
 export default new Router({
   routes: [
+    {
+      path: '/',
+      name: 'Landing',
+      component: Landing
+    },
     {
       path: '/signup',
       name: 'Register',
@@ -21,7 +27,7 @@ export default new Router({
       component: LogIn
     },
     {
-      path: '/',
+      path: '/feed',
       name: 'Feed',
       component: Feed,
       beforeEnter: AuthGuard

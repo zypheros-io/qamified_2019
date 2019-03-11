@@ -3,6 +3,7 @@
     <nav
       class="navbar is-fixed-top bg-secondary is-transparent"
       role="navigation"
+      v-if="isAuthenticated"
       aria-label="main navigation"
     >
       <div class="navbar-brand">
@@ -188,15 +189,37 @@ export default {
   background: #ff9a44;
   border-radius: 500px;
   font-weight: 600;
+  border: none;
   color: #fdfdfd;
   padding: 25px;
-  font-size: 18px !important;
+  font-size: 1.3rem !important;
 }
 .main-btn:hover,
 .main-btn:focus {
   background: #ffae69;
+  border: none;
   color: #fdfdfd;
   transition: 0.1s ease-in;
+}
+.sec-btn {
+  background: transparent;
+  border-radius: 500px;
+  border-color: #adadad;
+  font-weight: 600;
+  color: #ff9a44;
+  box-shadow: inset 0 0 0 2px #616467;
+  padding: 25px;
+  font-size: 1.3rem !important;
+  margin-top: 25px;
+}
+.sec-btn:hover,
+.sec-btn:focus {
+  background: #ff9a44;
+  color: #fdfdfd;
+  transition: 0.1s ease-in;
+  box-shadow: none;
+  border-color: none;
+  border: #ff9a44;
 }
 /* modifiers */
 .margin-top-1 {
