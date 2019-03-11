@@ -53,7 +53,7 @@
                   <b-field class="margin-top-1">
                     <b-input
                       v-model="user.password"
-                      type="text"
+                      type="password"
                       placeholder="Password"
                       size="is-medium"
                       password-reveal
@@ -89,7 +89,7 @@
                     ></b-input>
                   </b-field>
                   <!-- ghost -->
-                  <b-fiel></b-fiel>
+                  <b-field></b-field>
                   <!-- Institution -->
                   <b-field class="margin-top-1">
                     <b-input
@@ -160,12 +160,12 @@ export default {
   },
   computed: {
     ...mapGetters({
-      user: 'user/getUser',
+      getUser: 'user/getUser',
       loading: 'register/isLoading'
     })
   },
   watch: {
-    user(value) {
+    getUser(value) {
       if (value !== null) this.$router.push('/feed');
     }
   },
