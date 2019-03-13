@@ -14,7 +14,7 @@
 
 * [x] Players
 * [ ] Quests
-    * [] Update User Interface
+    * [ ] Update User Interface
 * [ ] Quest Board
     * [ ] Update Quest Board
     * [ ] Add User Card
