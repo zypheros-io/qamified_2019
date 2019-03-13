@@ -1,6 +1,9 @@
 ## Gamified Question and Answer Platform
 
-  # System Requirements
+# System Requirements
+
+* [x] Generate Vue App
+* [x] Create Firebase Project
   
   * [x] Login / Register
   * [x] Post / Delete Quest/Solutions/Replies
