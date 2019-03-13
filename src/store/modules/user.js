@@ -6,6 +6,7 @@ import { Snackbar } from 'buefy/dist/components/snackbar';
 
 const state = {
   user: null,
+  ranks: ['Novice','Copper','Iron','Silver','Gold','Platinum','Mithril','Diamond','Adamantium','Orichalcum'],
   loading: false
 };
 
@@ -24,6 +25,12 @@ const mutations = {
   },
   updateLevel(state, payload) {
     state.user.level = payload;
+  },
+  updateReputation(state, payload) {
+    state.user.reputation = payload;
+  },
+  updateRank(state, payload) {
+    state.user.rank = payload;
   }
 };
 
@@ -34,7 +41,7 @@ const actions = {
       .database()
       .ref(`/user/${currUser.uid}`)
       .on('value', user => {
-        if (user.val() != null) {
+        if (user.val() !== null) {
           commit('setUser', user.val());
         }
       });
@@ -95,10 +102,6 @@ const actions = {
         console.log(error);
       });
   },
-  logOut({ commit }) {
-    firebase.auth().signOut();
-    commit('setUser', null);
-  },
   updateLogs({ dispatch, rootGetters }, log) {
     const user = rootGetters['user/getUser'];
     const logKey = firebase
@@ -134,6 +137,112 @@ const actions = {
       .catch(error => {
         console.log(error);
       });
+  },
+  addReputation({ commit, rootGetters }, authorId) {
+    let user;
+    let ranks = rootGetters['user/getRanks'];
+    let ranked = false;
+    let ratio;
+
+    const REPUTATION_VAL = 2;
+    const updates = {};
+
+    firebase
+      .database()
+      .ref(`user/${authorId}`)
+      .on('value', u => {
+        if (u.val() !== null) {
+          user = u.val();
+        }
+      });
+
+    let prevRank = user.rank;
+    user.reputation = user.reputation + REPUTATION_VAL;
+    ratio = user.reputation / 10;
+    user.rank = Math.floor(ratio) <= 9 ? ranks[Math.floor(ratio)] : ranks[9];
+
+    let prevIndex = ranks.indexOf(prevRank);
+    let newIndex = ranks.indexOf(user.rank);
+
+    // check if ranked up
+    if  (newIndex > prevIndex) {
+      ranked = true;
+    }
+
+    // update changes
+    updates[`user/${authorId}/reputation`] = user.reputation;
+    updates[`user/${authorId}/rank`] = user.rank;
+
+    // commit changes
+    firebase
+      .database()
+      .ref()
+      .update(updates)
+      .then(() => {
+        commit('updateReputation', user.reputation);
+        if (ranked === true) {
+          commit('updateRank', user.rank);
+        }
+        ranked = false;
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  },
+  deductReputation({ commit, rootGetters }, authorId) {
+    let user;
+    let ranks = rootGetters['user/getRanks'];
+    let ranked = false;
+    let ratio;
+
+    const REPUTATON_VAL = 2;
+    const updates = {};
+
+    firebase
+      .database()
+      .ref(`user/${authorId}`)
+      .on('value', u => {
+        if (u.val() !== null) {
+          user = u.val();
+        }
+      })
+
+    let prevRank = user.rank;
+    user.reputation = user.reputation - REPUTATON_VAL;
+    ratio = user.reputaton / 10;
+    user.rank = Math.floor(ratio) <= 9 ? ranks[Math.floor(ratio)] : ranks[9];
+
+    let prevIndex = ranks.indexOf(prevRank);
+    let newIndex = ranks.indexOf(user.rank);
+        
+    // check if ranked down
+    if (prevIndex > newIndex) {
+      ranked = true;
+    }
+
+    // update changes
+    updates[`user/${authorId}/reputation`] = user.reputation;
+    updates[`user/${authorId}/rank`] = user.rank;
+
+    // commit changes
+    firebase
+      .database()
+      .ref()
+      .update(updates)
+      .then(() => {
+        commit('updateReputation', user.reputation);
+        if (ranked === true) {
+          commit('updateRank', user.rank);
+        }
+        ranked = false;
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  },
+  logOut({ commit }) {
+    firebase.auth().signOut();
+    commit('setUser', null);
   }
 };
 
@@ -146,6 +255,9 @@ const getters = {
   },
   getExpToLevel(state) {
     return state.user.level_exp;
+  },
+  getRanks(state) {
+    return state.ranks;
   },
   isLoading(state) {
     return state.loading;

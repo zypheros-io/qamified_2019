@@ -28,11 +28,12 @@ const actions = {
           institution: payload.institution,
           is_banned: false,
           description: '',
+          reputation: 0,
           level: 1,
           points: 0,
           experience: 0,
           level_exp: 20,
-          rank: 'Beginner',
+          rank: 'Novice',
           date_created: moment().format(),
           last_access: moment().format()
         };
