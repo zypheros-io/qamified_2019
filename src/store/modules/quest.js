@@ -156,7 +156,7 @@ const actions = {
         .ref()
         .update(updates)
         .then(() => {
-          console.log('succ downvote')
+          console.log('succ downvote');
           dispatch('user/updateLogs', 'DOWNVOTE_SOLUTION', { root: true });
           dispatch('user/deductReputation', solution.user_id, { root: true });
           solution.votes -= 1;

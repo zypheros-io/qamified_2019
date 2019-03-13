@@ -6,7 +6,18 @@ import { Snackbar } from 'buefy/dist/components/snackbar';
 
 const state = {
   user: null,
-  ranks: ['Novice','Copper','Iron','Silver','Gold','Platinum','Mithril','Diamond','Adamantium','Orichalcum'],
+  ranks: [
+    'Novice',
+    'Copper',
+    'Iron',
+    'Silver',
+    'Gold',
+    'Platinum',
+    'Mithril',
+    'Diamond',
+    'Adamantium',
+    'Orichalcum'
+  ],
   loading: false
 };
 
@@ -165,7 +176,7 @@ const actions = {
     let newIndex = ranks.indexOf(user.rank);
 
     // check if ranked up
-    if  (newIndex > prevIndex) {
+    if (newIndex > prevIndex) {
       ranked = true;
     }
 
@@ -187,7 +198,7 @@ const actions = {
       })
       .catch(error => {
         console.log(error);
-      })
+      });
   },
   deductReputation({ commit, rootGetters }, authorId) {
     let user;
@@ -205,7 +216,7 @@ const actions = {
         if (u.val() !== null) {
           user = u.val();
         }
-      })
+      });
 
     let prevRank = user.rank;
     user.reputation = user.reputation - REPUTATON_VAL;
@@ -214,7 +225,7 @@ const actions = {
 
     let prevIndex = ranks.indexOf(prevRank);
     let newIndex = ranks.indexOf(user.rank);
-        
+
     // check if ranked down
     if (prevIndex > newIndex) {
       ranked = true;
@@ -238,7 +249,7 @@ const actions = {
       })
       .catch(error => {
         console.log(error);
-      })
+      });
   },
   logOut({ commit }) {
     firebase.auth().signOut();
