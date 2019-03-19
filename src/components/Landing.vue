@@ -45,7 +45,11 @@
           <p class="subtitle is-secondary-text" id="banner_subtitle">
             Accomplish quests, gain experience, and rise up the ranks
           </p>
-          <button class="button is-medium is-primary-text" id="landing_btn">
+          <button
+            class="button is-medium is-primary-text"
+            id="landing_btn"
+            @click.prevent="goto('/signup')"
+          >
             START YOUR ADVENTURE
           </button>
         </div>

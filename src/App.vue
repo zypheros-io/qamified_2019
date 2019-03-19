@@ -103,6 +103,9 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
 @import '../node_modules/bulma-divider/dist/css/bulma-divider.min.css';
 
+html {
+  background: #f9f9f9;
+}
 .navbar {
   padding: 0 15% 0 15%;
   height: 80px;
@@ -174,6 +177,12 @@ export default {
 }
 .color-secondary {
   color: #1a2c54;
+}
+.color-highlight {
+  color: #ff9a44;
+}
+.is-bold {
+  font-weight: bold;
 }
 .bg-white {
   background-color: #fdfdfd;

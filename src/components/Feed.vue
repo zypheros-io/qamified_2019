@@ -1,8 +1,78 @@
 <template>
-  <div class="bg-white" id="feed">
+  <div class="feed">
     <div class="columns">
-      <div class="column"></div>
-      <div class="column is-one-third" id="quest-feed">
+      <div class="column is-two-fifths" id="user_card_column">
+        <div class="box" id="user_card">
+          <!-- HEADER -->
+          <div class="media" id="user_card_header">
+            <div class="media-content has-text-centered" id="user_avatar">
+              <figure class="image is-96x96" style="display:inline-block">
+                <img
+                  class="is-rounded"
+                  src="https://bulma.io/images/placeholders/96x96.png"
+                />
+              </figure>
+              <p class="title is-4 color-white is-primary-text">KENICHII ANA</p>
+              <p class="subtitle is-6 color-white is-secondary-text">
+                @kenichiiana
+              </p>
+            </div>
+          </div>
+          <div class="media" id="player_details">
+            <div class="media-left has-text-centered" id="rank_details">
+              <figure class="image is-96x96" style="display:inline-block">
+                <img
+                  src="../assets/badges/chevron-1.png"
+                  alt="https://www.flaticon.com/packs/rank-badge"
+                />
+              </figure>
+              <p class="title is-5 color-primary is-primary-text">Beginner</p>
+              <p class="subtitle is-6 color-primary is-secondary-text">
+                1023 reputation points
+              </p>
+            </div>
+            <div class="media-content has-text-centered" id="misc_details">
+              <div>
+                <p class="title is-6 is-primary-text" id="player_desc">
+                  Player Description
+                </p>
+                <div id="description_box"></div>
+              </div>
+              <div style="margin-top: 15px;">
+                <p class="title is-6 is-primary-text" id="level">Level 69</p>
+                <div id="user_card_experience_bar">
+                  <div id="experience_progress"></div>
+                </div>
+                <p
+                  class="title is-7 is-primary-text color-highlight"
+                  id="experience"
+                >
+                  2000/6900
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="media has-text-centered" id="user_stats">
+            <div class="media-left" id="quests_posted">
+              <p class="title is-6 is-primary-text color-secondary">
+                QUESTS POSTED
+              </p>
+              <p class="subtitle is-3 is-primary-text is-bold color-highlight">
+                69
+              </p>
+            </div>
+            <div class="media-content has-text-centered" id="solutions_posted">
+              <p class="title is-6 is-primary-text color-secondary">
+                SOLUTIONS POSTED
+              </p>
+              <p class="subtitle is-3 is-primary-text is-bold color-highlight">
+                69
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column" id="feed_column">
         <div class="box">
           <div class="media">
             <div class="media-left">
@@ -109,7 +179,6 @@
           </div>
         </animated-group-tada>
       </div>
-      <div class="column"></div>
     </div>
   </div>
 </template>
@@ -191,13 +260,93 @@ export default {
 </script>
 
 <style scoped>
-#feed {
+.feed {
+  height: 100%;
   width: 100%;
-  padding: 90px 72px 72px 72px;
+  background-color: #f9f9f9;
+  padding: 122px 285px 0px 285px;
+  margin: 0;
 }
-#quest-feed {
-  padding: 20px;
+.columns,
+.columns .column {
+  height: inherit;
 }
+#user_card {
+  width: 100%;
+  border-radius: 0;
+  padding: 0px;
+}
+#user_card_header {
+  background: green;
+  height: 30%;
+}
+#user_avatar {
+  padding: 15px;
+}
+#player_details {
+  height: 30%;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+#player_details #rank_details {
+  width: 40%;
+  height: 100%;
+  padding: 15px;
+}
+#player_details #misc_details {
+  width: 60%;
+  height: 100%;
+  padding: 15px;
+}
+#user_card_experience_bar {
+  box-sizing: border-box;
+  height: 15px;
+  width: 100%;
+  background-color: #ddd;
+}
+#experience_progress {
+  height: inherit;
+  box-sizing: border-box;
+  text-align: right;
+  color: #ffffff;
+  width: 40%;
+  font-size: 0.6rem;
+  padding-top: 2px;
+  padding-right: 10px;
+  background-color: #ff9a44;
+}
+#player_desc {
+  text-align: left;
+  margin-bottom: 5px;
+}
+#description_box {
+  height: 50px;
+  background-color: #a9a9a9;
+}
+#level {
+  margin-bottom: 5px;
+  text-align: left;
+}
+#experience {
+  margin-top: 5px;
+  text-align: right;
+}
+#user_stats {
+  height: 30%;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+#user_stats #quests_posted,
+#user_stats #solutions_posted {
+  width: 50%;
+  height: 100%;
+  margin: 0;
+  padding: 15px;
+  border: solid 1px #e9e9e9;
+}
+/* FEED COLUMN */
 #post-quest {
   margin-top: 10px;
   font-weight: bold;
