@@ -19,10 +19,10 @@ const state = {
     'Orichalcum'
   ],
   badges: {
-    'Novice' : '../assets/badges/chevron-1.png',
-    'Copper' : '../assets/badges/chevron-2.png',
-    'Iron' : '../assets/badges/chevron-3.png',
-    'Silver' : '../assets/badges/chevron-4.png',
+    'Novice' : '../../static/badges/chevron-1.png',
+    'Copper' : '../../static/badges/chevron-2.png',
+    'Iron' : '../../static/badges/chevron-21.png',
+    'Silver' : '../../static/badges/chevron-4.png',
   },
   loading: false
 };
@@ -162,6 +162,7 @@ const actions = {
   addReputation({ commit, rootGetters }, authorId) {
     let user;
     let ranks = rootGetters['user/getRanks'];
+    let badges = rootGetters['user/getBadges'];
     let ranked = false;
     let ratio;
 
@@ -283,6 +284,9 @@ const getters = {
   },
   getRanks(state) {
     return state.ranks;
+  },
+  getBadges(state) {
+    return state.badges;
   },
   isLoading(state) {
     return state.loading;
