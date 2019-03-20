@@ -18,6 +18,12 @@ const state = {
     'Adamantium',
     'Orichalcum'
   ],
+  badges: {
+    'Novice' : '../assets/badges/chevron-1.png',
+    'Copper' : '../assets/badges/chevron-2.png',
+    'Iron' : '../assets/badges/chevron-3.png',
+    'Silver' : '../assets/badges/chevron-4.png',
+  },
   loading: false
 };
 
@@ -42,6 +48,9 @@ const mutations = {
   },
   updateRank(state, payload) {
     state.user.rank = payload;
+  },
+  updateBadge(state, payload) {
+    state.user.badge_url = payload;
   }
 };
 
@@ -78,6 +87,7 @@ const actions = {
       user.level = user.level + 1;
       user.level_exp = user.level_exp * 2;
       leveledUp = true;
+      user.experience = 0;
     }
 
     updates[`/quest/${newQuest.id}`] = newQuest;
@@ -171,6 +181,8 @@ const actions = {
     user.reputation = user.reputation + REPUTATION_VAL;
     ratio = user.reputation / 10;
     user.rank = Math.floor(ratio) <= 9 ? ranks[Math.floor(ratio)] : ranks[9];
+    // updates the badge url based on user rank
+    user.badge_url = badges[user.rank];
 
     let prevIndex = ranks.indexOf(prevRank);
     let newIndex = ranks.indexOf(user.rank);
@@ -183,6 +195,7 @@ const actions = {
     // update changes
     updates[`user/${authorId}/reputation`] = user.reputation;
     updates[`user/${authorId}/rank`] = user.rank;
+    updates[`user/${authorId}/badge_url`] = user.badge_url;
 
     // commit changes
     firebase
@@ -193,6 +206,7 @@ const actions = {
         commit('updateReputation', user.reputation);
         if (ranked === true) {
           commit('updateRank', user.rank);
+          commit('updateBadge', user.badge_url);
         }
         ranked = false;
       })

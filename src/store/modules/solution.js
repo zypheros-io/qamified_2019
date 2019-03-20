@@ -40,6 +40,7 @@ const actions = {
       user.level = user.level + 1;
       user.level_exp = user.level_exp * 2;
       leveledUp = true;
+      user.experience = 0;
     }
 
     updates[`reply/${newReply.id}`] = newReply;

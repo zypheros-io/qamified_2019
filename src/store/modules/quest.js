@@ -41,8 +41,8 @@ const actions = {
     if (user.experience >= user.level_exp) {
       user.level = user.level + 1;
       user.level_exp = user.level_exp * 2;
-      console.log('success');
       leveledUp = true;
+      user.experience = 0;
     }
 
     updates[`/user/${newSolution.user_id}/solution/${newSolution.id}`] = true;

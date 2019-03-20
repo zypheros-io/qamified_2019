@@ -12,9 +12,11 @@
                   src="https://bulma.io/images/placeholders/96x96.png"
                 />
               </figure>
-              <p class="title is-4 color-white is-primary-text">KENICHII ANA</p>
+              <p class="title is-4 color-white is-primary-text">
+                {{ user.fname }}
+              </p>
               <p class="subtitle is-6 color-white is-secondary-text">
-                @kenichiiana
+                @{{ user.username }}
               </p>
             </div>
           </div>
@@ -22,13 +24,15 @@
             <div class="media-left has-text-centered" id="rank_details">
               <figure class="image is-96x96" style="display:inline-block">
                 <img
-                  src="../assets/badges/chevron-1.png"
+                  :src="user.badge_url"
                   alt="https://www.flaticon.com/packs/rank-badge"
                 />
               </figure>
-              <p class="title is-5 color-primary is-primary-text">Beginner</p>
+              <p class="title is-5 color-primary is-primary-text">
+                {{ user.rank }}
+              </p>
               <p class="subtitle is-6 color-primary is-secondary-text">
-                1023 reputation points
+                {{ user.reputation }} reputation points
               </p>
             </div>
             <div class="media-content has-text-centered" id="misc_details">
@@ -39,15 +43,22 @@
                 <div id="description_box"></div>
               </div>
               <div style="margin-top: 15px;">
-                <p class="title is-6 is-primary-text" id="level">Level 69</p>
-                <div id="user_card_experience_bar">
+                <p class="title is-6 is-primary-text" id="level">
+                  Level {{ user.level }}
+                </p>
+                <progress
+                  id="exp_bar"
+                  :value="exp"
+                  :max="expRequired"
+                ></progress>
+                <!-- <div id="user_card_experience_bar">
                   <div id="experience_progress"></div>
-                </div>
+                </div> -->
                 <p
                   class="title is-7 is-primary-text color-highlight"
                   id="experience"
                 >
-                  2000/6900
+                  {{ user.experience }}/{{ user.level_exp }}
                 </p>
               </div>
             </div>
@@ -210,7 +221,9 @@ export default {
       quests: 'feed/sortedQuests',
       user: 'user/getUser',
       load: 'feed/loadQuest',
-      loading: 'feed/isLoading'
+      loading: 'feed/isLoading',
+      exp: 'user/getExp',
+      expRequired: 'user/getExpToLevel'
     })
   },
   methods: {
@@ -391,5 +404,11 @@ export default {
 .box {
   border-radius: 0px;
   margin-bottom: 10px;
+}
+progress {
+  width: 100%;
+}
+progress::-moz-progress-bar {
+  width: 100%;
 }
 </style>

@@ -34,6 +34,7 @@ const actions = {
           experience: 0,
           level_exp: 20,
           rank: 'Novice',
+          badge_url: '../assets/badges/chevron-1.png',
           date_created: moment().format(),
           last_access: moment().format()
         };

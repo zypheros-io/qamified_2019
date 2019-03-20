@@ -16,18 +16,18 @@
 * [ ] Quests
     * [ ] Update User Interface
 * [ ] Quest Board
-    * [ ] Update Quest Board
-    * [ ] Add User Card
-      * [ ] Name
-      * [ ] Username
-      * [ ] Avatar
-      * [ ] Level
-      * [ ] EXP + EXP requirement Progress Bar
-      * [ ] Rank
-      * [ ] Reputation
-      * [ ] Badges
-      * [ ] Quests
-      * [ ] # of Solutions Posted
+    * [x] Update Quest Board
+    * [x] Add User Card
+      * [x] Name
+      * [x] Username
+      * [x] Avatar
+      * [x] Level
+      * [x] EXP + EXP requirement Progress Bar
+      * [x] Rank
+      * [x] Reputation
+      * [x] Badges
+      * [x] # of Quests Posted
+      * [x] # of Solutions Posted
 * [ ] Tutorial
     * [ ] Short modal that appears upon signing up
 * [x] Experience
