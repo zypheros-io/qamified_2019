@@ -100,11 +100,11 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
 @import '../node_modules/bulma-divider/dist/css/bulma-divider.min.css';
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,700');
 
 html {
-  background: #f9f9f9;
+  margin: 0;
 }
 .navbar {
   padding: 0 15% 0 15%;
@@ -143,14 +143,14 @@ html {
 }
 /* custom modifiers */
 .is-anchor {
-  color: #ff9a44;
+  color: #b686fe;
 }
 .is-anchor:hover {
   -webkit-transition: 0.2s;
   -moz-transition: 0.2s;
   -o-transition: 0.2s;
   transition: 0.2s;
-  color: #ffae69;
+  color: #aa73fe;
   text-decoration: underline;
 }
 .rounded-card {
@@ -160,10 +160,12 @@ html {
 }
 /* fonts */
 .is-primary-text {
-  font-family: 'Roboto Condensed', sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
 }
 .is-secondary-text {
-  font-family: 'Cabin', sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
 }
 .is-small-text {
   font-size: 2px !important;
@@ -194,20 +196,17 @@ html {
   background-color: #1a2c54;
 }
 /* buttons  */
-.main-btn {
-  background: #ff9a44;
-  border-radius: 500px;
-  font-weight: 600;
+.primary-btn {
+  background: #b686fe;
+  color: #ffffff;
   border: none;
-  color: #fdfdfd;
   padding: 25px;
-  font-size: 1.3rem !important;
+  font-size: 1.3em !important;
 }
-.main-btn:hover,
-.main-btn:focus {
-  background: #ffae69;
-  border: none;
-  color: #fdfdfd;
+.primary-btn:hover,
+.primary-btn:focus {
+  background: #aa73fe;
+  color: #ffffff;
   transition: 0.1s ease-in;
 }
 .sec-btn {
@@ -236,28 +235,34 @@ html {
 }
 /* overrides */
 ::-webkit-input-placeholder {
-  font-family: 'Roboto Condensed', sans-serif;
-  font-size: 13px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 0.8em;
   color: #7e7e7e !important;
 }
 ::-moz-placeholder {
-  font-family: 'Roboto Condensed', sans-serif;
-  font-size: 13px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 0.8em;
   color: #7e7e7e !important;
 }
 :-ms-input-placeholder {
-  font-family: 'Roboto Condensed', sans-serif;
-  font-size: 13px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 0.8em;
   color: #7e7e7e !important;
 }
 ::placeholder {
-  font-family: 'Roboto Condensed', sans-serif;
-  font-size: 13px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 0.8em;
   color: #7e7e7e !important;
 }
 input {
-  font-family: 'Roboto Condened', sans-serif !important;
-  height: 50px !important;
-  font-size: 13px !important;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 0.8em;
+  color: #7e7e7e !important;
+  height: 50px;
 }
 </style>

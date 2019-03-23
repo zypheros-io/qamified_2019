@@ -9,13 +9,6 @@
       <div class="column">
         <div class="level">
           <div class="level-item">
-            <img src="../assets/09.png" alt="signup_image" />
-          </div>
-        </div>
-      </div>
-      <div class="column">
-        <div class="level">
-          <div class="level-item">
             <div class="has-text-centered">
               <span
                 class="color-primary"

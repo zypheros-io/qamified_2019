@@ -19,10 +19,10 @@ const state = {
     'Orichalcum'
   ],
   badges: {
-    'Novice' : '../../static/badges/chevron-1.png',
-    'Copper' : '../../static/badges/chevron-2.png',
-    'Iron' : '../../static/badges/chevron-21.png',
-    'Silver' : '../../static/badges/chevron-4.png',
+    Novice: '../../static/badges/chevron-1.png',
+    Copper: '../../static/badges/chevron-2.png',
+    Iron: '../../static/badges/chevron-21.png',
+    Silver: '../../static/badges/chevron-4.png'
   },
   loading: false
 };

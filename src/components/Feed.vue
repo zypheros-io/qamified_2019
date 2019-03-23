@@ -51,9 +51,6 @@
                   :value="exp"
                   :max="expRequired"
                 ></progress>
-                <!-- <div id="user_card_experience_bar">
-                  <div id="experience_progress"></div>
-                </div> -->
                 <p
                   class="title is-7 is-primary-text color-highlight"
                   id="experience"
