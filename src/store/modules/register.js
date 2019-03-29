@@ -1,4 +1,4 @@
-/* eslint no-shadow: ["error", { "allow": ["state"] }] */
+/* eslint-disable */
 import firebase from 'firebase';
 import moment from 'moment';
 
@@ -15,6 +15,7 @@ const mutations = {
 const actions = {
   signUp({ commit }, payload) {
     commit('setLoading', true);
+    console.log(state.loading);
     firebase
       .auth()
       .createUserWithEmailAndPassword(payload.email, payload.password)
@@ -28,19 +29,19 @@ const actions = {
           institution: payload.institution,
           is_banned: false,
           description: '',
-          reputation: 0,
           level: 1,
-          points: 0,
+          level_cap: 20,
           experience: 0,
-          level_exp: 20,
           rank: 'Novice',
+          reputation: 0,
           badge_url: '../../static/badges/chevron-1.png',
           date_created: moment().format(),
           last_access: moment().format()
         };
+        // Store changes
         const updates = {};
         updates[`/user/${newUser.id}`] = newUser;
-
+        // Commit changes to database
         firebase
           .database()
           .ref()
@@ -50,12 +51,10 @@ const actions = {
             commit('setLoading', false);
           })
           .catch(error => {
-            // eslint-disable-next-line
             console.log(error);
           });
       })
       .catch(error => {
-        // eslint-disable-next-line
         console.log(error);
       });
   }

@@ -55,7 +55,7 @@
                   class="title is-7 is-primary-text color-highlight"
                   id="experience"
                 >
-                  {{ user.experience }}/{{ user.level_exp }}
+                  {{ user.experience }}/{{ user.level_cap }}
                 </p>
               </div>
             </div>
@@ -79,6 +79,9 @@
             </div>
           </div>
         </div>
+        <router-link class="button" :to="`profile/${user.id}`">
+          View Profile
+        </router-link>
       </div>
       <div class="column" id="feed_column">
         <div class="box">
@@ -225,7 +228,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      post: 'user/postQuest',
+      post: 'feed/postQuest',
       upvote: 'feed/upvoteQuest',
       downvote: 'feed/downvoteQuest',
       delete: 'feed/deleteQuest',
@@ -273,7 +276,6 @@ export default {
 .feed {
   height: 100%;
   width: 100%;
-  background-color: #f9f9f9;
   padding: 122px 285px 0px 285px;
   margin: 0;
 }

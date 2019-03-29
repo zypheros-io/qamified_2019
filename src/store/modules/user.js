@@ -3,6 +3,7 @@ import firebase from 'firebase';
 import moment from 'moment';
 import { Toast } from 'buefy/dist/components/toast';
 import { Snackbar } from 'buefy/dist/components/snackbar';
+import { Dialog } from 'buefy/dist/components/dialog';
 
 const state = {
   user: null,
@@ -22,7 +23,11 @@ const state = {
     Novice: '../../static/badges/chevron-1.png',
     Copper: '../../static/badges/chevron-2.png',
     Iron: '../../static/badges/chevron-21.png',
-    Silver: '../../static/badges/chevron-4.png'
+    Silver: '../../static/badges/chevron-4.png',
+    Gold: '../../static/badges/chevron-4.png',
+    Platinum: '../../static/badges/chevron-4.png',
+    Mithril: '../../static/badges/chevron-4.png',
+    Diamond: '../../static/badges/chevron-4.png',
   },
   loading: false
 };
@@ -66,72 +71,16 @@ const actions = {
         }
       });
   },
-  postQuest({ commit, dispatch, rootGetters }, quest) {
-    console.log(moment().format());
-    commit('feed/setLoading', true, { root: true });
-
-    let leveledUp = false;
-    const user = rootGetters['user/getUser'];
-    const newQuest = quest;
-    const questKey = firebase
-      .database()
-      .ref()
-      .child('quest')
-      .push().key;
-    const updates = {};
-
-    newQuest.id = questKey;
-    user.experience = user.experience + 5;
-
-    if (user.experience >= user.level_exp) {
-      user.level = user.level + 1;
-      user.level_exp = user.level_exp * 2;
-      leveledUp = true;
-      user.experience = 0;
-    }
-
-    updates[`/quest/${newQuest.id}`] = newQuest;
-    updates[`/user/${user.id}/experience`] = user.experience;
-    updates[`/user/${user.id}/level`] = user.level;
-    updates[`/user/${user.id}/level_exp`] = user.level_exp;
-
-    firebase
-      .database()
-      .ref()
-      .update(updates)
-      .then(() => {
-        Toast.open({
-          message: 'Quest successfully posted!',
-          duration: 3000,
-          type: 'is-success'
-        });
-        commit('updateExp', user.experience);
-        if (leveledUp) {
-          commit('updateLevel', user.level);
-          commit('updateExpToLevel', user.level_exp);
-          Toast.open({
-            message: 'Congratulations! You have leveled up!',
-            duration: 5000,
-            type: 'is-success'
-          });
-        }
-        dispatch('updateLogs', 'POST_QUEST');
-        commit('feed/setLoading', false, { root: true });
-      })
-      .catch(error => {
-        commit('feed/setLoading', false, { root: true });
-        console.log(error);
-      });
-  },
   updateLogs({ dispatch, rootGetters }, log) {
+    // Retrieve user of action
     const user = rootGetters['user/getUser'];
+    // Generate new log key
     const logKey = firebase
       .database()
       .ref()
       .child('logs')
       .push().key;
-    const updates = {};
-
+    // Create new log object
     const newLog = {};
     newLog.context = log;
     newLog.date_created = moment().format();
@@ -139,36 +88,73 @@ const actions = {
     newLog.username = user.username;
     newLog.fullname = user.fname;
     newLog.id = logKey;
-
+    // Store updates
+    const updates = {};
     updates[`/logs/${newLog.id}`] = newLog;
-
+    // Commit changes to database
     firebase
       .database()
       .ref()
       .update(updates)
       .then(() => {
-        Snackbar.open({
-          duration: 2000,
-          message: newLog.context,
-          type: 'is-danger',
-          position: 'is-bottom-right',
-          queue: false
-        });
       })
       .catch(error => {
         console.log(error);
       });
   },
-  addReputation({ commit, rootGetters }, authorId) {
-    let user;
-    let ranks = rootGetters['user/getRanks'];
-    let badges = rootGetters['user/getBadges'];
-    let ranked = false;
-    let ratio;
-
-    const REPUTATION_VAL = 2;
+  addExperience({ commit, rootGetters }) {
+    const EXPERIENCE = 5;
+    // Retrieve the user that did the action
+    let user = rootGetters['user/getUser'];
+    let leveledUp = false;
+    // User gained experience from the action it did
+    user.experience = user.experience + EXPERIENCE;
+    // Check if the user leveled up
+    if (user.experience >= user.level_cap) {
+      /*
+        If the user leveled up, update the user's level and level cap
+        Reset experience points
+      */
+      user.level = user.level + 1;
+      user.level_cap = user.level_cap * 2;
+      user.experience = 0;
+      leveledUp = true;
+    }
+    // Store changes into updates
     const updates = {};
-
+    updates[`user/${user.id}/experience`] = user.experience;
+    updates[`user/${user.id}/level_cap`] = user.level_cap;
+    updates[`user/${user.id}/level`] = user.level;
+    // Commit changes to database
+    firebase
+      .database()
+      .ref()
+      .update(updates)
+      .then(() => {
+        // Commit changes to local storage
+        commit('updateExp', user.experience);
+        if (leveledUp) {
+          commit('updateLevel', user.level);
+          commit('updateExpToLevel', user.level_cap);
+          // Display a prompt to user
+          Dialog.alert({
+            title: 'Leveled up!',
+            message: 'Congratulations, you have leveled up!',
+            type: 'is-success'
+          })
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  },
+  addReputation({ commit, rootGetters }, authorId) {
+    const REPUTATION = 5;
+    const REPUTATION_RATIO = 10;
+    const BADGES = rootGetters['user/getBadges'];
+    const RANKS = rootGetters['user/getRanks'];
+    // Retrieve user
+    let user;
     firebase
       .database()
       .ref(`user/${authorId}`)
@@ -176,54 +162,60 @@ const actions = {
         if (u.val() !== null) {
           user = u.val();
         }
-      });
-
-    let prevRank = user.rank;
-    user.reputation = user.reputation + REPUTATION_VAL;
-    ratio = user.reputation / 10;
-    user.rank = Math.floor(ratio) <= 9 ? ranks[Math.floor(ratio)] : ranks[9];
-    // updates the badge url based on user rank
-    user.badge_url = badges[user.rank];
-
-    let prevIndex = ranks.indexOf(prevRank);
-    let newIndex = ranks.indexOf(user.rank);
-
-    // check if ranked up
-    if (newIndex > prevIndex) {
-      ranked = true;
+      })
+    // Store user's current rank
+    let previousRank = user.rank;
+    // Update user's reputation
+    user.reputation = user.reputation + REPUTATION;
+    // Compute for the matching rank index
+    let ratio = Math.floor(user.reputation / REPUTATION_RATIO);
+    if (ratio <= 9 && ratio >= 0) { // [0-9]
+      user.rank = RANKS[ratio];
+    } else if (ratio > 9) {
+      user.rank = RANKS[9];
     }
-
-    // update changes
+    // Update user badge based on current rank
+    user.badge_url = BADGES[user.rank];
+    // Check if the user ranked up
+    let rankedUp = false;
+    if (user.rank !== previousRank) rankedUp = true;
+    // Store updates
+    const updates = {};
     updates[`user/${authorId}/reputation`] = user.reputation;
     updates[`user/${authorId}/rank`] = user.rank;
     updates[`user/${authorId}/badge_url`] = user.badge_url;
-
-    // commit changes
+    // Commit changes to database
     firebase
       .database()
       .ref()
       .update(updates)
       .then(() => {
+        // Commit changes to local storage
         commit('updateReputation', user.reputation);
-        if (ranked === true) {
+        if (rankedUp) {
           commit('updateRank', user.rank);
           commit('updateBadge', user.badge_url);
+          // Event alert
+          Dialog.alert({
+            title: 'Rank up!',
+            message: 'Congratulations adventurer! You have accumulated enough reputation points to get to the next rank. Keep it up!',
+            type: 'is-success'
+          })
         }
-        ranked = false;
+        // Reset values;
+        rankedUp = false;
       })
       .catch(error => {
         console.log(error);
-      });
+      })
   },
-  deductReputation({ commit, rootGetters }, authorId) {
+  deductReputation({ commit, rootGetters }, authorId) {                                                                                                                      
+    const REPUTATION = 5;
+    const REPUTATION_RATIO = 10;
+    const BADGES = rootGetters['user/getBadges'];
+    const RANKS = rootGetters['user/getRanks'];
+    // Retrieve user
     let user;
-    let ranks = rootGetters['user/getRanks'];
-    let ranked = false;
-    let ratio;
-
-    const REPUTATON_VAL = 2;
-    const updates = {};
-
     firebase
       .database()
       .ref(`user/${authorId}`)
@@ -232,39 +224,51 @@ const actions = {
           user = u.val();
         }
       });
-
-    let prevRank = user.rank;
-    user.reputation = user.reputation - REPUTATON_VAL;
-    ratio = user.reputaton / 10;
-    user.rank = Math.floor(ratio) <= 9 ? ranks[Math.floor(ratio)] : ranks[9];
-
-    let prevIndex = ranks.indexOf(prevRank);
-    let newIndex = ranks.indexOf(user.rank);
-
-    // check if ranked down
-    if (prevIndex > newIndex) {
-      ranked = true;
+    // Store user's current rank
+    let previousRank = user.rank;
+    // Update user's reputation
+    user.reputation = user.reputation - REPUTATION;
+    // Compute for matching rank index
+    let ratio = Math.floor(user.reputation / REPUTATION_RATIO);
+    if (ratio <= 9 && ratio >= 0) {
+      user.rank = RANKS[ratio];
+    } else if (ratio < 0) {
+      user.rank = RANKS[0];
     }
-
-    // update changes
+    // Update user badge based on current rank
+    user.badge_url = BADGES[user.rank];
+    // Check if the user's rank changed
+    let rankedDown = false;
+    if (user.rank !== previousRank) rankedDown = true;
+    // Store updates
+    const updates = {};
     updates[`user/${authorId}/reputation`] = user.reputation;
     updates[`user/${authorId}/rank`] = user.rank;
-
-    // commit changes
+    updates[`user/${authorId}/badge_url`] = user.badge_url;
+    // Commit changes to database
     firebase
       .database()
       .ref()
       .update(updates)
       .then(() => {
+        // Commit changes to local storage
         commit('updateReputation', user.reputation);
-        if (ranked === true) {
+        if (rankedDown) {
           commit('updateRank', user.rank);
+          commit('updateBadge', user.badge_url);
+          // Event alert
+          Dialog.alert({
+            title: 'Rank down!',
+            message: 'Majority of the adventurers downvoted the assistance you provided causing you to lose reputation. You have ranked down.',
+            type: 'is-danger'
+          })
         }
-        ranked = false;
+        // Reset values;
+        rankedDown = false;
       })
       .catch(error => {
         console.log(error);
-      });
+      })
   },
   logOut({ commit }) {
     firebase.auth().signOut();
@@ -280,7 +284,7 @@ const getters = {
     return state.user.experience;
   },
   getExpToLevel(state) {
-    return state.user.level_exp;
+    return state.user.level_cap;
   },
   getRanks(state) {
     return state.ranks;

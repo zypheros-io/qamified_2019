@@ -1,128 +1,106 @@
 <template>
-  <div class="bg-white" id="signup_page">
+  <div id="signup-page">
+    <!-- Pageloader -->
     <b-loading
       :is-full-page="true"
       :active.sync="loading"
       :can-cancel="false"
     ></b-loading>
-    <div class="columns">
-      <div class="column">
-        <div class="level">
-          <div class="level-item">
-            <div class="has-text-centered">
-              <span
-                class="color-primary"
-                style="font-weight: bold; font-size: 5rem;"
-              >
-                QAmifi<span style="color: #ff9a44;">ED</span>
-              </span>
-              <div class="is-divider"></div>
-              <p class="title is-3 is-primary-text color-primary">
-                Become an adventurer now. It's free!
-              </p>
-              <div class="box" id="signup_container">
-                <div v-if="step === 1">
-                  <!-- Email -->
-                  <b-field class="margin-top-1">
-                    <b-input
-                      v-model="user.email"
-                      type="text"
-                      placeholder="Email address"
-                      size="is-medium"
-                      required
-                    ></b-input>
-                  </b-field>
-                  <!-- Username -->
-                  <b-field class="margin-top-1">
-                    <b-input
-                      v-model="user.username"
-                      type="text"
-                      placeholder="Username"
-                      size="is-medium"
-                      required
-                    ></b-input>
-                  </b-field>
-                  <!-- Password -->
-                  <b-field class="margin-top-1">
-                    <b-input
-                      v-model="user.password"
-                      type="password"
-                      placeholder="Password"
-                      size="is-medium"
-                      password-reveal
-                      required
-                    ></b-input>
-                  </b-field>
-                  <b-field class="margin-top-1">
-                    <button
-                      class="button is-medium is-fullwidth is-primary-text main-btn"
-                      @click.prevent="next"
-                    >
-                      <span class="mdi mdi-arrow-right-bold"></span>
-                    </button>
-                  </b-field>
-                </div>
-                <div v-else-if="step === 2">
-                  <!-- First Name -->
-                  <b-field class="margin-top-1">
-                    <b-input
-                      v-model="user.firstname"
-                      placeholder="First name"
-                      size="is-medium"
-                      required
-                    ></b-input>
-                  </b-field>
-                  <!-- Last Name -->
-                  <b-field class="margin-top-1">
-                    <b-input
-                      v-model="user.lastname"
-                      placeholder="Last name"
-                      size="is-medium"
-                      required
-                    ></b-input>
-                  </b-field>
-                  <!-- ghost -->
-                  <b-field></b-field>
-                  <!-- Institution -->
-                  <b-field class="margin-top-1">
-                    <b-input
-                      v-model="user.institution"
-                      placeholder="Institution ex. CAS, CEM, etc."
-                      size="is-medium"
-                      required
-                    ></b-input>
-                  </b-field>
-                  <b-field class="margin-top-1">
-                    <button
-                      class="button is-medium is-fullwidth is-primary-text main-btn"
-                      @click.prevent="validate"
-                    >
-                      SIGN UP
-                    </button>
-                  </b-field>
-                  <div class="has-text-centered is-secondary-text">
-                    <p>
-                      <a
-                        @click.prevent="prev"
-                        class="is-anchor"
-                        style="font-size: 13px;"
-                      >
-                        Go back to previous step
-                      </a>
-                    </p>
-                  </div>
-                </div>
-                <div class="is-divider" date-content="OR"></div>
-                <div class="has-text-centered is-secondary-text">
-                  <p style="font-size: 1.3rem;">
-                    Oh, you're already an adventurer?
-                    <a class="is-anchor" @click.prevent="goto('/signin')">
-                      Login
-                    </a>
-                    instead.
-                  </p>
-                </div>
-              </div>
+    <div class="level">
+      <div class="level-item">
+        <div>
+          <div class="has-text-centered" id="signup-copy">
+            <p class="title is-primary-text">Sign up</p>
+            <p class="subtitle is-secondary-text">
+              Become an adventurer, it's free!
+            </p>
+          </div>
+          <div class="box" id="signup-container">
+            <div v-if="step === 1" id="signup-part-one">
+              <b-field label="Email address">
+                <b-input
+                  v-model="user.email"
+                  type="text"
+                  placeholder="Email address"
+                  size="is-medium"
+                  required
+                ></b-input>
+              </b-field>
+              <b-field label="Username" class="margin-top-1">
+                <b-input
+                  v-model="user.username"
+                  type="text"
+                  placeholder="Username"
+                  size="is-medium"
+                  required
+                ></b-input>
+              </b-field>
+              <b-field label="Password" class="margin-top-1">
+                <b-input
+                  v-model="user.password"
+                  type="password"
+                  placeholder="Password"
+                  size="is-medium"
+                  required
+                  password-reveal
+                ></b-input>
+              </b-field>
+              <b-field class="margin-top-1">
+                <button
+                  class="button is-medium is-fullwidth is-primary-text primary-btn"
+                  @click.prevent="next"
+                >
+                  NEXT STEP&nbsp;<span class="mdi mdi-arrow-right-bold"></span>
+                </button>
+              </b-field>
+            </div>
+            <div v-else-if="step === 2" id="signup-part-two">
+              <b-field label="First Name">
+                <b-input
+                  v-model="user.firstname"
+                  placeholder="First name"
+                  size="is-medium"
+                  required
+                ></b-input>
+              </b-field>
+              <b-field label="Last Name" class="margin-top-1">
+                <b-input
+                  v-model="user.lastname"
+                  placeholder="Last name"
+                  size="is-medium"
+                  required
+                ></b-input>
+              </b-field>
+              <b-field></b-field>
+              <b-field label="Institution" class="margin-top-1">
+                <b-input
+                  v-model="user.institution"
+                  placeholder="Institution ex. CAS, CEM, etc."
+                  size="is-medium"
+                  required
+                ></b-input>
+              </b-field>
+              <b-field class="margin-top-1">
+                <button
+                  v-if="!loading"
+                  class="button is-medium is-fullwidth is-primary-text primary-btn"
+                  @click.prevent="validate"
+                >
+                  SUBMIT
+                </button>
+                <button
+                  class="button is-medium is-fullwidth is-primary-text primary-btn is-loading"
+                  v-if="loading"
+                ></button>
+              </b-field>
+            </div>
+            <div class="is-divider" data-content="OR"></div>
+            <div class="has-text-centered is-secondary-text">
+              Already have an account?
+              <a class="is-anchor" @click.prevent="goto('/signin')">
+                Sign in
+              </a>
+              instead
             </div>
           </div>
         </div>
@@ -204,25 +182,35 @@ export default {
 };
 </script>
 <style scoped>
-#signup_page {
+#signup-page {
   height: 100vh;
   width: 100%;
+  background: #f4f4f4 url('../assets/bg.svg');
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
-#signup_page .columns,
-#signup_page .columns .column {
+#signup-page .level,
+#signup-page .level .level-item {
   height: inherit;
   width: 100%;
 }
-.level,
-.level-item {
-  height: inherit;
-  width: 100%;
+#signup-page .title {
+  color: #b686fe;
+  font-size: 2.8em;
+  margin-bottom: 1.5rem;
 }
-#signup_container {
-  width: 550px;
-  padding: 40px;
-  box-shadow: none;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
+#signup-page .subtitle {
+  color: #898585;
+  font-size: 1.8em;
+  margin-bottom: 1.5rem;
+}
+#signup-container {
+  padding: 2em;
+  text-decoration: none;
+  box-shadow: 1px;
+  border: 1px solid #b686fe;
+  width: 23vw;
 }
 </style>

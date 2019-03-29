@@ -128,6 +128,7 @@ export default {
   padding: 2em;
   text-decoration: none;
   box-shadow: 1px;
+  width: 23vw;
   border: 1px solid #b686fe;
   animation: formIn 0.5s ease-in-out 2s forwards;
 }

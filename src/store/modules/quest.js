@@ -3,6 +3,7 @@ import firebase from 'firebase';
 import { Toast } from 'buefy/dist/components/toast';
 
 const state = {
+  quest: {},
   solutions: [],
   loading: false
 };
@@ -16,71 +17,53 @@ const mutations = {
   },
   setSolutions(state, newSolutions) {
     state.solutions = newSolutions;
+  },
+  setQuest(state, quest) {
+    state.quest = quest;
   }
 };
 
 const actions = {
-  postSolution({ commit, dispatch, rootGetters }, solution) {
+  postSolution({ commit, dispatch}, solution) {
+    // Set loading
     commit('setLoading', true);
-
-    let leveledUp = false;
-    const user = rootGetters['user/getUser'];
     const newSolution = solution;
+    // Generate new solution key
     const solutionKey = firebase
       .database()
       .ref()
       .child('/solution')
       .push().key;
-    const updates = {};
-
     newSolution.id = solutionKey;
     newSolution.upvote = {};
     newSolution.downvote = {};
-    user.experience = user.experience + 5;
-
-    if (user.experience >= user.level_exp) {
-      user.level = user.level + 1;
-      user.level_exp = user.level_exp * 2;
-      leveledUp = true;
-      user.experience = 0;
-    }
-
+    // Store changes
+    const updates = {};
     updates[`/user/${newSolution.user_id}/solution/${newSolution.id}`] = true;
     updates[`/solution/${newSolution.id}`] = newSolution;
-    updates[`user/${user.id}/experience`] = user.experience;
-    updates[`user/${user.id}/level_exp`] = user.level_exp;
-    updates[`user/${user.id}/level`] = user.level;
-
+    // Commit changes to database
     firebase
       .database()
       .ref()
       .update(updates)
       .then(() => {
+        dispatch('user/updateLogs', 'POST_SOLUTION', { root: true });
+        dispatch('user/addExperience', null,   { root: true });
+        // Event alert
         Toast.open({
           message: 'Solution successfully posted!',
           duration: 3000,
           type: 'is-success'
         });
-        commit('user/updateExp', user.experience, { root: true });
-        if (leveledUp) {
-          commit('user/updateLevel', user.level, { root: true });
-          commit('user/updateExpToLevel', user.level_exp, { root: true });
-          Toast.open({
-            message: 'Congratulations! You have leveled up!',
-            duration: 5000,
-            type: 'is-success'
-          });
-        }
-        dispatch('user/updateLogs', 'POST_SOLUTIION', { root: true });
         commit('setLoading', false);
       })
       .catch(error => {
-        // eslint-disable-next-line
         console.log(error);
         commit('setLoading', false);
       });
   },
   populateSolutions({ commit }, questId) {
+    // Retrieve solutions from database
     firebase
       .database()
       .ref('solution')
@@ -102,12 +85,12 @@ const actions = {
   },
   upvoteSolution({ dispatch, rootGetters }, solution) {
     const updates = {};
-    const userId = rootGetters['user/getUser'].id;
-    console.log(solution);
-    if (solution.downvote && Object.keys(solution.downvote).includes(userId)) {
-      updates[`/solution/${solution.id}/downvote/${userId}`] = null;
-      updates[`/solution/${solution.id}/upvote/${userId}`] = true;
+    if (solution.downvote && Object.keys(solution.downvote).includes(solution.user_id)) {
+      // Store changes
+      updates[`/solution/${solution.id}/downvote/${solution.user_id}`] = null;
+      updates[`/solution/${solution.id}/upvote/${solution.user_id}`] = true;
       updates[`/solution/${solution.id}/votes`] = solution.votes + 1;
+      // Commit changes to database
       firebase
         .database()
         .ref()
@@ -120,12 +103,11 @@ const actions = {
         .catch(error => {
           console.log(error);
         });
-    } else if (
-      !solution.upvote ||
-      !Object.keys(solution.upvote).includes(userId)
-    ) {
-      updates[`/solution/${solution.id}/upvote/${userId}`] = true;
+    } else if (!solution.upvote || !Object.keys(solution.upvote).includes(solution.user_id)) {
+      // Store changes
+      updates[`/solution/${solution.id}/upvote/${solution.user_id}`] = true;
       updates[`/solution/${solution.id}/votes`] = solution.votes + 1;
+      // Commit changes to database
       firebase
         .database()
         .ref()
@@ -138,19 +120,23 @@ const actions = {
         .catch(error => {
           console.log(error);
         });
-    } else if (Object.keys(solution.upvote).includes(userId)) {
-      console.log('Already upvoted!');
+    } else if (Object.keys(solution.upvote).includes(solution.user_id)) {
+      // Event alert
+      Toast.open({
+        message: 'You have already upvoted this solution!',
+        duration: 3000,
+        type: 'is-danger'
+      })
     }
   },
   downvoteSolution({ dispatch, rootGetters }, solution) {
-    const updates = {};
-    const user = rootGetters['user/getUser'];
-
-    if (solution.upvote && Object.keys(solution.upvote).includes(user.id)) {
-      updates[`solution/${solution.id}/upvote/${user.id}`] = null;
-      updates[`solution/${solution.id}/downvote/${user.id}`] = true;
+    const updates = {}
+    if (solution.upvote && Object.keys(solution.upvote).includes(solution.user_id)) {
+      // Store changes
+      updates[`solution/${solution.id}/upvote/${solution.user_id}`] = null;
+      updates[`solution/${solution.id}/downvote/${solution.user_id}`] = true;
       updates[`solution/${solution.id}/votes`] = solution.votes - 1;
-
+      // Commit changes to database
       firebase
         .database()
         .ref()
@@ -163,13 +149,11 @@ const actions = {
         .catch(error => {
           console.log(error);
         });
-    } else if (
-      !solution.downvote ||
-      !Object.keys(solution.downvote).includes(user.id)
-    ) {
+    } else if (!solution.downvote || !Object.keys(solution.downvote).includes(solution.user_id)) {
+      // Store changes
       updates[`solution/${solution.id}/downvote/${user.id}`] = true;
       updates[`solution/${solution.id}/votes`] = solution.votes -= 1;
-
+      // Commit changes to database
       firebase
         .database()
         .ref()
@@ -182,6 +166,12 @@ const actions = {
         .catch(error => {
           console.log(error);
         });
+    } else if (Object.keys(solution.downvote).includes(solution.user_id)) {
+      Toast.open({
+        message: 'You have already downvoted this solution!',
+        duration: 3000,
+        type: 'is-danger'
+      })
     }
   },
   deleteSolution({ dispatch }, solutionId) {
@@ -236,6 +226,9 @@ const getters = {
         return solution.id === solutionId;
       });
     };
+  },
+  loadQuest(state) {
+    return state.quest;
   }
 };
 

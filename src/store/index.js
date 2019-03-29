@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import createPersistedState from 'vuex-persistedstate';
 import user from './modules/user';
 import register from './modules/register';
 import login from './modules/login';
@@ -17,5 +18,6 @@ export default new Vuex.Store({
     feed,
     quest,
     solution
-  }
+  },
+  plugins: [createPersistedState()]
 });

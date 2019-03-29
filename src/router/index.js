@@ -5,6 +5,7 @@ import Feed from '@/components/Feed';
 import Quest from '@/components/Quest';
 import LogIn from '@/components/LogIn';
 import Landing from '@/components/Landing';
+import Profile from '@/components/Profile';
 import AuthGuard from './auth-guard';
 
 Vue.use(Router);
@@ -37,13 +38,13 @@ export default new Router({
       props: true,
       name: 'Quest',
       component: Quest
+    },
+    {
+      path: '/profile/:id',
+      props: true,
+      name: 'Profile',
+      component: Profile
     }
-    // {
-    //   path: '/:id',
-    //   props: true,
-    //   name: 'Profile',
-    //   component: Profile
-    // }
   ],
   mode: 'history'
 });

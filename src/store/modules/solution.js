@@ -21,56 +21,35 @@ const mutations = {
 
 const actions = {
   postReply({ commit, dispatch, rootGetters }, reply) {
+    // Set loading
     commit('setLoading', true);
-
-    let leveledUp = false;
-    const user = rootGetters['user/getUser'];
     const newReply = reply;
+    // Generate new reply key
     const replyKey = firebase
       .database()
       .ref()
       .child('/reply')
       .push().key;
-    const updates = {};
-
     newReply.id = replyKey;
-    user.experience = user.experience + 3;
-
-    if (user.experience >= user.level_exp) {
-      user.level = user.level + 1;
-      user.level_exp = user.level_exp * 2;
-      leveledUp = true;
-      user.experience = 0;
-    }
-
+    // Store changes
+    const updates = {};
     updates[`reply/${newReply.id}`] = newReply;
-    updates[`user/${user.id}/solution/${newReply.id}`] = true;
-    updates[`user/${user.id}/experience`] = user.experience;
-    updates[`user/${user.id}/level`] = user.level;
-    updates[`user/${user.id}/level_exp`] = user.level_exp;
-
+    updates[`user/${reply.user_id}/solution/${newReply.id}`] = true;
+    // Commit changes to database
     firebase
       .database()
       .ref()
       .update(updates)
       .then(() => {
+        // Commit changes to local storage
+        dispatch('user/updateLogs', 'POST_REPLY', { root: true });
+        dispatch('user/addExperience', null, { root: true });
+        // Event alert
         Toast.open({
           message: 'Reply successfully posted!',
           duration: 3000,
           type: 'is-success'
         });
-        // commit('addReply', newReply);
-        commit('user/updateExp', user.experience, { root: true });
-        if (leveledUp) {
-          commit('user/updateLevel', user.level, { root: true });
-          commit('user/updateExpToLevel', user.level_exp, { root: true });
-          Toast.open({
-            message: 'Congratulations! You have leveled up!',
-            duration: 5000,
-            type: 'is-success'
-          });
-        }
-        dispatch('user/updateLogs', 'POST_REPLY', { root: true });
         commit('setLoading', false);
       })
       .catch(error => {
@@ -79,6 +58,7 @@ const actions = {
       });
   },
   populateReplies({ commit }, solutionId) {
+    // Retrieve replies from database
     firebase
       .database()
       .ref('reply')
@@ -97,7 +77,7 @@ const actions = {
       });
   },
   deleteReply({ dispatch }, replyId) {
-    console.log('DELETING REPLY!');
+    // Store changes
     const updates = {};
     firebase
       .database()
@@ -105,12 +85,13 @@ const actions = {
       .on('value', () => {
         updates[`reply/${replyId}`] = null;
       });
-
+    // Commit changes to database
     firebase
       .database()
       .ref()
       .update(updates)
       .then(() => {
+        // Event alert
         dispatch('user/updateLogs', 'DELETE_REPLY', { root: true });
         Toast.open('Reply has been deleted');
       })

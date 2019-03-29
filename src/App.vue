@@ -94,6 +94,9 @@ export default {
       } else {
         el.classList.add('is-active');
       }
+    },
+    refresh: function refresh() {
+      this.$store.dispatch('feed/populateFeed');
     }
   }
 };
@@ -207,7 +210,6 @@ html {
 .primary-btn:focus {
   background: #aa73fe;
   color: #ffffff;
-  transition: 0.1s ease-in;
 }
 .sec-btn {
   background: transparent;
@@ -255,14 +257,13 @@ html {
 ::placeholder {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
-  font-size: 0.8em;
+  font-size: 0.6em;
   color: #7e7e7e !important;
 }
 input {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
-  font-size: 0.8em;
-  color: #7e7e7e !important;
+  color: #707070 !important;
   height: 50px;
 }
 </style>

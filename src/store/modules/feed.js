@@ -17,7 +17,45 @@ const mutations = {
 };
 
 const actions = {
+  postQuest({ commit, dispatch }, quest) {
+    commit('setLoading', true);
+    // Store quest to a variable
+    const newQuest = quest;
+    // Generate new quest key
+    const questKey = firebase
+      .database()
+      .ref()
+      .child('quest')
+      .push().key;
+    // Store quest key
+    newQuest.id = questKey;
+    // Store updates
+    const updates = {};
+    updates[`/quest/${newQuest.id}`] = newQuest;
+    // Commit updates to database
+    firebase
+      .database()
+      .ref()
+      .update(updates)
+      .then(() => {
+        // Alert user of event
+        Toast.open({
+          message: 'Quest successfully posted!',
+          duration: 3000,
+          type: 'is-success'
+        });
+        // Commit changes to local storage
+        dispatch('user/updateLogs', 'POST_QUEST', { root: true });
+        dispatch('user/addExperience', null, { root: true });
+        commit('setLoading', false);
+      })
+      .catch(error => {
+        commit('setLoading', false);
+        console.log(error);
+      });
+  },
   populateFeed({ commit }) {
+    // Retrieve quests from database
     firebase
       .database()
       .ref('/quest')
@@ -56,14 +94,12 @@ const actions = {
   },
   upvoteQuest({ rootGetters, dispatch }, quest) {
     const updates = {};
-    const userId = rootGetters['user/getUser'].id;
-
-    if (quest.downvote.length > 0 && quest.downvote.includes(userId)) {
-      console.log('Bye');
-      updates[`/quest/${quest.id}/downvote/${userId}`] = null;
-      updates[`/quest/${quest.id}/upvote/${userId}`] = true;
+    if (quest.downvote.length > 0 && quest.downvote.includes(quest.solution_id)) {
+      // Store changes
+      updates[`/quest/${quest.id}/downvote/${quest.user_id}`] = null;
+      updates[`/quest/${quest.id}/upvote/${quest.user_id}`] = true;
       updates[`/quest/${quest.id}/votes`] = quest.votes + 1;
-
+      // Commit changes to database
       firebase
         .database()
         .ref()
@@ -73,38 +109,40 @@ const actions = {
           quest.votes += 1;
         })
         .catch(error => {
-          // eslint-disable-next-line
           console.log(error);
-        });
-    } else if (!quest.upvote.includes(userId)) {
-      console.log('HELLO');
-      updates[`/quest/${quest.id}/upvote/${userId}`] = true;
+        })
+    } else if (!quest.upvote.includes(quest.user_id)) {
+      // Store changes
+      updates[`/quest/${quest.id}/upvote/${quest.user_id}`] = true;
       updates[`/quest/${quest.id}/votes`] = quest.votes + 1;
-
+      // Commit changes to database
       firebase
         .database()
         .ref()
         .update(updates)
         .then(() => {
-          quest.votes += 1;
           dispatch('user/updateLogs', 'UPVOTE_QUEST', { root: true });
+          quest.votes += 1;
         })
         .catch(error => {
-          // eslint-disable-next-line
           console.log(error);
-        });
+        })
+    } else if (quest.upvote.includes(quest.user_id)) {
+      Toast.open({
+        message: 'You have already upvoted this quest!',
+        duration: 3000,
+        type: 'is-danger'
+      })
     }
   },
   downvoteQuest({ dispatch, rootGetters }, quest) {
     const updates = {};
-    const userId = rootGetters['user/getUser'].id;
-    if (quest.upvote.length > 0 && quest.upvote.includes(userId)) {
-      // eslint-disable-next-line
-      console.log('User downvoted from upvote');
-      updates[`/quest/${quest.id}/upvote/${userId}`] = null;
-      updates[`/quest/${quest.id}/downvote/${userId}`] = true;
+    if (quest.upvote.length > 0 && quest.upvote.includes(quest.user_id)) {
+      // Store changes
+      updates[`/quest/${quest.id}/upvote/${quest.user_id}`] = null;
+      updates[`/quest/${quest.id}/downvote/${quest.user_id}`] = true;
       updates[`/quest/${quest.id}/votes`] = quest.votes - 1;
-
+      // Commit changes to database
       firebase
         .database()
         .ref()
@@ -114,25 +152,30 @@ const actions = {
           quest.votes -= 1;
         })
         .catch(error => {
-          // eslint-disable-next-line
           console.log(error);
-        });
-    } else if (!quest.downvote.includes(userId)) {
-      updates[`/quest/${quest.id}/downvote/${userId}`] = true;
-      updates[`/quest/${quest.id}/votes/`] = quest.votes - 1;
-
+        })
+    } else if (!quest.downvote.includes(quest.user_id)) {
+      // Store changes
+      updates[`/quest/${quest.id}/downvote/${quest.user_id}`]
+      updates[`/quest/${quest.id}/votes`] = quest.votes - 1;
+      // Commit changes to database
       firebase
         .database()
         .ref()
         .update(updates)
         .then(() => {
-          quest.votes -= 1;
           dispatch('user/updateLogs', 'DOWNVOTE_QUEST', { root: true });
+          quest.votes -= 1;
         })
         .catch(error => {
-          // eslint-disable-next-line
           console.log(error);
-        });
+        })
+    } else if (quest.downvote.includes(quest.user_id)) {
+      Toast.open({
+        message: 'You have already downvoted this quest!',
+        duration: 3000,
+        type: 'is-danger'
+      })
     }
   },
   deleteQuest({ dispatch }, questId) {
