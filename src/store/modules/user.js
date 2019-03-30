@@ -1,8 +1,6 @@
 /* eslint-disable */
 import firebase from 'firebase';
 import moment from 'moment';
-import { Toast } from 'buefy/dist/components/toast';
-import { Snackbar } from 'buefy/dist/components/snackbar';
 import { Dialog } from 'buefy/dist/components/dialog';
 
 const state = {
@@ -27,7 +25,7 @@ const state = {
     Gold: '../../static/badges/chevron-4.png',
     Platinum: '../../static/badges/chevron-4.png',
     Mithril: '../../static/badges/chevron-4.png',
-    Diamond: '../../static/badges/chevron-4.png',
+    Diamond: '../../static/badges/chevron-4.png'
   },
   loading: false
 };
@@ -96,8 +94,7 @@ const actions = {
       .database()
       .ref()
       .update(updates)
-      .then(() => {
-      })
+      .then(() => {})
       .catch(error => {
         console.log(error);
       });
@@ -141,12 +138,12 @@ const actions = {
             title: 'Leveled up!',
             message: 'Congratulations, you have leveled up!',
             type: 'is-success'
-          })
+          });
         }
       })
       .catch(error => {
         console.log(error);
-      })
+      });
   },
   addReputation({ commit, rootGetters }, authorId) {
     const REPUTATION = 5;
@@ -162,14 +159,15 @@ const actions = {
         if (u.val() !== null) {
           user = u.val();
         }
-      })
+      });
     // Store user's current rank
     let previousRank = user.rank;
     // Update user's reputation
     user.reputation = user.reputation + REPUTATION;
     // Compute for the matching rank index
     let ratio = Math.floor(user.reputation / REPUTATION_RATIO);
-    if (ratio <= 9 && ratio >= 0) { // [0-9]
+    if (ratio <= 9 && ratio >= 0) {
+      // [0-9]
       user.rank = RANKS[ratio];
     } else if (ratio > 9) {
       user.rank = RANKS[9];
@@ -198,18 +196,19 @@ const actions = {
           // Event alert
           Dialog.alert({
             title: 'Rank up!',
-            message: 'Congratulations adventurer! You have accumulated enough reputation points to get to the next rank. Keep it up!',
+            message:
+              'Congratulations adventurer! You have accumulated enough reputation points to get to the next rank. Keep it up!',
             type: 'is-success'
-          })
+          });
         }
         // Reset values;
         rankedUp = false;
       })
       .catch(error => {
         console.log(error);
-      })
+      });
   },
-  deductReputation({ commit, rootGetters }, authorId) {                                                                                                                      
+  deductReputation({ commit, rootGetters }, authorId) {
     const REPUTATION = 5;
     const REPUTATION_RATIO = 10;
     const BADGES = rootGetters['user/getBadges'];
@@ -259,16 +258,17 @@ const actions = {
           // Event alert
           Dialog.alert({
             title: 'Rank down!',
-            message: 'Majority of the adventurers downvoted the assistance you provided causing you to lose reputation. You have ranked down.',
+            message:
+              'Majority of the adventurers downvoted the assistance you provided causing you to lose reputation. You have ranked down.',
             type: 'is-danger'
-          })
+          });
         }
         // Reset values;
         rankedDown = false;
       })
       .catch(error => {
         console.log(error);
-      })
+      });
   },
   logOut({ commit }) {
     firebase.auth().signOut();

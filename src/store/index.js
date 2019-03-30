@@ -7,6 +7,7 @@ import login from './modules/login';
 import feed from './modules/feed';
 import quest from './modules/quest';
 import solution from './modules/solution';
+import admin from './modules/admin';
 
 Vue.use(Vuex);
 
@@ -17,7 +18,8 @@ export default new Vuex.Store({
     login,
     feed,
     quest,
-    solution
+    solution,
+    admin
   },
   plugins: [createPersistedState()]
 });

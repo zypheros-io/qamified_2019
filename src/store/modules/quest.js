@@ -24,7 +24,7 @@ const mutations = {
 };
 
 const actions = {
-  postSolution({ commit, dispatch}, solution) {
+  postSolution({ commit, dispatch }, solution) {
     // Set loading
     commit('setLoading', true);
     const newSolution = solution;
@@ -48,7 +48,7 @@ const actions = {
       .update(updates)
       .then(() => {
         dispatch('user/updateLogs', 'POST_SOLUTION', { root: true });
-        dispatch('user/addExperience', null,   { root: true });
+        dispatch('user/addExperience', null, { root: true });
         // Event alert
         Toast.open({
           message: 'Solution successfully posted!',
@@ -85,7 +85,10 @@ const actions = {
   },
   upvoteSolution({ dispatch, rootGetters }, solution) {
     const updates = {};
-    if (solution.downvote && Object.keys(solution.downvote).includes(solution.user_id)) {
+    if (
+      solution.downvote &&
+      Object.keys(solution.downvote).includes(solution.user_id)
+    ) {
       // Store changes
       updates[`/solution/${solution.id}/downvote/${solution.user_id}`] = null;
       updates[`/solution/${solution.id}/upvote/${solution.user_id}`] = true;
@@ -103,7 +106,10 @@ const actions = {
         .catch(error => {
           console.log(error);
         });
-    } else if (!solution.upvote || !Object.keys(solution.upvote).includes(solution.user_id)) {
+    } else if (
+      !solution.upvote ||
+      !Object.keys(solution.upvote).includes(solution.user_id)
+    ) {
       // Store changes
       updates[`/solution/${solution.id}/upvote/${solution.user_id}`] = true;
       updates[`/solution/${solution.id}/votes`] = solution.votes + 1;
@@ -126,12 +132,15 @@ const actions = {
         message: 'You have already upvoted this solution!',
         duration: 3000,
         type: 'is-danger'
-      })
+      });
     }
   },
   downvoteSolution({ dispatch, rootGetters }, solution) {
-    const updates = {}
-    if (solution.upvote && Object.keys(solution.upvote).includes(solution.user_id)) {
+    const updates = {};
+    if (
+      solution.upvote &&
+      Object.keys(solution.upvote).includes(solution.user_id)
+    ) {
       // Store changes
       updates[`solution/${solution.id}/upvote/${solution.user_id}`] = null;
       updates[`solution/${solution.id}/downvote/${solution.user_id}`] = true;
@@ -149,7 +158,10 @@ const actions = {
         .catch(error => {
           console.log(error);
         });
-    } else if (!solution.downvote || !Object.keys(solution.downvote).includes(solution.user_id)) {
+    } else if (
+      !solution.downvote ||
+      !Object.keys(solution.downvote).includes(solution.user_id)
+    ) {
       // Store changes
       updates[`solution/${solution.id}/downvote/${user.id}`] = true;
       updates[`solution/${solution.id}/votes`] = solution.votes -= 1;
@@ -171,7 +183,7 @@ const actions = {
         message: 'You have already downvoted this solution!',
         duration: 3000,
         type: 'is-danger'
-      })
+      });
     }
   },
   deleteSolution({ dispatch }, solutionId) {

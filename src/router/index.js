@@ -6,6 +6,7 @@ import Quest from '@/components/Quest';
 import LogIn from '@/components/LogIn';
 import Landing from '@/components/Landing';
 import Profile from '@/components/Profile';
+import AdminPanel from '@/components/AdminPanel';
 import AuthGuard from './auth-guard';
 
 Vue.use(Router);
@@ -16,6 +17,11 @@ export default new Router({
       path: '/',
       name: 'Landing',
       component: Landing
+    },
+    {
+      path: '/admin',
+      name: 'AdminPanel',
+      component: AdminPanel
     },
     {
       path: '/signup',

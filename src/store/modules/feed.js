@@ -94,7 +94,10 @@ const actions = {
   },
   upvoteQuest({ rootGetters, dispatch }, quest) {
     const updates = {};
-    if (quest.downvote.length > 0 && quest.downvote.includes(quest.solution_id)) {
+    if (
+      quest.downvote.length > 0 &&
+      quest.downvote.includes(quest.solution_id)
+    ) {
       // Store changes
       updates[`/quest/${quest.id}/downvote/${quest.user_id}`] = null;
       updates[`/quest/${quest.id}/upvote/${quest.user_id}`] = true;
@@ -110,7 +113,7 @@ const actions = {
         })
         .catch(error => {
           console.log(error);
-        })
+        });
     } else if (!quest.upvote.includes(quest.user_id)) {
       // Store changes
       updates[`/quest/${quest.id}/upvote/${quest.user_id}`] = true;
@@ -126,13 +129,13 @@ const actions = {
         })
         .catch(error => {
           console.log(error);
-        })
+        });
     } else if (quest.upvote.includes(quest.user_id)) {
       Toast.open({
         message: 'You have already upvoted this quest!',
         duration: 3000,
         type: 'is-danger'
-      })
+      });
     }
   },
   downvoteQuest({ dispatch, rootGetters }, quest) {
@@ -153,10 +156,10 @@ const actions = {
         })
         .catch(error => {
           console.log(error);
-        })
+        });
     } else if (!quest.downvote.includes(quest.user_id)) {
       // Store changes
-      updates[`/quest/${quest.id}/downvote/${quest.user_id}`]
+      updates[`/quest/${quest.id}/downvote/${quest.user_id}`];
       updates[`/quest/${quest.id}/votes`] = quest.votes - 1;
       // Commit changes to database
       firebase
@@ -169,13 +172,13 @@ const actions = {
         })
         .catch(error => {
           console.log(error);
-        })
+        });
     } else if (quest.downvote.includes(quest.user_id)) {
       Toast.open({
         message: 'You have already downvoted this quest!',
         duration: 3000,
         type: 'is-danger'
-      })
+      });
     }
   },
   deleteQuest({ dispatch }, questId) {
