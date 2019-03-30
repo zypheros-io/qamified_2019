@@ -7,13 +7,14 @@
       aria-label="main navigation"
     >
       <div class="navbar-brand">
-        <span
+        <router-link
           class="navbar-item is-primary-text"
           id="logo"
           style="font-weight: bold; font-size: 2.2rem; color: #fdfdfd;"
+          :to="'/feed'"
         >
           qamifi<span style="color: #ff9a44;">ED</span>
-        </span>
+        </router-link>
       </div>
       <div class="navbar-menu">
         <div class="navbar-start">
