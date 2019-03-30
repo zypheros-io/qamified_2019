@@ -33,7 +33,7 @@
                 {{ quest.title }}
               </p>
               <div class="is-secondary-text" id="quest-description">
-                {{ quest.description }}
+                <vue-markdown>{{ quest.description }}</vue-markdown>
               </div>
               <div class="is-primary-text">
                 <br />
@@ -97,12 +97,14 @@
 <script>
 import moment from 'moment';
 import { mapGetters, mapActions } from 'vuex';
+import VueMarkdown from 'vue-markdown';
 import Solution from './Solution';
 
 export default {
   props: ['id'],
   components: {
-    Solution
+    Solution,
+    VueMarkdown
   },
   data() {
     return {

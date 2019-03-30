@@ -168,8 +168,8 @@
                     @click.prevent="confirmDelete(quest.id)"
                   ></span>
                 </div>
-                <div class="quest-description is-secondary-text">
-                  {{ quest.description }}
+                <div class="quest-description">
+                  <vue-markdown>{{ quest.description }}</vue-markdown>
                 </div>
                 <div class="is-primary-text">
                   <br />
@@ -197,8 +197,10 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import moment from 'moment';
+import VueMarkdown from 'vue-markdown';
 
 export default {
+  components: { VueMarkdown },
   data() {
     return {
       quest: {
