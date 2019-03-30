@@ -28,6 +28,7 @@ const actions = {
           lname: payload.lastname,
           institution: payload.institution,
           is_banned: false,
+          is_admin: false,
           description: '',
           level: 1,
           level_cap: 20,

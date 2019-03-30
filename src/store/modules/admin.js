@@ -3,12 +3,16 @@ import firebase from 'firebase'
 import { Toast } from 'buefy/dist/components/toast';
 
 const state = {
-  users: []
+  users: [],
+  logs: []
 };
 
 const mutations = {
   setUsers(state, payload) {
     state.users = payload;
+  },
+  setLogs(state, payload) {
+    state.logs = payload;
   }
 };
 
@@ -23,12 +27,25 @@ const actions = {
         let userArray = [];
         users.forEach(user => {
           let u = user.val();
-          u.id = u.id;
           // Add user to array
           userArray.unshift(u);
         });
         commit('setUsers', userArray);
       });
+    // Retrieve logs
+    firebase
+      .database()
+      .ref('logs')
+      .on('value', logs => {
+        // Array of logs
+        let logArray = [];
+        logs.forEach(log => {
+          let l = log.val();
+          // Add log to array
+          logArray.unshift(l);
+        })
+        commit('setLogs', logArray);
+      })
   },
   banUser({ commit }, user) {
     const banId = user.id;
@@ -56,6 +73,9 @@ const actions = {
 const getters = {
   users(state) {
     return state.users;
+  },
+  logs(state) {
+    return state.logs;
   }
 };
 
