@@ -54,9 +54,26 @@
 * [ ] Report System
     * [ ] Add report button to user profile
     * [ ] Allow admin to ban users
-* [ ] Rich Text Format Handling
-    * [ ] Allow users to format their posts/solutions/replies with Markdown Editor
+* [x ] Rich Text Format Handling
+    * [x] Allow users to format their posts/solutions/replies with Markdown Editor
 * [ ] Social Media Integration
     * [ ] Allow users to share quests/achievements to one social media of choice
 * [x] User Activity Logging
-* [ ] Admin Panel
+* [x] Admin Panel
+
+# Miscellaneous features
+* [ ] Notifications
+* [ ] Mission
+* [ ] Allow user to view other players' profile
+* [ ] Sorting and searching (feed)
+* [ ] SNS integration
+* [ ] Permissions (user/admin)
+
+# Bugs
+
+* [ ] User is still able to go to landing/signin/signup even after logging in
+* [ ] Chart disappears after logging in
+* [ ] Table isn't scrollable (not really a bug lol)
+* [ ] Input seems slower due to markdown in feed
+* [ ] Posting sometimes doesn't work when just logged in (need testing)
+* [ ] Doesn't detect when user doesn't exist (infinite loading)
