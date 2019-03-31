@@ -70,14 +70,12 @@ import { mapGetters } from 'vuex';
 export default {
   computed: {
     ...mapGetters({
-      user: 'user/getUser'
+      getUser: 'user/getUser'
     })
   },
   watch: {
-    user(value) {
-      if (value !== null && value !== undefined) {
-        this.$router.push('/feed');
-      }
+    getUser(value) {
+      if (value !== null) this.$router.push('/feed');
     }
   },
   methods: {

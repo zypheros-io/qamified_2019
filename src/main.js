@@ -5,6 +5,7 @@ import 'animate.css/animate.css';
 import Vue from 'vue';
 import Buefy from 'buefy';
 import AnimatedVue from 'animated-vue';
+import VueMarkdown from 'vue-markdown';
 import App from './App';
 import router from './router';
 import store from './store';
@@ -12,6 +13,7 @@ import '../node_modules/buefy/dist/buefy.css';
 
 Vue.use(Buefy);
 Vue.use(AnimatedVue);
+Vue.use(VueMarkdown);
 
 Vue.config.productionTip = false;
 
