@@ -49,16 +49,16 @@ const mutations = {
   setLoading(state, payload) {
     state.loading = payload;
   },
-  setUserCount(state,payload) {
+  setUserCount(state, payload) {
     state.user_count = payload;
   },
-  setQuestCount(state,payload) {
+  setQuestCount(state, payload) {
     state.quest_count = payload;
   },
-  setSolutionCount(state,payload) {
+  setSolutionCount(state, payload) {
     state.solution_count = payload;
   },
-  setReplyCount(state,payload) {
+  setReplyCount(state, payload) {
     state.reply_count = payload;
   }
 };
@@ -118,7 +118,30 @@ const actions = {
   refreshChart({ commit, rootGetters }) {
     commit('setLoading', true);
     const labels = rootGetters['admin/labels'];
-    const values = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    const values = [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ];
     // Retrieve data from DB
     firebase
       .database()
@@ -131,7 +154,7 @@ const actions = {
             values[logIndex] += 1;
           });
         }
-      })
+      });
     // commit new data to local storage
     commit('setData', values);
     // fake load
@@ -148,7 +171,7 @@ const actions = {
       .on('value', users => {
         users.forEach(u => {
           userCount += 1;
-        })
+        });
         commit('setUserCount', userCount);
       });
     // Quest Count
@@ -159,7 +182,7 @@ const actions = {
       .on('value', quests => {
         quests.forEach(q => {
           questCount += 1;
-        })
+        });
         commit('setQuestCount', questCount);
       });
     let solutionCount = 0;
@@ -169,7 +192,7 @@ const actions = {
       .on('value', solutions => {
         solutions.forEach(s => {
           solutionCount += 1;
-        })
+        });
         commit('setSolutionCount', solutionCount);
       });
     let replyCount = 0;
@@ -179,9 +202,9 @@ const actions = {
       .on('value', replies => {
         replies.forEach(r => {
           replyCount += 1;
-        })
+        });
         commit('setReplyCount', replyCount);
-      })
+      });
   }
 };
 
