@@ -25,16 +25,13 @@
                 <div class="media">
                   <figure class="media-left">
                     <p class="image is-32x32">
-                      <img
-                        src="https://bulma.io/images/placeholders/64x64.png"
-                        rounded
-                      />
+                      <img src="../static/avatars/avatar_girl.png" />
                     </p>
                   </figure>
                   <div class="media-content">
                     <div>
                       <p class="is-secondary-text">
-                        <b>Jane Doe</b> has <b>upvoted</b> your quest
+                        Jane Doe was here
                       </p>
                     </div>
                   </div>
@@ -73,18 +70,12 @@
 
 <script>
 export default {
-  data() {
-    return {
-      userId: this.$store.getters['user/getUser'].id
-    };
-  },
   computed: {
     user() {
       return this.$store.getters['user/getUser'];
     },
     notifications() {
-      const notifs = this.$store.getters['notification/getNotifs'];
-      return notifs.filter(n => n.user_id === this.userId);
+      return this.$store.getters['notification/getNotifs'];
     }
   },
   methods: {
@@ -103,16 +94,7 @@ export default {
       } else {
         el.classList.add('is-active');
       }
-    },
-    refresh: function refresh() {
-      this.$store.dispatch('feed/populateFeed');
-    },
-    refreshNotifs: function refreshNotifs() {
-      this.$store.dispatch('notification/retrieveNotifications');
     }
-  },
-  mounted() {
-    this.refreshNotifs();
   }
 };
 </script>
