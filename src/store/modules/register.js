@@ -37,7 +37,8 @@ const actions = {
           reputation: 0,
           badge_url: '../../static/badges/chevron-1.png',
           date_created: moment().format(),
-          last_access: moment().format()
+          last_access: moment().format(),
+          img_url: 'static/avatars/avatar_boy.png'
         };
         // Store changes
         const updates = {};

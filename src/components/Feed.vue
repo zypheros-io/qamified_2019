@@ -1,5 +1,5 @@
 <template>
-  <div class="feed">
+  <div class="feed container">
     <div class="columns">
       <div class="column is-two-fifths" id="user_card_column">
         <div class="box" id="user_card">
@@ -84,33 +84,35 @@
         </router-link>
       </div>
       <div class="column" id="feed_column">
-        <div class="box">
+        <!-- Quest Form -->
+        <div class="box" id="feed-form">
+          <!-- Avatar -->
           <div class="media">
-            <div class="media-left">
-              <figure class="image is-48x48">
-                <img
-                  class="is-rounded"
-                  src="https://bulma.io/images/placeholders/128x128.png"
-                  alt="Image"
-                />
-              </figure>
-            </div>
-            <div class="media-content is-primary-text">
+            <figure class="media-left image is-48x48">
+              <img
+                class="is-rounded"
+                :src="`../../${user.img_url}`"
+                alt="Image"
+              />
+            </figure>
+            <!-- Form -->
+            <div class="media-content">
               <b-field>
                 <b-input
-                  placeholder="Quest title"
+                  type="text"
+                  placeholder="What's your quest all about?"
                   v-model="quest.title"
-                ></b-input>
+                />
               </b-field>
-              <textarea
-                class="textarea has-fixed-size"
-                size="is-medium"
-                placeholder="Quest description"
-                v-model="quest.description"
-              >
-              </textarea>
-              <b-field class="is-pulled-left is-primary-text" id="quest-categ">
-                <b-select placeholder="Category" v-model="quest.category">
+              <b-field>
+                <b-input
+                  type="textarea"
+                  placeholder="What's your quest all about?"
+                  v-model="quest.description"
+                />
+              </b-field>
+              <b-field class="is-pulled-left is-primary-text">
+                <b-select v-model="quest.category">
                   <optgroup label="Computer Science">
                     <option value="Algorithm">Algorithm</option>
                     <option value="Web Development">Web Development</option>
@@ -120,75 +122,86 @@
                   </optgroup>
                 </b-select>
               </b-field>
-              <button
-                class="button is-pulled-right is-primary-text bg-secondary color-white"
-                id="post-quest"
-                @click.prevent="postQuest"
-              >
-                POST QUEST
-              </button>
+              <b-field class="is-pulled-right">
+                <button
+                  class="button is-primary-text primary-btn"
+                  v-on:click.prevent="postQuest"
+                >
+                  <span class="mdi mdi-file-document-box"></span>
+                  &nbsp;Post Quest
+                </button>
+              </b-field>
             </div>
           </div>
         </div>
-        <!-- FEED -->
-        <animated-group-tada tag="div">
-          <div class="box" v-for="quest in quests" :key="quest.id">
-            <div class="media">
-              <div
-                class="media-left has-text-centered has-text-grey-lighter is-primary-text"
-              >
-                <p>
-                  <span
-                    class="mdi mdi-arrow-up-thick"
-                    @click.prevent="upvoteQuest(quest.id)"
-                  ></span>
-                </p>
-                <p>
-                  <span class="is-primary-text">{{ quest.votes }}</span>
-                </p>
-                <p>
-                  <span
-                    class="mdi mdi-arrow-down-thick"
-                    @click.prevent="downvoteQuest(quest.id)"
-                  ></span>
-                </p>
+        <div class="is-divider" data-content="QUEST BOARD"></div>
+        <!-- Feed -->
+        <div
+          class="box"
+          v-for="quest in quests"
+          :key="quest.id"
+          id="feed-quest"
+        >
+          <div class="media">
+            <!-- Votes -->
+            <div class="media-left has-text-centered has-text-grey-lighter">
+              <!-- Vote buttons -->
+              <p>
+                <span
+                  class="mdi mdi-arrow-up-bold-circle-outline"
+                  v-on:click.prevent="upvoteQuest(quest.id)"
+                ></span>
+              </p>
+              <p>
+                <span class="is-primary-text" id="votes">
+                  {{ quest.votes }}
+                </span>
+              </p>
+              <p>
+                <span
+                  class="mdi mdi-arrow-down-bold-circle-outline"
+                  v-on:click.prevent="downvoteQuest(quest.id)"
+                ></span>
+              </p>
+            </div>
+            <!-- Quest Preview -->
+            <div class="media-content">
+              <div>
+                <router-link
+                  class="title is-4 color-primary quest-title is-primary-text"
+                  :to="`/${quest.id}`"
+                >
+                  {{ quest.title }}
+                </router-link>
+                <span
+                  style="font-size: 15px; color: #b9b9b9; cursor: pointer"
+                  v-if="user.id === quest.user_id"
+                  class="mdi mdi-close is-pulled-right"
+                  @click.prevent="confirmDelete(quest.id)"
+                ></span>
               </div>
-              <div class="media-content quest-content">
-                <div>
-                  <router-link
-                    class="title is-4 color-primary quest-title is-primary-text"
-                    :to="`/${quest.id}`"
-                  >
-                    {{ quest.title }}
-                  </router-link>
-                  <span
-                    style="font-size: 15px; color: #b9b9b9; cursor: pointer"
-                    v-if="user.id === quest.user_id"
-                    class="mdi mdi-close is-pulled-right"
-                    @click.prevent="confirmDelete(quest.id)"
-                  ></span>
-                </div>
-                <div class="quest-description">
-                  <vue-markdown>{{ quest.description }}</vue-markdown>
-                </div>
-                <div class="is-primary-text">
-                  <br />
+              <div class="is-secondary-text" id="quest-description-container">
+                <vue-markdown>{{ quest.description }}</vue-markdown>
+              </div>
+              <div>
+                <br />
+                <p class="is-pulled-left">
                   <span class="subtitle is-7">Category:</span>&nbsp;
-                  <span class="tag is-light quest-tag">
+                  <span class="tag is-light quest-tag is-secondary-text">
                     {{ quest.category }}
                   </span>
-                  <p class="subtitle is-7 is-pulled-right">
-                    <span class="has-text-grey">{{ quest.date_created }}</span>
-                    &nbsp;
-                    <span class="has-text-grey">
-                      Posted by&nbsp;<a href="">{{ quest.full_name }}</a>
-                    </span>
-                  </p>
-                </div>
+                </p>
+                <p class="is-pulled-right is-secondary-text">
+                  <span class="has-text-grey">{{ quest.date_created }}</span>
+                  &nbsp;
+                  <span class="has-text-grey">
+                    Posted by&nbsp;<a>{{ quest.full_name }}</a>
+                  </span>
+                </p>
               </div>
             </div>
           </div>
-        </animated-group-tada>
+        </div>
       </div>
     </div>
   </div>
@@ -207,7 +220,7 @@ export default {
         date_created: moment().format(),
         title: '',
         description: '',
-        category: '',
+        category: 'Algorithm',
         votes: 0,
         user_id: this.$store.getters['user/getUser'].id,
         is_answered: false,
@@ -276,140 +289,33 @@ export default {
 
 <style scoped>
 .feed {
-  height: 100%;
   width: 100%;
-  padding: 122px 285px 0px 285px;
-  margin: 0;
+  padding-top: 75px;
 }
-.columns,
-.columns .column {
-  height: inherit;
-}
-#user_card {
-  width: 100%;
+#feed-form {
   border-radius: 0;
-  padding: 0px;
+  text-decoration: none;
 }
-#user_card_header {
-  background: green;
-  height: 30%;
+#feed-quest {
+  border-radius: 0;
+  text-decoration: none;
 }
-#user_avatar {
-  padding: 15px;
+#votes {
+  font-size: 1.5em;
 }
-#player_details {
-  height: 30%;
-  width: 100%;
-  margin: 0px;
-  padding: 0px;
+#quest-description-container {
+  margin-top: 1em;
+  background: #f7f7f7;
+  border: 3px solid #f4f4f4;
+  padding: 0.4em;
 }
-#player_details #rank_details {
-  width: 40%;
-  height: 100%;
-  padding: 15px;
-}
-#player_details #misc_details {
-  width: 60%;
-  height: 100%;
-  padding: 15px;
-}
-#user_card_experience_bar {
-  box-sizing: border-box;
-  height: 15px;
-  width: 100%;
-  background-color: #ddd;
-}
-#experience_progress {
-  height: inherit;
-  box-sizing: border-box;
-  text-align: right;
-  color: #ffffff;
-  width: 40%;
-  font-size: 0.6rem;
-  padding-top: 2px;
-  padding-right: 10px;
-  background-color: #ff9a44;
-}
-#player_desc {
-  text-align: left;
-  margin-bottom: 5px;
-}
-#description_box {
-  height: 50px;
-  background-color: #a9a9a9;
-}
-#level {
-  margin-bottom: 5px;
-  text-align: left;
-}
-#experience {
-  margin-top: 5px;
-  text-align: right;
-}
-#user_stats {
-  height: 30%;
-  width: 100%;
-  margin: 0px;
-  padding: 0px;
-}
-#user_stats #quests_posted,
-#user_stats #solutions_posted {
-  width: 50%;
-  height: 100%;
-  margin: 0;
-  padding: 15px;
-  border: solid 1px #e9e9e9;
-}
-/* FEED COLUMN */
-#post-quest {
-  margin-top: 10px;
-  font-weight: bold;
-}
-#post-quest:hover {
-  color: #fafbfc;
-}
-#quest-categ {
-  margin-top: 10px;
-}
-
-.quest-tag {
-  cursor: pointer;
-}
-.quest-tag:hover {
-  background-color: #ff9a44;
-  transition: 0.1s;
-}
-.quest-title {
-  margin-bottom: 15px;
-}
-.quest-title:hover {
-  color: #ff9a44;
-  transition: 0.2s;
-}
-.quest-description {
-  background-color: #f0f0f0;
-  padding: 15px;
-  margin-top: 15px;
-}
-.media-left p span {
-  cursor: pointer;
-  font-weight: bold;
-}
-.media-left p span:hover {
-  color: #fc6076;
-}
-/* OVERRIDES */
+/* overrides */
 .mdi {
-  font-size: 36px;
+  font-size: 1.5em;
+  cursor: pointer;
+  font-weight: bold;
 }
-.box {
-  border-radius: 0px;
-  margin-bottom: 10px;
-}
-progress {
-  width: 100%;
-}
-progress::-moz-progress-bar {
-  width: 100%;
+.mdi:hover {
+  color: #b686fe;
 }
 </style>

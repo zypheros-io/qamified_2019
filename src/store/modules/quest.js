@@ -24,7 +24,7 @@ const mutations = {
 };
 
 const actions = {
-  postSolution({ commit, dispatch }, solution) {
+  postSolution({ commit, dispatch, rootGetters }, solution) {
     // Set loading
     commit('setLoading', true);
     const newSolution = solution;
@@ -42,6 +42,8 @@ const actions = {
     updates[`/user/${newSolution.user_id}/solution/${newSolution.id}`] = true;
     updates[`/solution/${newSolution.id}`] = newSolution;
     // Commit changes to database
+    // get current quest
+    const quest = rootGetters['feed/loadQuest'](solution.quest_id);
     firebase
       .database()
       .ref()
@@ -49,6 +51,7 @@ const actions = {
       .then(() => {
         dispatch('user/updateLogs', 'POST_SOLUTION', { root: true });
         dispatch('user/addExperience', null, { root: true });
+        dispatch('notification/addSolutionNotification', quest, { root: true });
         // Event alert
         Toast.open({
           message: 'Solution successfully posted!',

@@ -1,64 +1,69 @@
 <template>
   <div id="app">
     <nav
-      class="navbar is-fixed-top bg-secondary is-transparent"
+      v-if="user"
+      class="navbar is-fixed-top is-transparent"
       role="navigation"
-      v-if="isAuthenticated"
       aria-label="main navigation"
     >
       <div class="navbar-brand">
-        <router-link
-          class="navbar-item is-primary-text"
-          id="logo"
-          style="font-weight: bold; font-size: 2.2rem; color: #fdfdfd;"
-          :to="'/feed'"
-        >
-          qamifi<span style="color: #ff9a44;">ED</span>
-        </router-link>
+        <a class="navbar-item">
+          <img src="/static/img/buefy-logo.png" alt="LOGO" />
+        </a>
       </div>
       <div class="navbar-menu">
-        <div class="navbar-start">
-          <div v-if="isAuthenticated" class="navbar-item field">
-            <p class="control has-icons-right">
-              <b-input
-                placeholder="Search..."
-                type="search"
-                icon="magnify"
-                id="nav-search"
-              >
-              </b-input>
-              <span class="icon is-small is-right"></span>
-            </p>
-          </div>
-        </div>
-        <div v-if="!isAuthenticated" class="navbar-end">
-          <a
-            @click.prevent="goto('/signin')"
-            class="navbar-item is-secondary-text color-white"
-          >
-            Log in
-          </a>
-          <a
-            @click.prevent="goto('/signup')"
-            class="navbar-item is-secondary-text color-white"
-            id="nav-signup"
-          >
-            Sign up
-          </a>
-        </div>
-        <div v-else class="navbar-end">
-          <div class="is-divider-vertical"></div>
-          <div class="navbar-item has-dropdown" id="nav-dropdown">
-            <a
-              class="navbar-link is-secondary-text color-white"
-              @click.prevent="openDropdown"
-            >
-              {{ user.fname }}
+        <div class="navbar-end">
+          <!-- Notifs -->
+          <b-dropdown position="is-bottom-left" aria-role="menu">
+            <!-- Dropdown Button -->
+            <a class="navbar-item" slot="trigger" role="button">
+              <span class="mdi mdi-bell-ring"></span>
+              <b-icon icon="menu-down"></b-icon>
             </a>
-            <div class="navbar-dropdown is-secondary-text is-small-text">
-              <a @click.prevent="signOut" class="navbar-item">Log Out</a>
-            </div>
-          </div>
+            <b-dropdown-item aria-role="menuitem">
+              <b-notification type="is-light" :closable="false">
+                <div class="media">
+                  <figure class="media-left">
+                    <p class="image is-32x32">
+                      <img
+                        src="https://bulma.io/images/placeholders/64x64.png"
+                        rounded
+                      />
+                    </p>
+                  </figure>
+                  <div class="media-content">
+                    <div>
+                      <p class="is-secondary-text">
+                        <b>Jane Doe</b> has <b>upvoted</b> your quest
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </b-notification>
+            </b-dropdown-item>
+          </b-dropdown>
+          <b-dropdown position="is-bottom-left" aria-role="menu">
+            <!-- Dropdown Button -->
+            <a class="navbar-item" slot="trigger" role="button">
+              <span>{{ user.fname }}</span>
+              <b-icon icon="menu-down"></b-icon>
+            </a>
+            <!-- Logged -->
+            <b-dropdown-item aria-role="menuitem" custom>
+              Logged as <b>{{ user.fname + ' ' + user.lname }}</b>
+            </b-dropdown-item>
+            <!-- Divider -->
+            <hr class="dropdown-divider" />
+            <b-dropdown-item has-link aria-role="menuitem">
+              <router-link to="/feed">
+                <b-icon icon="home"></b-icon>
+                Feed
+              </router-link>
+            </b-dropdown-item>
+            <b-dropdown-item aria-role="menuitem" v-on:click="signOut">
+              Logout
+            </b-dropdown-item>
+          </b-dropdown>
         </div>
       </div>
     </nav>
@@ -68,15 +73,18 @@
 
 <script>
 export default {
+  data() {
+    return {
+      userId: this.$store.getters['user/getUser'].id
+    };
+  },
   computed: {
-    isAuthenticated() {
-      return (
-        this.$store.getters['user/getUser'] !== null &&
-        this.$store.getters['user/getUser'] !== undefined
-      );
-    },
     user() {
       return this.$store.getters['user/getUser'];
+    },
+    notifications() {
+      const notifs = this.$store.getters['notification/getNotifs'];
+      return notifs.filter(n => n.user_id === this.userId);
     }
   },
   methods: {
@@ -98,7 +106,13 @@ export default {
     },
     refresh: function refresh() {
       this.$store.dispatch('feed/populateFeed');
+    },
+    refreshNotifs: function refreshNotifs() {
+      this.$store.dispatch('notification/retrieveNotifications');
     }
+  },
+  mounted() {
+    this.refreshNotifs();
   }
 };
 </script>
@@ -109,6 +123,7 @@ export default {
 
 html {
   margin: 0;
+  background: #f9f9f9;
 }
 /**
 Override buefy styling for markdown use
@@ -141,15 +156,16 @@ ul {
   padding-inline-start: 25px;
 }
 .navbar {
-  padding: 0 15% 0 15%;
-  height: 80px;
+  padding: 0 14vw 0 14vw;
+  background-color: #b686fe;
 }
 .navbar-end .navbar-item {
-  font-size: 1.2rem;
+  font-size: 0.8em;
   font-weight: bold;
+  color: #ffffff;
 }
 .navbar-end .navbar-item:hover {
-  color: #cc7b36;
+  color: #4b465e;
 }
 #nav-search {
   background-color: #203d66 !important;
@@ -209,13 +225,16 @@ ul {
   color: #fdfdfd;
 }
 .color-primary {
-  color: #203d66;
+  color: #b686fe;
 }
 .color-secondary {
   color: #1a2c54;
 }
 .color-highlight {
   color: #ff9a44;
+}
+.color-grey {
+  color: #f9f9f9;
 }
 .is-bold {
   font-weight: bold;
@@ -224,7 +243,7 @@ ul {
   background-color: #fdfdfd;
 }
 .bg-primary {
-  background-color: #203d66;
+  background-color: #b686fe;
 }
 .bg-secondary {
   background-color: #1a2c54;
@@ -234,33 +253,11 @@ ul {
   background: #b686fe;
   color: #ffffff;
   border: none;
-  padding: 25px;
-  font-size: 1.3em !important;
 }
 .primary-btn:hover,
 .primary-btn:focus {
   background: #aa73fe;
   color: #ffffff;
-}
-.sec-btn {
-  background: transparent;
-  border-radius: 500px;
-  border-color: #adadad;
-  font-weight: 600;
-  color: #ff9a44;
-  box-shadow: inset 0 0 0 2px #616467;
-  padding: 25px;
-  font-size: 1.3rem !important;
-  margin-top: 25px;
-}
-.sec-btn:hover,
-.sec-btn:focus {
-  background: #ff9a44;
-  color: #fdfdfd;
-  transition: 0.1s ease-in;
-  box-shadow: none;
-  border-color: none;
-  border: #ff9a44;
 }
 /* modifiers */
 .margin-top-1 {
@@ -288,13 +285,17 @@ ul {
 ::placeholder {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
-  font-size: 0.6em;
+  font-size: 0.8em;
   color: #7e7e7e !important;
 }
 input {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Montserrat', sans-serif !important;
   font-weight: 400;
   color: #707070 !important;
   height: 50px;
+  border-radius: 0 !important;
+}
+textarea {
+  font-family: 'Montserrat', sans-serif !important;
 }
 </style>

@@ -69,7 +69,7 @@ const actions = {
         }
       });
   },
-  updateLogs({ dispatch, rootGetters }, log) {
+  updateLogs({ rootGetters }, log) {
     // Retrieve user of action
     const user = rootGetters['user/getUser'];
     // Generate new log key
