@@ -32,7 +32,7 @@ const actions = {
     // Store updates
     const updates = {};
     updates[`/quest/${newQuest.id}`] = newQuest;
-    console.log(updates);
+    console.log('hello');
     // Commit updates to database
     firebase
       .database()

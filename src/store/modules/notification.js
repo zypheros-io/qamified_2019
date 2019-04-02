@@ -14,19 +14,20 @@ const mutations = {
 
 const actions = {
   retrieveNotifications({ commit, rootGetters }) {
-    const user = rootGetters['user/getUser'];
-    let notificationsArr = [];
     firebase
       .database()
-      .ref('notification/')
-      .orderByChild('user_id')
-      .equalTo(user.id)
-      .on('child_added', n => {
-        let notification = n.val();
-        notificationsArr.unshift(notification);
+      .ref('/notification')
+      .on('value', notifications => {
+        if (notifications) {
+          const notificationArray = [];
+          notifications.forEach(notification => {
+            const currNotif = notification.val();
+            currNotif.id = notification.key;
+            notificationArray.unshift(currNotif);
+          });
+          commit('setNotifications', notificationArray);
+        }
       });
-    // commit changes to local database
-    commit('setNotifications', notificationsArr);
   },
   addSolutionNotification({ commit, rootGetters }, notification) {
     const currUser = rootGetters['user/getUser'];

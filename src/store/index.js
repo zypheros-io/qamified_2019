@@ -8,7 +8,6 @@ import feed from './modules/feed';
 import quest from './modules/quest';
 import solution from './modules/solution';
 import admin from './modules/admin';
-import notification from './modules/notification';
 
 Vue.use(Vuex);
 
@@ -20,8 +19,7 @@ export default new Vuex.Store({
     feed,
     quest,
     solution,
-    admin,
-    notification
+    admin
   },
   plugins: [createPersistedState()]
 });

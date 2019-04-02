@@ -1,7 +1,7 @@
 <template>
   <div id="profile-page">
     <div class="columns">
-      <div class="column" id="profile-user-card"></div>
+      <div class="column" id="profile-user-card">{{ profile.fname }}</div>
       <div class="column" id="profile-tabs">
         <b-tabs
           size="is-small"

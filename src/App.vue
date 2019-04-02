@@ -13,32 +13,6 @@
       </div>
       <div class="navbar-menu">
         <div class="navbar-end">
-          <!-- Notifs -->
-          <b-dropdown position="is-bottom-left" aria-role="menu">
-            <!-- Dropdown Button -->
-            <a class="navbar-item" slot="trigger" role="button">
-              <span class="mdi mdi-bell-ring"></span>
-              <b-icon icon="menu-down"></b-icon>
-            </a>
-            <b-dropdown-item aria-role="menuitem">
-              <b-notification type="is-light" :closable="false">
-                <div class="media">
-                  <figure class="media-left">
-                    <p class="image is-32x32">
-                      <img src="../static/avatars/avatar_girl.png" />
-                    </p>
-                  </figure>
-                  <div class="media-content">
-                    <div>
-                      <p class="is-secondary-text">
-                        Jane Doe was here
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </b-notification>
-            </b-dropdown-item>
-          </b-dropdown>
           <b-dropdown position="is-bottom-left" aria-role="menu">
             <!-- Dropdown Button -->
             <a class="navbar-item" slot="trigger" role="button">
@@ -57,6 +31,12 @@
                 Feed
               </router-link>
             </b-dropdown-item>
+            <b-dropdown-item has-link aria-role="menuitem">
+              <router-link :to="`profile/${user.id}`">
+                <b-icon icon="home"></b-icon>
+                Profile
+              </router-link>
+            </b-dropdown-item>
             <b-dropdown-item aria-role="menuitem" v-on:click="signOut">
               Logout
             </b-dropdown-item>
@@ -73,9 +53,6 @@ export default {
   computed: {
     user() {
       return this.$store.getters['user/getUser'];
-    },
-    notifications() {
-      return this.$store.getters['notification/getNotifs'];
     }
   },
   methods: {

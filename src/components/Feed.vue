@@ -191,11 +191,16 @@
                     {{ quest.category }}
                   </span>
                 </p>
-                <p class="is-pulled-right is-secondary-text">
-                  <span class="has-text-grey">{{ quest.date_created }}</span>
+                <p class="is-pulled-right">
+                  <span class="has-text-grey subtitle is-7">
+                    {{ quest.date_created }}
+                  </span>
                   &nbsp;
-                  <span class="has-text-grey">
-                    Posted by&nbsp;<a>{{ quest.full_name }}</a>
+                  <span class="has-text-grey subtitle is-7">
+                    Posted by
+                    <router-link :to="`profile/${quest.user_id}`">
+                      {{ quest.full_name }}
+                    </router-link>
                   </span>
                 </p>
               </div>
@@ -283,6 +288,19 @@ export default {
   },
   mounted() {
     this.populateFeed();
+  },
+  created() {
+    if (this.$store.getters['user/getUser']) {
+      this.$dialog.confirm({
+        title: 'Welcome!',
+        message:
+          'Oh, so you are the new adventurer they told me about. I hope you enjoy your stay in this wonderful world of QA.',
+        confirmText: 'Thanks!',
+        type: 'is-success',
+        hasIcon: true,
+        onConfirm: () => this.$toast.open('Godspeed, adventurer!')
+      });
+    }
   }
 };
 </script>
