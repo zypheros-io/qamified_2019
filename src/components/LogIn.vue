@@ -54,13 +54,6 @@
               now
             </div>
           </div>
-          <div
-            class="box is-secondary-text has-text-centered"
-            id="error-div"
-            v-if="error"
-          >
-            {{ error.message }}
-          </div>
         </div>
       </div>
     </div>
@@ -82,8 +75,7 @@ export default {
   computed: {
     ...mapGetters({
       getUser: 'user/getUser',
-      loading: 'login/isLoading',
-      error: 'login/getError'
+      loading: 'login/isLoading'
     })
   },
   watch: {

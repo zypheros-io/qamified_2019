@@ -1,5 +1,7 @@
 /* eslint-disable */
 import firebase from 'firebase';
+import { Snackbar } from 'buefy/dist/components/snackbar';
+import router from '../../router';
 
 const state = {
   loading: false,
@@ -79,19 +81,29 @@ const actions = {
                 commit('setError', error);
                 commit('setLoading', false);
                 console.log(error.code);
+                Snackbar.open({
+                  message: error.message,
+                  type: 'is-danger',
+                });
               })
           }
           // If user is banned
           else {
-            commit('setError', 'You have been banned. Please email the developer for the reason');
+            Snackbar.open({
+              message: 'You are currently banned. Contact the administrator for details.',
+              type: 'is-danger',
+            });
             commit('setLoading', false);
           }
         } else {
           console.log('I\'m empty!');
           commit('setLoading', false);
-          commit('setError', {
-            code: '',
-            message: 'User does not exist!'
+          Snackbar.open({
+            message: 'User does not exist. Sign up?',
+            type: 'is-danger',
+            actionText: 'SIGN UP',
+            duration: 3000,
+            onAction: () => router.push('/signup')
           });
         }
       })
