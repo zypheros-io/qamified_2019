@@ -46,7 +46,14 @@
         </div>
       </div>
     </nav>
-    <router-view />
+    <transition
+      name="router-anim"
+      enter-active-class="animated fadeInDown"
+      leave-active-class="animated fadeOutDown"
+      mode="out-in"
+    >
+      <router-view />
+    </transition>
   </div>
 </template>
 
@@ -80,6 +87,7 @@ export default {
 
 <style>
 @import '../node_modules/bulma-divider/dist/css/bulma-divider.min.css';
+@import '../node_modules/animate.css/animate.min.css';
 @import url('https://fonts.googleapis.com/css?family=Montserrat:300,700');
 
 html {

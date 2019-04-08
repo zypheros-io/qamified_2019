@@ -151,6 +151,7 @@ export default {
   padding: 25px;
   background: #ffbaba;
   border: 2px solid #ff3860;
+  font-size: 0.9em;
 }
 /* animations */
 @keyframes slideIn {
