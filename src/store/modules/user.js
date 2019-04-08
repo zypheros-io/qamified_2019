@@ -2,6 +2,7 @@
 import firebase from 'firebase';
 import moment from 'moment';
 import { Dialog } from 'buefy/dist/components/dialog';
+import { Toast } from 'buefy/dist/components/toast';
 
 const state = {
   user: null,
@@ -36,6 +37,9 @@ const mutations = {
   },
   setLoading(state, payload) {
     state.loading = payload;
+  },
+  setUserStatus(state, payload) {
+    state.user.is_new = payload;
   },
   updateExp(state, payload) {
     state.user.experience = payload;
@@ -270,6 +274,25 @@ const actions = {
         console.log(error);
       });
   },
+  endTutorial({ commit, rootGetters }) {
+    const updates = {}
+    const user = rootGetters['user/getUser'];
+    updates[`user/${user.id}/is_new`] = false;
+    // Commit changes to database
+    firebase
+      .database()
+      .ref()
+      .update(updates)
+      .then(() => {
+        commit('setUserStatus', false);
+        Toast.open({
+          message: 'Godspeed, adventurer!',
+          duration: 3000,
+          type: 'is-success'
+        })
+      })
+  }
+  ,
   logOut({ commit }) {
     firebase.auth().signOut();
     commit('setUser', null);

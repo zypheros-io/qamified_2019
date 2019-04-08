@@ -1,5 +1,8 @@
 <template>
   <div class="feed container">
+    <b-modal :active.sync="showModal" :width="650">
+      <Tutorial-Modal></Tutorial-Modal>
+    </b-modal>
     <div class="columns">
       <div class="column is-two-fifths" id="user_card_column">
         <div class="box" id="user_card">
@@ -149,7 +152,14 @@
               <p>
                 <span
                   class="mdi mdi-arrow-up-bold-circle-outline"
+                  v-if="quest.upvote.includes(user.id)"
                   v-on:click.prevent="upvoteQuest(quest.id)"
+                  style="color: #b686fe"
+                ></span>
+                <span
+                  class="mdi mdi-arrow-up-bold-circle-outline"
+                  v-on:click.prevent="upvoteQuest(quest.id)"
+                  v-else
                 ></span>
               </p>
               <p>
@@ -160,7 +170,14 @@
               <p>
                 <span
                   class="mdi mdi-arrow-down-bold-circle-outline"
+                  v-if="quest.downvote.includes(user.id)"
                   v-on:click.prevent="downvoteQuest(quest.id)"
+                  style="color: #b686fe"
+                ></span>
+                <span
+                  class="mdi mdi-arrow-down-bold-circle-outline"
+                  v-on:click.prevent="downvoteQuest(quest.id)"
+                  v-else
                 ></span>
               </p>
             </div>
@@ -216,9 +233,13 @@
 import { mapGetters, mapActions } from 'vuex';
 import moment from 'moment';
 import VueMarkdown from 'vue-markdown';
+import TutorialModal from './TutorialModal';
 
 export default {
-  components: { VueMarkdown },
+  components: {
+    VueMarkdown,
+    TutorialModal
+  },
   data() {
     return {
       quest: {
@@ -233,7 +254,8 @@ export default {
         full_name: this.$store.getters['user/getUser'].fname,
         solutions: [],
         is_duplicate: false
-      }
+      },
+      showModal: true
     };
   },
   computed: {
@@ -329,7 +351,7 @@ export default {
 }
 /* overrides */
 .mdi {
-  font-size: 1.5em;
+  font-size: 2em;
   cursor: pointer;
   font-weight: bold;
 }

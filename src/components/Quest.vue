@@ -13,6 +13,13 @@
                 <span
                   class="mdi mdi-arrow-up-thick"
                   @click.prevent="upvoteQuest(quest.id)"
+                  v-if="quest.upvote.includes(user.id)"
+                  style="color: #b686fe"
+                ></span>
+                <span
+                  class="mdi mdi-arrow-up-thick"
+                  @click.prevent="upvoteQuest(quest.id)"
+                  v-else
                 ></span>
               </p>
               <p>
@@ -22,6 +29,13 @@
                 <span
                   class="mdi mdi-arrow-down-thick"
                   @click.prevent="downvoteQuest(quest.id)"
+                  v-if="quest.downvote.includes(user.id)"
+                  style="color: #b686fe"
+                ></span>
+                <span
+                  class="mdi mdi-arrow-down-thick"
+                  @click.prevent="downvoteQuest(quest.id)"
+                  v-else
                 ></span>
               </p>
             </div>

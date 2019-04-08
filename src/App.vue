@@ -6,41 +6,43 @@
       role="navigation"
       aria-label="main navigation"
     >
-      <div class="navbar-brand">
-        <a class="navbar-item">
-          <img src="/static/img/buefy-logo.png" alt="LOGO" />
-        </a>
-      </div>
-      <div class="navbar-menu">
-        <div class="navbar-end">
-          <b-dropdown position="is-bottom-left" aria-role="menu">
-            <!-- Dropdown Button -->
-            <a class="navbar-item" slot="trigger" role="button">
-              <span>{{ user.fname }}</span>
-              <b-icon icon="menu-down"></b-icon>
-            </a>
-            <!-- Logged -->
-            <b-dropdown-item aria-role="menuitem" custom>
-              Logged as <b>{{ user.fname + ' ' + user.lname }}</b>
-            </b-dropdown-item>
-            <!-- Divider -->
-            <hr class="dropdown-divider" />
-            <b-dropdown-item has-link aria-role="menuitem">
-              <router-link to="/feed">
-                <b-icon icon="home"></b-icon>
-                Feed
-              </router-link>
-            </b-dropdown-item>
-            <b-dropdown-item has-link aria-role="menuitem">
-              <router-link :to="`profile/${user.id}`">
-                <b-icon icon="home"></b-icon>
-                Profile
-              </router-link>
-            </b-dropdown-item>
-            <b-dropdown-item aria-role="menuitem" v-on:click="signOut">
-              Logout
-            </b-dropdown-item>
-          </b-dropdown>
+      <div class="container">
+        <div class="navbar-brand">
+          <a class="navbar-item">
+            <img src="/static/img/buefy-logo.png" alt="LOGO" />
+          </a>
+        </div>
+        <div class="navbar-menu">
+          <div class="navbar-end">
+            <b-dropdown position="is-bottom-left" aria-role="menu">
+              <!-- Dropdown Button -->
+              <a class="navbar-item" slot="trigger" role="button">
+                <span>{{ user.fname }}</span>
+                <b-icon icon="menu-down"></b-icon>
+              </a>
+              <!-- Logged -->
+              <b-dropdown-item aria-role="menuitem" custom>
+                Logged as <b>{{ user.fname + ' ' + user.lname }}</b>
+              </b-dropdown-item>
+              <!-- Divider -->
+              <hr class="dropdown-divider" />
+              <b-dropdown-item has-link aria-role="menuitem">
+                <router-link to="/feed">
+                  <b-icon icon="home"></b-icon>
+                  Feed
+                </router-link>
+              </b-dropdown-item>
+              <b-dropdown-item has-link aria-role="menuitem">
+                <router-link :to="`profile/${user.id}`">
+                  <b-icon icon="home"></b-icon>
+                  Profile
+                </router-link>
+              </b-dropdown-item>
+              <b-dropdown-item aria-role="menuitem" v-on:click="signOut">
+                Logout
+              </b-dropdown-item>
+            </b-dropdown>
+          </div>
         </div>
       </div>
     </nav>
@@ -82,7 +84,7 @@ export default {
 
 html {
   margin: 0;
-  background: #f9f9f9;
+  background: #f7f7f7;
 }
 /**
 Override buefy styling for markdown use
@@ -115,7 +117,6 @@ ul {
   padding-inline-start: 25px;
 }
 .navbar {
-  padding: 0 14vw 0 14vw;
   background-color: #b686fe;
 }
 .navbar-end .navbar-item {

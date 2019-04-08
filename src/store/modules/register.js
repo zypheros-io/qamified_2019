@@ -28,8 +28,8 @@ const actions = {
           lname: payload.lastname,
           institution: payload.institution,
           is_banned: false,
-          is_admin: false,
-          description: '',
+          is_admin: true,
+          description: 'Edit this yourself, pls',
           level: 1,
           level_cap: 20,
           experience: 0,
@@ -38,7 +38,8 @@ const actions = {
           badge_url: '../../static/badges/chevron-1.png',
           date_created: moment().format(),
           last_access: moment().format(),
-          img_url: 'static/avatars/avatar_boy.png'
+          img_url: 'static/avatars/avatar_boy.png',
+          is_new: true
         };
         // Store changes
         const updates = {};

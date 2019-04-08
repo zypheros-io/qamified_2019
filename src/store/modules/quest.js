@@ -88,13 +88,11 @@ const actions = {
   },
   upvoteSolution({ dispatch, rootGetters }, solution) {
     const updates = {};
-    if (
-      solution.downvote &&
-      Object.keys(solution.downvote).includes(solution.user_id)
-    ) {
-      // Store changes
-      updates[`/solution/${solution.id}/downvote/${solution.user_id}`] = null;
-      updates[`/solution/${solution.id}/upvote/${solution.user_id}`] = true;
+    const user = rootGetters['user/getUser'];
+    // downvotes exist and wants upvote
+    if (solution.downvote && Object.keys(solution.downvote).includes(user.id)) {
+      updates[`/solution/${solution.id}/downvote/${user.id}`] = null;
+      updates[`/solution/${solution.id}/upvote/${user.id}`] = true;
       updates[`/solution/${solution.id}/votes`] = solution.votes + 1;
       // Commit changes to database
       firebase
@@ -108,15 +106,13 @@ const actions = {
         })
         .catch(error => {
           console.log(error);
-        });
-    } else if (
-      !solution.upvote ||
-      !Object.keys(solution.upvote).includes(solution.user_id)
-    ) {
-      // Store changes
-      updates[`/solution/${solution.id}/upvote/${solution.user_id}`] = true;
+        })
+    }
+    // downvotes doesn't exist and wants upvote
+    else if (!solution.upvote || !Object.keys(solution.upvote).includes(user.id)) {
+      updates[`/solution/${solution.id}/upvote/${user.id}`] = true;
       updates[`/solution/${solution.id}/votes`] = solution.votes + 1;
-      // Commit changes to database
+      // Commit changes
       firebase
         .database()
         .ref()
@@ -128,26 +124,26 @@ const actions = {
         })
         .catch(error => {
           console.log(error);
-        });
-    } else if (Object.keys(solution.upvote).includes(solution.user_id)) {
-      // Event alert
+        })
+    }
+    // upvote when already upvoted
+    else if (Object.keys(solution.upvote).includes(user.id)) {
       Toast.open({
-        message: 'You have already upvoted this solution!',
-        duration: 3000,
+        message: 'You have already upvoted this solution, adventurer!',
+        duration: 1000,
         type: 'is-danger'
-      });
+      })
     }
   },
   downvoteSolution({ dispatch, rootGetters }, solution) {
     const updates = {};
-    if (
-      solution.upvote &&
-      Object.keys(solution.upvote).includes(solution.user_id)
-    ) {
-      // Store changes
-      updates[`solution/${solution.id}/upvote/${solution.user_id}`] = null;
-      updates[`solution/${solution.id}/downvote/${solution.user_id}`] = true;
-      updates[`solution/${solution.id}/votes`] = solution.votes - 1;
+    const message = 'hellothere';
+    const user = rootGetters['user/getUser'];
+    // Upvotes exist and wants downvote
+    if (!solution.upvote && Object.keys(solution.upvote).includes(user.id)) {
+      updates[`/solution/${solution.id}/upvote/${user.id}`] = null;
+      updates[`/solution/${solution.id}/downvote/${user.id}`] = true;
+      updates[`/solution/${solution.id}/votes`] = solution.votes - 1;
       // Commit changes to database
       firebase
         .database()
@@ -160,14 +156,12 @@ const actions = {
         })
         .catch(error => {
           console.log(error);
-        });
-    } else if (
-      !solution.downvote ||
-      !Object.keys(solution.downvote).includes(solution.user_id)
-    ) {
-      // Store changes
-      updates[`solution/${solution.id}/downvote/${user.id}`] = true;
-      updates[`solution/${solution.id}/votes`] = solution.votes -= 1;
+        })
+    }
+    // Wants to downvote
+    else if (!solution.downvote || !Object.keys(solution.downvote).includes(user.id)) {
+      updates[`/solution/${solution.id}/downvote/${user.id}`] = true;
+      updates[`/solution/${solution.id}/votes`] = solution.votes -= 1;
       // Commit changes to database
       firebase
         .database()
@@ -176,17 +170,18 @@ const actions = {
         .then(() => {
           dispatch('user/updateLogs', 'DOWNVOTE_SOLUTION', { root: true });
           dispatch('user/deductReputation', solution.user_id, { root: true });
-          solution.votes -= 1;
         })
         .catch(error => {
           console.log(error);
-        });
-    } else if (Object.keys(solution.downvote).includes(solution.user_id)) {
+        })
+    }
+    // Downvote when already downvoted
+    else if (Object.keys(solution.downvote).includes(user.id)) {
       Toast.open({
-        message: 'You have already downvoted this solution!',
-        duration: 3000,
+        message: 'You have already downvoted this solution, adventurer!',
+        duration: 1000,
         type: 'is-danger'
-      });
+      })
     }
   },
   deleteSolution({ dispatch }, solutionId) {

@@ -1,11 +1,5 @@
 <template>
   <div id="login-page">
-    <!-- Pageloader -->
-    <b-loading
-      :is-full-page="true"
-      :active.sync="loading"
-      :can-cancel="false"
-    ></b-loading>
     <div class="level">
       <div class="level-item">
         <div>
@@ -39,6 +33,14 @@
               <button
                 class="button is-medium is-fullwidth is-primary-text primary-btn"
                 @click.prevent="signIn"
+                v-if="!loading"
+              >
+                START GAME
+              </button>
+              <button
+                class="button is-loading is-medium is-fullwidth is-primary-text primary-btn"
+                @click.prevent="signIn"
+                v-else-if="loading"
               >
                 START GAME
               </button>
@@ -51,6 +53,13 @@
               </a>
               now
             </div>
+          </div>
+          <div
+            class="box is-secondary-text has-text-centered"
+            id="error-div"
+            v-if="error"
+          >
+            {{ error.message }}
           </div>
         </div>
       </div>
@@ -73,7 +82,8 @@ export default {
   computed: {
     ...mapGetters({
       getUser: 'user/getUser',
-      loading: 'login/isLoading'
+      loading: 'login/isLoading',
+      error: 'login/getError'
     })
   },
   watch: {
@@ -102,7 +112,7 @@ export default {
 #login-page {
   height: 100vh;
   width: 100%;
-  background: #f4f4f4 url('../assets/bg.svg');
+  background: #f4f4f4;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -128,13 +138,19 @@ export default {
   padding: 2em;
   text-decoration: none;
   box-shadow: 1px;
-  width: 23vw;
+  width: 450px;
   border: 1px solid #b686fe;
   animation: formIn 0.5s ease-in-out 2s forwards;
 }
 #login-copy {
   opacity: 0;
   animation: slideIn 1s ease-in-out 0s forwards;
+}
+#error-div {
+  width: 450px;
+  padding: 25px;
+  background: #ffbaba;
+  border: 2px solid #ff3860;
 }
 /* animations */
 @keyframes slideIn {

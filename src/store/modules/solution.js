@@ -20,7 +20,7 @@ const mutations = {
 };
 
 const actions = {
-  postReply({ commit, dispatch, rootGetters }, reply) {
+  postReply({ commit, dispatch }, reply) {
     // Set loading
     commit('setLoading', true);
     const newReply = reply;
@@ -57,7 +57,7 @@ const actions = {
         commit('setLoading', false);
       });
   },
-  populateReplies({ commit }, solutionId) {
+  populateReplies({ commit }) {
     // Retrieve replies from database
     firebase
       .database()

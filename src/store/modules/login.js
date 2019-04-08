@@ -2,12 +2,19 @@
 import firebase from 'firebase';
 
 const state = {
-  loading: false
+  loading: false,
+  error: null
 };
 
 const mutations = {
   setLoading(state, payload) {
     state.loading = payload;
+  },
+  setError(state, payload) {
+    state.error = payload;
+  },
+  clearError(state) {
+    state.error = null;
   }
 };
 
@@ -42,6 +49,8 @@ const actions = {
   },
   usernameLogin({ commit }, payload) {
     commit('setLoading', true);
+    commit('clearError');
+    // Look for matching user with email
     firebase
       .database()
       .ref('user')
@@ -49,36 +58,43 @@ const actions = {
       .equalTo(payload.email)
       .limitToFirst(1)
       .once('value', user => {
-        if (user !== undefined && user !== null) {
-          let matchingUser;
-          user.forEach(u => {
-            matchingUser = u.val();
-          });
-          firebase
-            .auth()
-            .signInWithEmailAndPassword(matchingUser.email, payload.password)
-            .then(user => {
-              commit('user/setUser', user, { root: true });
-            })
-            .catch(error => {
-              const errorCode = error.code;
-              const errorMsg = error.message;
-              if (errorCode === 'auth/wrong-password') {
-                alert('Incorrect password, please try again.');
-              } else if (errorCode === 'auth/user-not-found') {
-                alert('The user is not in the database, please try again.');
-              } else {
-                alert(errorMsg);
-              }
-            });
-          setTimeout(() => {
+        let matchingUser;
+        user.forEach(u => {
+          matchingUser = u.val();
+        });
+        // Check if matching user is empty
+        if (matchingUser) {
+          console.log('I\'m not empty!');
+          // Check if user is currently banned
+          if (!matchingUser.is_banned) {
+            // If not, log user in.
+            firebase
+              .auth()
+              .signInWithEmailAndPassword(matchingUser.email, payload.password)
+              .then(loggedUser => {
+                commit('user/setUser', loggedUser, { root: true });
+                commit('setLoading', false);
+              })
+              .catch(error => {
+                commit('setError', error);
+                commit('setLoading', false);
+                console.log(error.code);
+              })
+          }
+          // If user is banned
+          else {
+            commit('setError', 'You have been banned. Please email the developer for the reason');
             commit('setLoading', false);
-          }, 2 * 1000);
+          }
         } else {
+          console.log('I\'m empty!');
           commit('setLoading', false);
-          alert('The user is not in the database, please try again.');
+          commit('setError', {
+            code: '',
+            message: 'User does not exist!'
+          });
         }
-      });
+      })
   },
   checkSignInMethod({ dispatch }, payload) {
     const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -93,6 +109,9 @@ const actions = {
 const getters = {
   isLoading(state) {
     return state.loading;
+  },
+  getError(state) {
+    return state.error;
   }
 };
 
