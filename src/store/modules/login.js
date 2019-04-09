@@ -23,31 +23,24 @@ const mutations = {
 const actions = {
   emailLogin({ commit }, payload) {
     commit('setLoading', true);
+    commit('clearError');
+    // Sign in user using credentials
     firebase
       .auth()
       .signInWithEmailAndPassword(payload.email, payload.password)
-      .then(user => {
-        const newUser = {
-          id: user.uid
-        };
-        commit('user/setUser', newUser, { root: true });
+      .then(loggedUser => {
+        commit('user/setUser', loggedUser, { root: true });
+        commit('setLoading', false);
       })
       .catch(error => {
-        const errorCode = error.code;
-        const errorMsg = error.message;
-        if (errorCode === 'auth/wrong-password') {
-          alert('Incorrect password, please try again.');
-        } else if (errorCode === 'auth/invalid-email') {
-          alert('The email you entered is invalid, please try again.');
-        } else if (errorCode === 'auth/user-not-found') {
-          alert('The user is not in the database, please try again.');
-        } else {
-          alert(errorMsg);
-        }
+        commit('setError', error);
+        commit('setLoading', false);
+        Snackbar.open({
+          message: error.message,
+          type: 'is-danger',
+          onAction: () => commit('clearError')
+        })
       });
-    setTimeout(() => {
-      commit('setLoading', false);
-    }, 2 * 1000);
   },
   usernameLogin({ commit }, payload) {
     commit('setLoading', true);
@@ -84,6 +77,7 @@ const actions = {
                 Snackbar.open({
                   message: error.message,
                   type: 'is-danger',
+                  onAction: () => commit('clearError')
                 });
               })
           }

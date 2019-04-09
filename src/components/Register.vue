@@ -17,7 +17,7 @@
           </div>
           <div class="box" id="signup-container">
             <div v-if="step === 1" id="signup-part-one">
-              <b-field label="Email address">
+              <b-field label="Email address*">
                 <b-input
                   v-model="user.email"
                   type="text"
@@ -26,7 +26,7 @@
                   required
                 ></b-input>
               </b-field>
-              <b-field label="Username" class="margin-top-1">
+              <b-field label="Username*" class="margin-top-1">
                 <b-input
                   v-model="user.username"
                   type="text"
@@ -35,7 +35,7 @@
                   required
                 ></b-input>
               </b-field>
-              <b-field label="Password" class="margin-top-1">
+              <b-field label="Password*" class="margin-top-1">
                 <b-input
                   v-model="user.password"
                   type="password"
@@ -48,14 +48,14 @@
               <b-field class="margin-top-1">
                 <button
                   class="button is-medium is-fullwidth is-primary-text primary-btn"
-                  @click.prevent="next"
+                  v-on:click.prevent="next"
                 >
                   NEXT STEP&nbsp;<span class="mdi mdi-arrow-right-bold"></span>
                 </button>
               </b-field>
             </div>
             <div v-else-if="step === 2" id="signup-part-two">
-              <b-field label="First Name">
+              <b-field label="First Name*">
                 <b-input
                   v-model="user.firstname"
                   placeholder="First name"
@@ -63,7 +63,7 @@
                   required
                 ></b-input>
               </b-field>
-              <b-field label="Last Name" class="margin-top-1">
+              <b-field label="Last Name*" class="margin-top-1">
                 <b-input
                   v-model="user.lastname"
                   placeholder="Last name"
@@ -72,7 +72,7 @@
                 ></b-input>
               </b-field>
               <b-field></b-field>
-              <b-field label="Institution" class="margin-top-1">
+              <b-field label="Institution*" class="margin-top-1">
                 <b-input
                   v-model="user.institution"
                   placeholder="Institution ex. CAS, CEM, etc."
@@ -84,20 +84,20 @@
                 <button
                   v-if="!loading"
                   class="button is-medium is-fullwidth is-primary-text primary-btn"
-                  @click.prevent="validate"
+                  v-on:click.prevent="validate"
                 >
                   SUBMIT
                 </button>
                 <button
                   class="button is-medium is-fullwidth is-primary-text primary-btn is-loading"
-                  v-if="loading"
+                  v-else-if="loading"
                 ></button>
               </b-field>
             </div>
             <div class="is-divider" data-content="OR"></div>
             <div class="has-text-centered is-secondary-text">
               Already have an account?
-              <a class="is-anchor" @click.prevent="goto('/signin')">
+              <a class="is-anchor" v-on:click.prevent="goto('/signin')">
                 Sign in
               </a>
               instead
@@ -145,10 +145,9 @@ export default {
       if (this.user.firstname && this.user.lastname && this.user.institution) {
         this.$store.dispatch('register/signUp', this.user);
       } else {
-        this.$toast.open({
-          message: 'Please fill in the required fields',
-          duration: 2000,
-          type: 'is-error'
+        this.$snackbar.open({
+          message: 'Please fill in all the fields',
+          type: 'is-danger'
         });
       }
     },
@@ -158,16 +157,14 @@ export default {
           this.step += 1;
           this.formOneClear = true;
         } else {
-          this.$toast.open({
-            message: 'Please fill in the required fields',
-            duration: 2000,
-            type: 'is-error'
+          this.$snackbar.open({
+            message: 'Please fill in all fields',
+            type: 'is-danger'
           });
         }
       } else {
-        this.$toast.open({
-          message: 'Passwords must be 6 characters long.',
-          duration: 2000,
+        this.$snackbar.open({
+          message: 'Please fill in all fields',
           type: 'is-danger'
         });
       }
@@ -207,10 +204,71 @@ export default {
   margin-bottom: 1.5rem;
 }
 #signup-container {
+  opacity: 0;
   padding: 2em;
   text-decoration: none;
   box-shadow: 1px;
+  width: 450px;
   border: 1px solid #b686fe;
-  width: 23vw;
+  animation: formIn 0.5s ease-in-out 2s forwards;
+}
+#signup-copy {
+  opacity: 0;
+  animation: slideIn 1s ease-in-out 0s forwards;
+}
+/* animations */
+@keyframes slideIn {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+@-webkit-keyframes slideIn {
+  from {
+    -webkit-transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    -webkit-transform: translateY(0px);
+    opacity: 1;
+  }
+}
+@-moz-keyframes slideIn {
+  from {
+    -moz-transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    -moz-transform: translateY(0px);
+    opacity: 1;
+  }
+}
+@-o-keyframes slideIn {
+  from {
+    -o-transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    -o-transform: translateY(0px);
+    opacity: 1;
+  }
+}
+@keyframes formIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 </style>

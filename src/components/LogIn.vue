@@ -32,14 +32,13 @@
             <b-field class="margin-top-1">
               <button
                 class="button is-medium is-fullwidth is-primary-text primary-btn"
-                @click.prevent="signIn"
+                v-on:click.prevent="signIn"
                 v-if="!loading"
               >
                 START GAME
               </button>
               <button
                 class="button is-loading is-medium is-fullwidth is-primary-text primary-btn"
-                @click.prevent="signIn"
                 v-else-if="loading"
               >
                 START GAME
@@ -48,7 +47,7 @@
             <div class="is-divider" data-content="OR"></div>
             <div class="has-text-centered is-secondary-text">
               Not yet an adventurer?
-              <a class="is-anchor" @click.prevent="goto('/signup')">
+              <a class="is-anchor" v-on:click.prevent="goto('/signup')">
                 Sign up
               </a>
               now
@@ -137,13 +136,6 @@ export default {
 #login-copy {
   opacity: 0;
   animation: slideIn 1s ease-in-out 0s forwards;
-}
-#error-div {
-  width: 450px;
-  padding: 25px;
-  background: #ffbaba;
-  border: 2px solid #ff3860;
-  font-size: 0.9em;
 }
 /* animations */
 @keyframes slideIn {
