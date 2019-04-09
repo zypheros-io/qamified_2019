@@ -182,7 +182,7 @@ export default {
 #signup-page {
   height: 100vh;
   width: 100%;
-  background: #f4f4f4 url('../assets/bg.svg');
+  background: #f4f4f4 url('../assets/bg_banner.svg');
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;

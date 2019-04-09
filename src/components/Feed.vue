@@ -1,90 +1,11 @@
 <template>
   <div class="feed container">
-    <b-modal :active.sync="showModal" :width="650">
+    <!-- <b-modal :active.sync="showModal" :width="650">
       <Tutorial-Modal></Tutorial-Modal>
-    </b-modal>
+    </b-modal> -->
     <div class="columns">
       <div class="column is-two-fifths" id="user_card_column">
-        <div class="box" id="user_card">
-          <!-- HEADER -->
-          <div class="media" id="user_card_header">
-            <div class="media-content has-text-centered" id="user_avatar">
-              <figure class="image is-96x96" style="display:inline-block">
-                <img
-                  class="is-rounded"
-                  src="https://bulma.io/images/placeholders/96x96.png"
-                />
-              </figure>
-              <p class="title is-4 color-white is-primary-text">
-                {{ user.fname }}
-              </p>
-              <p class="subtitle is-6 color-white is-secondary-text">
-                @{{ user.username }}
-              </p>
-            </div>
-          </div>
-          <div class="media" id="player_details">
-            <div class="media-left has-text-centered" id="rank_details">
-              <figure class="image is-96x96" style="display:inline-block">
-                <img
-                  :src="user.badge_url"
-                  alt="https://www.flaticon.com/packs/rank-badge"
-                />
-              </figure>
-              <p class="title is-5 color-primary is-primary-text">
-                {{ user.rank }}
-              </p>
-              <p class="subtitle is-6 color-primary is-secondary-text">
-                {{ user.reputation }} reputation points
-              </p>
-            </div>
-            <div class="media-content has-text-centered" id="misc_details">
-              <div>
-                <p class="title is-6 is-primary-text" id="player_desc">
-                  Player Description
-                </p>
-                <div id="description_box"></div>
-              </div>
-              <div style="margin-top: 15px;">
-                <p class="title is-6 is-primary-text" id="level">
-                  Level {{ user.level }}
-                </p>
-                <progress
-                  id="exp_bar"
-                  :value="exp"
-                  :max="expRequired"
-                ></progress>
-                <p
-                  class="title is-7 is-primary-text color-highlight"
-                  id="experience"
-                >
-                  {{ user.experience }}/{{ user.level_cap }}
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="media has-text-centered" id="user_stats">
-            <div class="media-left" id="quests_posted">
-              <p class="title is-6 is-primary-text color-secondary">
-                QUESTS POSTED
-              </p>
-              <p class="subtitle is-3 is-primary-text is-bold color-highlight">
-                69
-              </p>
-            </div>
-            <div class="media-content has-text-centered" id="solutions_posted">
-              <p class="title is-6 is-primary-text color-secondary">
-                SOLUTIONS POSTED
-              </p>
-              <p class="subtitle is-3 is-primary-text is-bold color-highlight">
-                69
-              </p>
-            </div>
-          </div>
-        </div>
-        <router-link class="button" :to="`profile/${user.id}`">
-          View Profile
-        </router-link>
+        <User-Card></User-Card>
       </div>
       <div class="column" id="feed_column">
         <!-- Quest Form -->
@@ -182,7 +103,7 @@
               </p>
             </div>
             <!-- Quest Preview -->
-            <div class="media-content">
+            <div class="media-content" id="quest">
               <div>
                 <router-link
                   class="title is-4 color-primary quest-title is-primary-text"
@@ -234,11 +155,13 @@ import { mapGetters, mapActions } from 'vuex';
 import moment from 'moment';
 import VueMarkdown from 'vue-markdown';
 import TutorialModal from './TutorialModal';
+import UserCard from './UserCard';
 
 export default {
   components: {
     VueMarkdown,
-    TutorialModal
+    TutorialModal,
+    UserCard
   },
   data() {
     return {
@@ -339,6 +262,7 @@ export default {
 #feed-quest {
   border-radius: 0;
   text-decoration: none;
+  width: 100%;
 }
 #votes {
   font-size: 1.5em;
@@ -348,6 +272,10 @@ export default {
   background: #f7f7f7;
   border: 3px solid #f4f4f4;
   padding: 0.4em;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+  width: 100%;
 }
 /* overrides */
 .mdi {
