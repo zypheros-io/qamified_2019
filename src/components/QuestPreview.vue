@@ -41,7 +41,7 @@
         <!-- Quest-primary-header -->
         <div>
           <router-link
-            class="title is-4 quest-title is-primary-text"
+            class="title is-4 is-primary-text"
             id="quest-title"
             :to="`/${quest.id}`"
           >

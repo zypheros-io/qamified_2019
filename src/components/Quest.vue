@@ -1,99 +1,102 @@
 <template>
-  <div id="quest">
-    <div class="columns">
-      <div class="column"></div>
-      <div class="column is-three-fifths">
-        <div class="box">
-          <div class="media">
-            <div
-              class="media-left has-text-centered has-text-grey-lighter is-primary-text"
-              id="quest-container"
-            >
-              <p>
-                <span
-                  class="mdi mdi-arrow-up-thick"
-                  @click.prevent="upvoteQuest(quest.id)"
-                  v-if="quest.upvote.includes(user.id)"
-                  style="color: #b686fe"
-                ></span>
-                <span
-                  class="mdi mdi-arrow-up-thick"
-                  @click.prevent="upvoteQuest(quest.id)"
-                  v-else
-                ></span>
-              </p>
-              <p>
-                <span class="is-primary-text">{{ quest.votes }}</span>
-              </p>
-              <p>
-                <span
-                  class="mdi mdi-arrow-down-thick"
-                  @click.prevent="downvoteQuest(quest.id)"
-                  v-if="quest.downvote.includes(user.id)"
-                  style="color: #b686fe"
-                ></span>
-                <span
-                  class="mdi mdi-arrow-down-thick"
-                  @click.prevent="downvoteQuest(quest.id)"
-                  v-else
-                ></span>
-              </p>
-            </div>
-            <div class="media-content">
-              <p
-                class="title is-2 color-primary is-primary-text"
-                id="quest-title"
-              >
-                {{ quest.title }}
-              </p>
-              <div class="is-secondary-text" id="quest-description">
-                <vue-markdown>{{ quest.description }}</vue-markdown>
-              </div>
-              <div class="is-primary-text">
-                <br />
-                <span class="subtitle is-7">Tagged as:</span>&nbsp;
-                <span class="tag is-light quest-tag">{{ quest.category }}</span>
-                <p class="subtitle is-7 is-pulled-right">
-                  <span class="has-text-grey">{{ quest.date_created }}</span>
-                  &nbsp;
-                  <span class="has-text-grey">
-                    Posted by&nbsp; <a href>{{ quest.full_name }}</a>
-                  </span>
-                </p>
-              </div>
-            </div>
+  <div class="container" id="quest">
+    <div class="box" id="quest-container">
+      <div class="media">
+        <!-- Votes container -->
+        <div class="media-left has-text-centered has-text-grey-lighter">
+          <p>
+            <span
+              class="mdi mdi-arrow-up-bold-circle-outline active-vote"
+              v-on:click.prevent="upvoteQuest"
+              v-if="quest.upvote.includes(user.id)"
+            ></span>
+            <span
+              class="mdi mdi-arrow-up-bold-circle-outline"
+              v-on:click.prevent="upvoteQuest"
+              v-else-if="!quest.upvote.includes(user.id)"
+            ></span>
+          </p>
+          <!-- Vote Count -->
+          <p>
+            <span class="is-primary-text" id="votes">
+              {{ quest.votes }}
+            </span>
+          </p>
+          <!-- Downvote Quest -->
+          <p>
+            <span
+              class="mdi mdi-arrow-down-bold-circle-outline active-vote"
+              v-on:click.prevent="downvoteQuest"
+              v-if="quest.downvote.includes(user.id)"
+            ></span>
+            <span
+              class="mdi mdi-arrow-down-bold-circle-outline"
+              v-on:click.prevent="downvoteQuest"
+              v-else-if="!quest.downvote.includes(user.id)"
+            ></span>
+          </p>
+        </div>
+        <div class="media-content" id="quest-primary-container">
+          <!-- Quest-primary-header -->
+          <div>
+            <p class="title is-3 is-primary-text">{{ quest.title }}</p>
+          </div>
+          <!-- Quest.description -->
+          <div class="is-secondary-text" id="quest-description-container">
+            <vue-markdown>{{ quest.description }}</vue-markdown>
+          </div>
+          <div class="is-divider"></div>
+          <div class="is-clearfix" id="quest-miscellaneous-container">
+            <p class="is-pulled-left">
+              <span class="subtitle is-7">Category:</span>&nbsp;
+              <span class="tag is-light quest-tag is-secondary-text">
+                {{ quest.category }}
+              </span>
+            </p>
+            <p class="is-pulled-right">
+              <span class="has-text-grey subtitle is-7">
+                {{ quest.date_created }}
+              </span>
+              &nbsp;
+              <span class="has-text-grey subtitle is-7">
+                Posted by
+                <router-link :to="`profile/${quest.user_id}`">
+                  {{ quest.full_name }}
+                </router-link>
+              </span>
+            </p>
           </div>
         </div>
-        <div class="box">
-          <div class="media">
-            <div class="media-left">
-              <figure class="image is-48x48">
-                <img
-                  class="is-rounded"
-                  src="https://bulma.io/images/placeholders/128x128.png"
-                  alt="Image"
-                />
-              </figure>
-            </div>
-            <div class="media-content is-primary-text">
-              <b-field>
-                <b-input
-                  placeholder="Quest description"
-                  v-model="solution.description"
-                ></b-input>
-              </b-field>
-              <div>
-                <button
-                  class="button is-pulled-right is-primary-text bg-secondary color-white"
-                  @click.prevent="postSolution"
-                >
-                  POST
-                </button>
-              </div>
+      </div>
+    </div>
+    <article class="media">
+      <figure class="media-left">
+        <p class="image is-64x64">
+          <img :src="user.img_url" />
+        </p>
+      </figure>
+      <div class="media-content">
+        <div class="field">
+          <p class="control">
+            <textarea
+              class="textarea"
+              placeholder="Offer assistance..."
+              v-model="solution.description"
+            ></textarea>
+          </p>
+        </div>
+        <nav class="level">
+          <div class="level-left"></div>
+          <div class="level-right">
+            <div class="level-item">
+              <button v-on:click.prevent="postSolution" class="button is-info">
+                Leave a response
+              </button>
             </div>
           </div>
-        </div>
-        <!-- mes -->
+        </nav>
+        <div class="is-divider" data-content="SOLUTIONS"></div>
+        <!-- Solutions -->
         <div id="solutions">
           <Solution
             v-for="solution in solutions"
@@ -101,10 +104,8 @@
             v-bind:solution="solution"
           />
         </div>
-        <!-- ssage -->
       </div>
-      <div class="column"></div>
-    </div>
+    </article>
   </div>
 </template>
 
@@ -152,11 +153,11 @@ export default {
       post: 'quest/postSolution',
       refresh: 'quest/populateSolutions'
     }),
-    upvoteQuest: function upvoteQuest(questId) {
-      this.upvote(this.loadQuest(questId));
+    upvoteQuest: function upvoteQuest() {
+      this.upvote(this.loadQuest(this.id));
     },
-    downvoteQuest: function downvoteQuest(questId) {
-      this.downvote(this.loadQuest(questId));
+    downvoteQuest: function downvoteQuest() {
+      this.downvote(this.loadQuest(this.id));
     },
     postSolution: function postSolution() {
       if (this.solution.description) {
@@ -184,26 +185,38 @@ export default {
 
 <style scoped>
 #quest {
-  padding: 72px;
+  width: 100%;
+  padding-top: 75px;
 }
-#quest-title {
-  margin-bottom: 15px;
-  margin-top: 10px;
+#quest-container {
+  border-radius: 0;
+  border: 3px solid #d7bce8;
 }
-#quest-description {
-  background-color: #f0f0f0;
-  padding: 15px;
-  margin-top: 15px;
+.active-vote {
+  color: #b686fe;
 }
-.media-left p span {
+.media .media-left {
+  font-size: 2em;
   cursor: pointer;
   font-weight: bold;
 }
-.media-left p span:hover {
-  color: #fc6076;
+.media .media-left .mdi:hover {
+  color: #b686fe;
 }
-/* OVERRIDES */
-#quest-container .mdi {
-  font-size: 36px;
+#quest-primary-container {
+  padding: 0.5em;
+}
+#quest-description-container {
+  background: #f7f7f7;
+  margin-top: 1em;
+  border: 3px solid #f4f4f4;
+  max-width: 100%;
+  width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+  font-size: 1.5em;
+  padding: 5px;
+  color: #4b465e;
 }
 </style>

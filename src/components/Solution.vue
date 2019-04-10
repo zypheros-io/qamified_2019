@@ -1,65 +1,86 @@
 <template>
-  <div class="box solution-container">
-    <div class="media">
-      <div
-        class="media-left has-text-centered has-text-grey-lighter is-primary-text"
-      >
-        <p>
-          <span
-            class="mdi mdi-arrow-up-thick"
-            @click.prevent="upvoteSolution(solution.id)"
-          ></span>
+  <div class="box" id="solution-container">
+    <article class="media">
+      <figure class="media-left">
+        <p class="image is-64x64">
+          <img :src="user.img_url" />
         </p>
-        <p>
-          <span class="is-primary-text">{{ solution.votes }}</span>
-        </p>
-        <p>
-          <span
-            class="mdi mdi-arrow-down-thick"
-            @click.prevent="downvoteSolution(solution.id)"
-          ></span>
-        </p>
-      </div>
+      </figure>
       <div class="media-content">
-        <div>
-          <span class="title is-6 is-primary-text color-secondary">{{
-            solution.username
-          }}</span>
-          <span class="title is-7 is-primary-text has-text-grey"
-            >Posted&nbsp;{{ solution.date_created }}</span
-          >
-          <span
-            style="font-size: 15px; color: #b9b9b9; cursor: pointer"
-            v-if="getUser.id === solution.user_id"
-            class="mdi mdi-close is-pulled-right"
-            @click.prevent="confirmDelete"
-          ></span>
-        </div>
-        <div class="solution-description">{{ solution.description }}</div>
-        <br />
-        <p class="subtitle is-7 is-secondary-text color-secondary">
-          <a class="solution-reply" @click.prevent="toggleReply">Reply</a>
-        </p>
-        <div class="box" v-if="showReply">
-          <b-field>
-            <b-input
-              placeholder="Enter Reply"
-              v-model="reply.description"
-            ></b-input>
-          </b-field>
-          <div>
-            <button
-              class="button is-primary-text bg-secondary color-white"
-              @click.prevent="postReply(solution.id)"
+        <div class="content">
+          <!-- User name -->
+          <div id="user-name">
+            <p class="is-primary-text color-primary">
+              {{ solution.full_name }}
+            </p>
+          </div>
+          <!-- Response -->
+          <div class="is-secondary-text" id="solution-response">
+            {{ solution.description }}
+          </div>
+          <!-- Actions -->
+          <div class="is-secondary-text" id="user-actions">
+            <!-- Upvote -->
+            <a class="is-secondary-text" v-on:click.prevent="toggleReply">
+              <span class="mdi mdi-message-reply-text"></span>
+              Reply
+            </a>
+            &nbsp;·&nbsp;
+            <a class="is-secondary-text" v-on:click.prevent="upvoteSolution">
+              <span class="mdi mdi-arrow-up-thick"></span>
+              Upvote
+            </a>
+            &nbsp;·&nbsp;
+            <a class="is-secondary-text" v-on:click.prevent="downvoteSolution">
+              <span class="mdi mdi-arrow-down-thick"></span>
+              Downvote
+            </a>
+            <a
+              class="is-secondary-text"
+              v-on:click.prevent="confirmDelete"
+              v-if="user.id === solution.user_id"
             >
-              POST
-            </button>
+              &nbsp;·&nbsp;Delete
+            </a>
+            &nbsp;·&nbsp;
+            {{ solution.votes }} votes
           </div>
         </div>
-        <!-- repliess -->
+        <!-- Reply -->
+        <br />
+        <article v-if="showReply" class="media">
+          <figure class="media-left">
+            <p class="image is-32x32">
+              <img :src="user.img_url" />
+            </p>
+          </figure>
+          <div class="media-content">
+            <div class="field">
+              <p class="control">
+                <input
+                  type="text"
+                  class="input"
+                  placeholder="Got something?"
+                  v-model="reply.description"
+                />
+              </p>
+            </div>
+            <nav class="level">
+              <div class="level-left"></div>
+              <div class="level-right">
+                <div class="level-item">
+                  <button v-on:click.prevent="postReply" class="button is-info">
+                    Leave reply
+                  </button>
+                </div>
+              </div>
+            </nav>
+          </div>
+        </article>
+        <!-- Replies -->
         <Reply v-for="reply in replies" :key="reply.id" v-bind:reply="reply" />
       </div>
-    </div>
+    </article>
   </div>
 </template>
 
@@ -88,18 +109,19 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getUser: 'user/getUser'
+      user: 'user/getUser',
+      getReplies: 'solution/replies'
     }),
     replies() {
-      const replies = this.$store.getters['solution/replies'];
+      const replies = this.getReplies;
       return replies.filter(r => r.solution_id === this.solution.id);
     }
   },
   methods: {
-    postReply: function postReply(solutionId) {
+    postReply: function postReply() {
       this.$store.dispatch('solution/postReply', {
         ...this.reply,
-        solution_id: solutionId
+        solution_id: this.solution.id
       });
       this.reply.description = '';
     },
@@ -109,16 +131,16 @@ export default {
     populateReplies: function populateReplies() {
       this.$store.dispatch('solution/populateReplies', this.solution.id);
     },
-    upvoteSolution: function upvoteSolution(solutionId) {
+    upvoteSolution: function upvoteSolution() {
       this.$store.dispatch(
         'quest/upvoteSolution',
-        this.$store.getters['quest/loadSolution'](solutionId)
+        this.$store.getters['quest/loadSolution'](this.solution.id)
       );
     },
-    downvoteSolution: function downvoteSolution(solutionId) {
+    downvoteSolution: function downvoteSolution() {
       this.$store.dispatch(
         'quest/downvoteSolution',
-        this.$store.getters['quest/loadSolution'](solutionId)
+        this.$store.getters['quest/loadSolution'](this.solution.id)
       );
     },
     confirmDelete: function confirmDelete() {
@@ -141,17 +163,20 @@ export default {
 </script>
 
 <style scoped>
-.solution-container {
-  border-radius: 25px !important;
+#solution-container {
+  border-radius: 0px !important;
 }
-.solution-description {
-  padding-top: 15px;
+#user-name {
+  font-size: 1.1em;
 }
-.solution-reply {
-  color: #fc6076;
+#solution-response {
+  font-size: 1em;
+  margin-top: 0.4em;
 }
-.solution-reply:hover {
-  color: #ff9a44;
+#user-actions {
+  margin-top: 0.4em;
+  font-size: 0.9em;
+  cursor: pointer;
 }
 .media-left p span {
   cursor: pointer;
@@ -160,5 +185,8 @@ export default {
 }
 .media-left p span:hover {
   color: #fc6076;
+}
+.active-vote {
+  color: #d7bce8;
 }
 </style>
