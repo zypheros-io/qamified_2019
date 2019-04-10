@@ -13,9 +13,9 @@
 # System Features
 
 * [x] Players
-* [ ] Quests
-    * [ ] Update User Interface
-* [ ] Quest Board
+* [x] Quests
+    * [x] Update User Interface
+* [x] Quest Board
     * [x] Update Quest Board
     * [x] Add User Card
       * [x] Name
@@ -50,10 +50,10 @@
     * [ ] Design trophies
 * [ ] Badges
     * [ ] Design badges
-* [ ] Progress Tracker
+* [x] Progress Tracker
 * [ ] Report System
     * [ ] Add report button to user profile
-    * [ ] Allow admin to ban users
+    * [x] Allow admin to ban users
 * [x ] Rich Text Format Handling
     * [x] Allow users to format their posts/solutions/replies with Markdown Editor
 * [ ] Social Media Integration
@@ -71,9 +71,9 @@
 
 # Bugs
 
-* [ ] User is still able to go to landing/signin/signup even after logging in
+* [x] User is still able to go to landing/signin/signup even after logging in
 * [ ] Chart disappears after logging in
 * [ ] Table isn't scrollable (not really a bug lol)
-* [ ] Input seems slower due to markdown in feed
+* [x] Input seems slower due to markdown in feed
 * [ ] Posting sometimes doesn't work when just logged in (need testing)
-* [ ] Doesn't detect when user doesn't exist (infinite loading)
+* [x] Doesn't detect when user doesn't exist (infinite loading)
