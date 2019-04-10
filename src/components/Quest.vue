@@ -187,6 +187,7 @@ export default {
 #quest {
   width: 100%;
   padding-top: 75px;
+  padding-bottom: 15px;
 }
 #quest-container {
   border-radius: 0;

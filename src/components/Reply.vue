@@ -1,31 +1,33 @@
 <template>
-  <div class="media reply-container">
-    <div
-      class="media-left has-text-grey-lighter is-primary-text has-text-centered"
-    >
-      <p><span class="mdi mdi-arrow-up-thick"></span></p>
-      <p><span class="is-primary-text">0</span></p>
-      <p><span class="mdi mdi-arrow-down-thick"></span></p>
-    </div>
+  <article class="media">
+    <figure class="media-left image is-64x64">
+      <img :src="reply.user_img_url" />
+    </figure>
     <div class="media-content">
-      <div>
-        <span class="title is-6 is-primary-text color-secondary">{{
-          reply.username
-        }}</span>
-        <span class="title is-7 is-primary-text has-text-grey"
-          >Posted&nbsp;{{ reply.date_created }}</span
-        >
-        <span
-          style="font-size: 15px; color: #b9b9b9; cursor: pointer"
-          v-if="user.id === reply.user_id"
-          class="mdi mdi-close is-pulled-right"
-          @click.prevent="confirmDelete"
-        ></span>
+      <div class="content">
+        <div id="user-name">
+          <p class="is-primary-text color-primary">
+            {{ reply.full_name }}
+          </p>
+        </div>
+        <!-- Response -->
+        <div class="is-secondary-text" id="reply-response">
+          {{ reply.description }}
+        </div>
+        <!-- Misc -->
+        <div class="is-secondary-text" id="reply-actions">
+          <a
+            class="is-secondary-text"
+            v-on:click.prevent="confirmDelete"
+            v-if="user.id === reply.user_id"
+          >
+            Delete Reply
+          </a>
+          &nbsp;·&nbsp;Posted {{ reply.date_created }}
+        </div>
       </div>
-      <div class="reply-description">{{ reply.description }}</div>
-      <br />
     </div>
-  </div>
+  </article>
 </template>
 
 <script>
@@ -56,15 +58,15 @@ export default {
 </script>
 
 <style scoped>
-.reply-description {
-  padding-top: 15px;
+#user-name {
+  font-size: 1.1em;
 }
-.media-left p span {
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 24px;
+#reply-response {
+  font-size: 1em;
+  margin-top: 0.4em;
 }
-.media-left p span:hover {
-  color: #fc6076;
+#reply-actions {
+  font-size: 0.8em;
+  margin-top: 0.7em;
 }
 </style>

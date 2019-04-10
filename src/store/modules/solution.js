@@ -21,6 +21,7 @@ const mutations = {
 
 const actions = {
   postReply({ commit, dispatch }, reply) {
+    console.log(reply);
     // Set loading
     commit('setLoading', true);
     const newReply = reply;

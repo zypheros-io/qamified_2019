@@ -40,7 +40,7 @@
               v-on:click.prevent="confirmDelete"
               v-if="user.id === solution.user_id"
             >
-              &nbsp;·&nbsp;Delete
+              &nbsp;·&nbsp;Delete Solution
             </a>
             &nbsp;·&nbsp;
             {{ solution.votes }} votes
@@ -121,7 +121,8 @@ export default {
     postReply: function postReply() {
       this.$store.dispatch('solution/postReply', {
         ...this.reply,
-        solution_id: this.solution.id
+        solution_id: this.solution.id,
+        user_img_url: this.user.img_url
       });
       this.reply.description = '';
     },
