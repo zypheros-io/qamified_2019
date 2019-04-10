@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   data() {
@@ -83,12 +83,17 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      login: 'login/checkSignInMethod'
+    }),
     signIn: function signIn() {
       if (this.user.email && this.user.password) {
-        this.$store.dispatch('login/checkSignInMethod', this.user);
+        this.login(this.user);
       } else {
-        // eslint-disable-next-line
-        alert('Please fill out the required fields.');
+        this.$snackbar.open({
+          message: 'Please fill in the required fields',
+          type: 'is-danger'
+        });
       }
     },
     goto: function goto(route) {

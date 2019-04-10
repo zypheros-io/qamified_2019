@@ -60,91 +60,11 @@
         </div>
         <div class="is-divider" data-content="QUEST BOARD"></div>
         <!-- Feed -->
-        <div
-          class="box"
+        <Quest-Preview
           v-for="quest in quests"
           :key="quest.id"
-          id="feed-quest"
-        >
-          <div class="media">
-            <!-- Votes -->
-            <div class="media-left has-text-centered has-text-grey-lighter">
-              <!-- Vote buttons -->
-              <p>
-                <span
-                  class="mdi mdi-arrow-up-bold-circle-outline"
-                  v-if="quest.upvote.includes(user.id)"
-                  v-on:click.prevent="upvoteQuest(quest.id)"
-                  style="color: #b686fe"
-                ></span>
-                <span
-                  class="mdi mdi-arrow-up-bold-circle-outline"
-                  v-on:click.prevent="upvoteQuest(quest.id)"
-                  v-else
-                ></span>
-              </p>
-              <p>
-                <span class="is-primary-text" id="votes">
-                  {{ quest.votes }}
-                </span>
-              </p>
-              <p>
-                <span
-                  class="mdi mdi-arrow-down-bold-circle-outline"
-                  v-if="quest.downvote.includes(user.id)"
-                  v-on:click.prevent="downvoteQuest(quest.id)"
-                  style="color: #b686fe"
-                ></span>
-                <span
-                  class="mdi mdi-arrow-down-bold-circle-outline"
-                  v-on:click.prevent="downvoteQuest(quest.id)"
-                  v-else
-                ></span>
-              </p>
-            </div>
-            <!-- Quest Preview -->
-            <div class="media-content" id="quest">
-              <div>
-                <router-link
-                  class="title is-4 color-primary quest-title is-primary-text"
-                  :to="`/${quest.id}`"
-                >
-                  {{ quest.title }}
-                </router-link>
-                <span
-                  style="font-size: 15px; color: #b9b9b9; cursor: pointer"
-                  v-if="user.id === quest.user_id"
-                  class="mdi mdi-close is-pulled-right"
-                  @click.prevent="confirmDelete(quest.id)"
-                ></span>
-              </div>
-              <div class="is-secondary-text" id="quest-description-container">
-                <vue-markdown>{{ quest.description }}</vue-markdown>
-              </div>
-              <div>
-                <br />
-                <p class="is-pulled-left">
-                  <span class="subtitle is-7">Category:</span>&nbsp;
-                  <span class="tag is-light quest-tag is-secondary-text">
-                    {{ quest.category }}
-                  </span>
-                </p>
-                <p class="is-pulled-right">
-                  <span class="has-text-grey subtitle is-7">
-                    {{ quest.date_created }}
-                  </span>
-                  &nbsp;
-                  <span class="has-text-grey subtitle is-7">
-                    Posted by
-                    <router-link :to="`profile/${quest.user_id}`">
-                      {{ quest.full_name }}
-                    </router-link>
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+          v-bind:quest="quest"
+        ></Quest-Preview>
       </div>
     </div>
   </div>
@@ -156,12 +76,14 @@ import moment from 'moment';
 import VueMarkdown from 'vue-markdown';
 import TutorialModal from './TutorialModal';
 import UserCard from './UserCard';
+import QuestPreview from './QuestPreview';
 
 export default {
   components: {
     VueMarkdown,
     TutorialModal,
-    UserCard
+    UserCard,
+    QuestPreview
   },
   data() {
     return {
@@ -194,9 +116,6 @@ export default {
   methods: {
     ...mapActions({
       post: 'feed/postQuest',
-      upvote: 'feed/upvoteQuest',
-      downvote: 'feed/downvoteQuest',
-      delete: 'feed/deleteQuest',
       refresh: 'feed/populateFeed'
     }),
     postQuest: function postQuest() {
@@ -209,23 +128,6 @@ export default {
         // eslint-disable-next-line
         alert('Please fill in the required fields.');
       }
-    },
-    upvoteQuest: function upvoteQuest(questId) {
-      this.upvote(this.load(questId));
-    },
-    downvoteQuest: function downvoteQuest(questId) {
-      this.$store.dispatch('feed/downvoteQuest', this.load(questId));
-    },
-    confirmDelete: function confirmDelete(questId) {
-      this.$dialog.confirm({
-        title: 'Deleting quest',
-        message:
-          'Are you sure you want to <b>delete</b> this quest? This action cannot be undone.',
-        confirmText: 'Yes, I am sure.',
-        type: 'is-danger',
-        hasIcon: true,
-        onConfirm: () => this.delete(questId)
-      });
     },
     populateFeed: function refreshFeed() {
       this.refresh();
