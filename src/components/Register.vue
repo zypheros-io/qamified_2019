@@ -110,7 +110,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'SignUp',
@@ -141,9 +141,12 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      register: 'register/signUp'
+    }),
     validate: function signUp() {
       if (this.user.firstname && this.user.lastname && this.user.institution) {
-        this.$store.dispatch('register/signUp', this.user);
+        this.register(this.user);
       } else {
         this.$snackbar.open({
           message: 'Please fill in all the fields',

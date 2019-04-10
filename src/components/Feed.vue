@@ -49,10 +49,11 @@
               <b-field class="is-pulled-right">
                 <button
                   class="button is-primary-text primary-btn"
+                  id="post-button"
                   v-on:click.prevent="postQuest"
                 >
                   <span class="mdi mdi-file-document-box"></span>
-                  &nbsp;Post Quest
+                  &nbsp;POST QUEST
                 </button>
               </b-field>
             </div>
@@ -73,14 +74,12 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import moment from 'moment';
-import VueMarkdown from 'vue-markdown';
 import TutorialModal from './TutorialModal';
 import UserCard from './UserCard';
 import QuestPreview from './QuestPreview';
 
 export default {
   components: {
-    VueMarkdown,
     TutorialModal,
     UserCard,
     QuestPreview
@@ -93,10 +92,10 @@ export default {
         description: '',
         category: 'Algorithm',
         votes: 0,
-        user_id: this.$store.getters['user/getUser'].id,
+        user_id: '',
         is_answered: false,
-        username: this.$store.getters['user/getUser'].username,
-        full_name: this.$store.getters['user/getUser'].fname,
+        username: '',
+        full_name: '',
         solutions: [],
         is_duplicate: false
       },
@@ -121,12 +120,19 @@ export default {
     postQuest: function postQuest() {
       // if fields are not empty
       if (this.quest.title && this.quest.description) {
-        this.post(this.quest);
+        this.post({
+          ...this.quest,
+          user_id: this.user.id,
+          username: this.user.username,
+          full_name: this.user.fname
+        });
         this.quest.title = '';
         this.quest.description = '';
       } else {
-        // eslint-disable-next-line
-        alert('Please fill in the required fields.');
+        this.$snackbar.open({
+          message: 'Please fill in the required fields',
+          type: 'is-danger'
+        });
       }
     },
     populateFeed: function refreshFeed() {
@@ -160,32 +166,10 @@ export default {
 #feed-form {
   border-radius: 0;
   text-decoration: none;
+  border: 3px solid #d7bce8;
 }
-#feed-quest {
-  border-radius: 0;
-  text-decoration: none;
-  width: 100%;
-}
-#votes {
-  font-size: 1.5em;
-}
-#quest-description-container {
-  margin-top: 1em;
-  background: #f7f7f7;
-  border: 3px solid #f4f4f4;
-  padding: 0.4em;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  hyphens: auto;
-  width: 100%;
-}
-/* overrides */
-.mdi {
-  font-size: 2em;
-  cursor: pointer;
-  font-weight: bold;
-}
-.mdi:hover {
-  color: #b686fe;
+#post-button {
+  font-size: 1em;
+  padding: 15px;
 }
 </style>

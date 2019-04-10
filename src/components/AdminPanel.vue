@@ -20,9 +20,9 @@
   </div>
 </template>
 <script>
-import Dashboard from './Dashboard';
-import Logs from './Logs';
-import User from './User';
+import Dashboard from './admin/Dashboard';
+import Logs from './admin/Logs';
+import User from './admin/User';
 
 export default {
   components: {

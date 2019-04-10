@@ -87,9 +87,13 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import VueMarkdown from 'vue-markdown';
 
 export default {
   props: ['quest'],
+  components: {
+    VueMarkdown
+  },
   computed: {
     ...mapGetters({
       user: 'user/getUser',
@@ -127,6 +131,7 @@ export default {
 #feed-quest {
   border-radius: 0;
   text-decoration: none;
+  border: 3px solid #d7bce8;
 }
 #votes {
   font-size: 1.5em;

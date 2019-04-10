@@ -126,9 +126,9 @@ export default {
         description: '',
         date_created: moment().format(),
         votes: 0,
-        user_id: this.$store.getters['user/getUser'].id,
-        username: this.$store.getters['user/getUser'].username,
-        full_name: this.$store.getters['user/getUser'].fname,
+        user_id: '',
+        username: '',
+        full_name: '',
         is_correct: false,
         quest_id: this.id
       }
@@ -142,7 +142,7 @@ export default {
       loadQuest: 'feed/loadQuest'
     }),
     quest() {
-      return this.$store.getters['feed/loadQuest'](this.id);
+      return this.loadQuest(this.id);
     }
   },
   methods: {
@@ -160,7 +160,12 @@ export default {
     },
     postSolution: function postSolution() {
       if (this.solution.description) {
-        this.post(this.solution);
+        this.post({
+          ...this.solution,
+          user_id: this.user.id,
+          username: this.user.username,
+          full_name: this.user.fname
+        });
         this.solution.description = '';
       } else {
         // eslint-disable-next-line

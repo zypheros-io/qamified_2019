@@ -73,6 +73,9 @@ export default {
 </script>
 
 <style scoped>
+#user-card-container {
+  border: 3px solid #d7bce8;
+}
 .card-header {
   width: 100%;
   border-radius: 0;
