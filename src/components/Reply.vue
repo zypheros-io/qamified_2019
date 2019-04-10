@@ -21,9 +21,9 @@
             v-on:click.prevent="confirmDelete"
             v-if="user.id === reply.user_id"
           >
-            Delete Reply
+            Delete Reply&nbsp;·&nbsp;
           </a>
-          &nbsp;·&nbsp;Posted {{ reply.date_created }}
+          Posted {{ reply.date_created }}
         </div>
       </div>
     </div>

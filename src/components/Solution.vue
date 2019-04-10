@@ -19,31 +19,39 @@
             {{ solution.description }}
           </div>
           <!-- Actions -->
-          <div class="is-secondary-text" id="user-actions">
+          <div class="is-secondary-text is-clearfix" id="user-actions">
             <!-- Upvote -->
-            <a class="is-secondary-text" v-on:click.prevent="toggleReply">
-              <span class="mdi mdi-message-reply-text"></span>
-              Reply
-            </a>
-            &nbsp;·&nbsp;
-            <a class="is-secondary-text" v-on:click.prevent="upvoteSolution">
-              <span class="mdi mdi-arrow-up-thick"></span>
-              Upvote
-            </a>
-            &nbsp;·&nbsp;
-            <a class="is-secondary-text" v-on:click.prevent="downvoteSolution">
-              <span class="mdi mdi-arrow-down-thick"></span>
-              Downvote
-            </a>
-            <a
-              class="is-secondary-text"
-              v-on:click.prevent="confirmDelete"
-              v-if="user.id === solution.user_id"
-            >
-              &nbsp;·&nbsp;Delete Solution
-            </a>
-            &nbsp;·&nbsp;
-            {{ solution.votes }} votes
+            <div class="is-pulled-left">
+              <a class="is-secondary-text" v-on:click.prevent="toggleReply">
+                <span class="mdi mdi-message-reply-text"></span>
+                Reply
+              </a>
+              &nbsp;·&nbsp;
+              <a class="is-secondary-text" v-on:click.prevent="upvoteSolution">
+                <span class="mdi mdi-arrow-up-thick"></span>
+                Upvote
+              </a>
+              &nbsp;·&nbsp;
+              <a
+                class="is-secondary-text"
+                v-on:click.prevent="downvoteSolution"
+              >
+                <span class="mdi mdi-arrow-down-thick"></span>
+                Downvote
+              </a>
+              <a
+                class="is-secondary-text"
+                v-on:click.prevent="confirmDelete"
+                v-if="user.id === solution.user_id"
+              >
+                &nbsp;·&nbsp;Delete Solution
+              </a>
+              &nbsp;·&nbsp;
+              {{ solution.votes }} votes
+            </div>
+            <div class="is-pulled-right">
+              Posted {{ solution.date_created }}
+            </div>
           </div>
         </div>
         <!-- Reply -->
@@ -175,7 +183,7 @@ export default {
   margin-top: 0.4em;
 }
 #user-actions {
-  margin-top: 0.4em;
+  margin-top: 0.8em;
   font-size: 0.9em;
   cursor: pointer;
 }
