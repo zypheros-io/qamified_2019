@@ -4,7 +4,7 @@
       <div class="level-item">
         <div>
           <div class="has-text-centered" id="login-copy">
-            <p class="title is-primary-text">Sign In.</p>
+            <p class="title is-primary-text">Log in to QAmifiED</p>
             <p class="subtitle is-secondary-text">An adventure awaits you</p>
           </div>
           <div class="box" id="login-container">
@@ -40,9 +40,7 @@
               <button
                 class="button is-loading is-medium is-fullwidth is-primary-text primary-btn"
                 v-else-if="loading"
-              >
-                START GAME
-              </button>
+              ></button>
             </b-field>
             <div class="is-divider" data-content="OR"></div>
             <div class="has-text-centered is-secondary-text">
@@ -106,41 +104,37 @@ export default {
 
 <style scoped>
 #login-page {
-  height: 100vh;
-  width: 100%;
-  background: #f4f4f4 url('../assets/bg_banner.svg');
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+  height: 100vh !important;
+  width: 100% !important;
+  background: #eef7ed !important;
 }
 #login-page .level,
 #login-page .level .level-item {
-  height: inherit;
-  width: 100%;
+  height: inherit !important;
+  width: 100% !important;
 }
 #login-page .title {
-  color: #b686fe;
-  font-size: 2.8em;
-  margin-bottom: 1.5rem;
+  color: #17b79c !important;
+  font-size: 2.8em !important;
+  margin-bottom: 1.5rem !important;
 }
 #login-page .subtitle {
-  color: #898585;
-  font-size: 1.8em;
-  margin-bottom: 1.5rem;
+  color: #37ccb3 !important;
+  font-size: 1.8em !important;
+  margin-bottom: 1.5rem !important;
 }
 #login-container {
-  opacity: 0;
-  padding: 2em;
-  text-decoration: none;
-  box-shadow: 1px;
-  width: 450px;
-  border: 1px solid #b686fe;
-  animation: formIn 0.5s ease-in-out 2s forwards;
+  border: 2px solid #17b79c !important;
+  opacity: 0 !important;
+  padding: 2em !important;
+  text-decoration: none !important;
+  box-shadow: 1px !important;
+  width: 450px !important;
+  animation: formIn 0.5s ease-in-out 1s forwards !important;
 }
 #login-copy {
-  opacity: 0;
-  animation: slideIn 1s ease-in-out 0s forwards;
+  opacity: 0 !important;
+  animation: slideIn 1s ease-in-out 0s forwards !important;
 }
 /* animations */
 @keyframes slideIn {

@@ -131,46 +131,22 @@ ul {
 .navbar-end .navbar-item {
   font-size: 0.8em;
   font-weight: bold;
-  color: #ffffff;
+  color: #ffffff !important;
 }
 .navbar-end .navbar-item:hover {
-  color: #4b465e;
-}
-#nav-search {
-  background-color: #203d66 !important;
-  border: none;
-  box-shadow: none;
-  color: #fdfdfd;
-}
-#nav-search::placeholder {
-  color: #fafbfc;
-}
-#nav-signup {
-  color: #ff9a44;
-}
-#nav-signup:hover {
-  color: #cc7b36;
-}
-#nav-dropdown > a {
-  color: #ff9a44;
-}
-#nav-dropdown > a:hover {
-  color: #cc7b36;
-}
-.game-btn-med {
-  font-size: 1.35rem;
+  color: #f4e46b !important;
 }
 /* custom modifiers */
 .is-anchor {
-  color: #b686fe;
+  color: #17b79c !important;
 }
 .is-anchor:hover {
-  -webkit-transition: 0.2s;
-  -moz-transition: 0.2s;
-  -o-transition: 0.2s;
-  transition: 0.2s;
-  color: #aa73fe;
-  text-decoration: underline;
+  -webkit-transition: 0.2s !important;
+  -moz-transition: 0.2s !important;
+  -o-transition: 0.2s !important;
+  transition: 0.2s !important;
+  color: #f4e46b !important;
+  text-decoration: underline !important;
 }
 /* fonts */
 .is-primary-text {
@@ -186,30 +162,27 @@ ul {
 }
 /* colors */
 .color-white {
-  color: #fdfdfd;
+  color: #ffffff !important;
 }
 .color-primary {
-  color: #b686fe;
+  color: #37ccb3 !important;
 }
 .color-secondary {
-  color: #1a2c54;
-}
-.color-highlight {
-  color: #ff9a44;
+  color: #17b79c !important;
 }
 .color-grey {
-  color: #f9f9f9;
+  color: #eef7ed !important;
 }
 /* buttons  */
 .primary-btn {
-  background: #b686fe !important;
+  background: #17b79c !important;
   color: #ffffff !important;
   border: none !important;
 }
 .primary-btn:hover,
 .primary-btn:focus {
-  background: #aa73fe;
-  color: #ffffff;
+  background: #37ccb3 !important;
+  color: #ffffff !important;
 }
 /* modifiers */
 .margin-top-1 {
@@ -218,33 +191,33 @@ ul {
 /* overrides */
 ::-webkit-input-placeholder {
   font-family: 'Montserrat', sans-serif;
-  font-weight: 400;
-  font-size: 0.8em;
+  font-weight: 400 !important;
+  font-size: 0.8em !important;
   color: #7e7e7e !important;
 }
 ::-moz-placeholder {
   font-family: 'Montserrat', sans-serif;
-  font-weight: 400;
-  font-size: 0.8em;
+  font-weight: 400 !important;
+  font-size: 0.8em !important;
   color: #7e7e7e !important;
 }
 :-ms-input-placeholder {
   font-family: 'Montserrat', sans-serif;
-  font-weight: 400;
-  font-size: 0.8em;
+  font-weight: 400 !important;
+  font-size: 0.8em !important;
   color: #7e7e7e !important;
 }
 ::placeholder {
   font-family: 'Montserrat', sans-serif;
-  font-weight: 400;
-  font-size: 0.8em;
+  font-weight: 400 !important;
+  font-size: 0.8em !important;
   color: #7e7e7e !important;
 }
 input {
   font-family: 'Montserrat', sans-serif !important;
-  font-weight: 400;
+  font-weight: 400 !important;
   color: #707070 !important;
-  height: 50px;
+  height: 50px !important;
   border-radius: 0 !important;
 }
 textarea {
