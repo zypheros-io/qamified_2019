@@ -8,8 +8,8 @@
     >
       <div class="container">
         <div class="navbar-brand">
-          <a class="navbar-item">
-            <img src="/static/img/buefy-logo.png" alt="LOGO" />
+          <a class="navbar-item" v-on:click.prevent="goto('/feed')">
+            <img src="./assets/logo.png" alt="LOGO" />
           </a>
         </div>
         <div class="navbar-menu">
@@ -92,7 +92,7 @@ export default {
 
 html {
   margin: 0;
-  background: #f7f7f7;
+  background: #eef7ed;
 }
 /**
 Override buefy styling for markdown use
@@ -125,7 +125,8 @@ ul {
   padding-inline-start: 25px;
 }
 .navbar {
-  background-color: #b686fe;
+  background-color: #17b79c !important;
+  font-size: 1.2em !important;
 }
 .navbar-end .navbar-item {
   font-size: 0.8em;

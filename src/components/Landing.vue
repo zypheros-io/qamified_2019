@@ -11,7 +11,9 @@
           <div class="container">
             <!-- Logo -->
             <div class="navbar-brand">
-              <span>LOGO</span>
+              <a class="navbar-item" href="https://bulma.io">
+                <img src="../assets/logo.png" alt="logo.svg" />
+              </a>
             </div>
             <div class="navbar-menu">
               <div class="navbar-end">
@@ -97,7 +99,7 @@ export default {
 }
 .navbar-item {
   padding-top: 50px !important;
-  font-size: 1.4em !important;
+  font-size: 1.2em !important;
 }
 .hero {
   font-family: 'Montserrat', sans-serif !important;
