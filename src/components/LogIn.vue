@@ -119,7 +119,7 @@ export default {
   margin-bottom: 1.5rem !important;
 }
 #login-page .subtitle {
-  color: #37ccb3 !important;
+  color: #303030 !important;
   font-size: 1.8em !important;
   margin-bottom: 1.5rem !important;
 }
