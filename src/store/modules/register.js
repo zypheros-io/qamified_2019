@@ -48,7 +48,7 @@ const actions = {
           img_url: 'static/avatars/avatar_boy.png',
           // Hidden information
           is_banned: false,
-          is_admin: true,
+          is_admin: false,
           is_new: true,
           last_access: moment().format(),
           date_created: moment().format()
