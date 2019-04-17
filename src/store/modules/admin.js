@@ -28,7 +28,29 @@ const state = {
     'CHANGE_CATEGORY',
     'REPORT_USER'
   ],
-  values: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  values: [
+    ['VIEW_FEED', 0],
+    ['VIEW_PROFILE', 0],
+    ['VIEW_RANKING', 0],
+    ['VIEW_NOTIFICATION', 0],
+    ['VIEW_QUEST', 0],
+    ['VIEW_USER', 0],
+    ['VIEW_TODO', 0],
+    ['VIEW_ACHIEVEMENT', 0],
+    ['POST_QUEST', 0],
+    ['UPVOTE_QUEST', 0],
+    ['DOWNVOTE_QUEST', 0],
+    ['DELETE_QUEST', 0],
+    ['FLAG_QUEST', 0],
+    ['POST_SOLUTION', 0],
+    ['UPVOTE_SOLUTION', 0],
+    ['DOWNVOTE_SOLUTION', 0],
+    ['MARK_SOLUTION', 0],
+    ['DELETE_SOLUTION', 0],
+    ['POST_REPLY', 0],
+    ['CHANGE_CATEGORY', 0],
+    ['REPORT_USER', 0],
+  ],
   user_count: 0,
   quest_count: 0,
   solution_count: 0,
@@ -117,30 +139,29 @@ const actions = {
   },
   refreshChart({ commit, rootGetters }) {
     commit('setLoading', true);
-    const labels = rootGetters['admin/labels'];
+    const labels = [...rootGetters['admin/labels']];
     const values = [
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0
+      ['VIEW_FEED', 0],
+      ['VIEW_PROFILE', 0],
+      ['VIEW_RANKING', 0],
+      ['VIEW_NOTIFICATION', 0],
+      ['VIEW_QUEST', 0],
+      ['VIEW_USER', 0],
+      ['VIEW_TODO', 0],
+      ['VIEW_ACHIEVEMENT', 0],
+      ['POST_QUEST', 0],
+      ['UPVOTE_QUEST', 0],
+      ['DOWNVOTE_QUEST', 0],
+      ['DELETE_QUEST', 0],
+      ['FLAG_QUEST', 0],
+      ['POST_SOLUTION', 0],
+      ['UPVOTE_SOLUTION', 0],
+      ['DOWNVOTE_SOLUTION', 0],
+      ['MARK_SOLUTION', 0],
+      ['DELETE_SOLUTION', 0],
+      ['POST_REPLY', 0],
+      ['CHANGE_CATEGORY', 0],
+      ['REPORT_USER', 0],
     ];
     // Retrieve data from DB
     firebase
@@ -151,16 +172,17 @@ const actions = {
           logs.forEach(log => {
             let l = log.val();
             let logIndex = labels.indexOf(l.context);
-            values[logIndex] += 1;
+            if(values[logIndex]) {
+              values[logIndex][1] += 1;
+            }
           });
         }
       });
-    // commit new data to local storage
-    commit('setData', values);
     // fake load
     setTimeout(() => {
+      commit('setData', values);
       commit('setLoading', false);
-    }, 2 * 1000);
+    }, 2000);
   },
   refreshCounters({ commit }) {
     // User Count
@@ -220,6 +242,9 @@ const getters = {
   },
   labels(state) {
     return state.labels;
+  },
+  values(state) {
+    return state.values;
   },
   loading(state) {
     return state.loading;

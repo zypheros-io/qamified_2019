@@ -24,14 +24,14 @@
               <b-field>
                 <b-input
                   type="text"
-                  placeholder="What's your quest all about?"
+                  placeholder="Give your quest an awesome title..."
                   v-model="quest.title"
                 />
               </b-field>
               <b-field>
                 <b-input
                   type="textarea"
-                  placeholder="What's your quest all about?"
+                  placeholder="Tell us about your quest..."
                   v-model="quest.description"
                 />
               </b-field>
@@ -124,7 +124,8 @@ export default {
           ...this.quest,
           user_id: this.user.id,
           username: this.user.username,
-          full_name: this.user.fname
+          full_name: this.user.fname,
+          user_img_url: this.user.img_url
         });
         this.quest.title = '';
         this.quest.description = '';
@@ -141,19 +142,6 @@ export default {
   },
   mounted() {
     this.populateFeed();
-  },
-  created() {
-    // if (this.$store.getters['user/getUser']) {
-    //   this.$dialog.confirm({
-    //     title: 'Welcome!',
-    //     message:
-    //       'Oh, so you are the new adventurer they told me about. I hope you enjoy your stay in this wonderful world of QA.',
-    //     confirmText: 'Thanks!',
-    //     type: 'is-success',
-    //     hasIcon: true,
-    //     onConfirm: () => this.$toast.open('Godspeed, adventurer!')
-    //   });
-    // }
   }
 };
 </script>
@@ -163,13 +151,7 @@ export default {
   width: 100%;
   padding-top: 75px;
 }
-#feed-form {
-  border-radius: 0;
-  text-decoration: none;
-  border: 3px solid #d7bce8;
-}
 #post-button {
   font-size: 1em;
-  padding: 15px;
 }
 </style>

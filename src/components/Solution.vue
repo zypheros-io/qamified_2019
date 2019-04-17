@@ -22,25 +22,31 @@
           <div class="is-secondary-text is-clearfix" id="user-actions">
             <!-- Upvote -->
             <div class="is-pulled-left">
-              <a class="is-secondary-text" v-on:click.prevent="toggleReply">
+              <a
+                class="is-secondary-text is-anchor"
+                v-on:click.prevent="toggleReply"
+              >
                 <span class="mdi mdi-message-reply-text"></span>
                 Reply
               </a>
               &nbsp;·&nbsp;
-              <a class="is-secondary-text" v-on:click.prevent="upvoteSolution">
+              <a
+                class="is-secondary-text is-anchor"
+                v-on:click.prevent="upvoteSolution"
+              >
                 <span class="mdi mdi-arrow-up-thick"></span>
                 Upvote
               </a>
               &nbsp;·&nbsp;
               <a
-                class="is-secondary-text"
+                class="is-secondary-text is-anchor"
                 v-on:click.prevent="downvoteSolution"
               >
                 <span class="mdi mdi-arrow-down-thick"></span>
                 Downvote
               </a>
               <a
-                class="is-secondary-text"
+                class="is-secondary-text is-anchor"
                 v-on:click.prevent="confirmDelete"
                 v-if="user.id === solution.user_id"
               >
@@ -50,7 +56,7 @@
               {{ solution.votes }} votes
             </div>
             <div class="is-pulled-right">
-              Posted {{ solution.date_created }}
+              Posted {{ solution.date_created | date }}
             </div>
           </div>
         </div>
@@ -77,7 +83,10 @@
               <div class="level-left"></div>
               <div class="level-right">
                 <div class="level-item">
-                  <button v-on:click.prevent="postReply" class="button is-info">
+                  <button
+                    v-on:click.prevent="postReply"
+                    class="button primary-btn is-secondary-text"
+                  >
                     Leave reply
                   </button>
                 </div>
@@ -173,29 +182,30 @@ export default {
 
 <style scoped>
 #solution-container {
-  border-radius: 0px !important;
+  width: 95% !important;
+  margin-left: 3vw !important;
 }
 #user-name {
-  font-size: 1.1em;
+  font-size: 1.1em !important;
 }
 #solution-response {
-  font-size: 1em;
-  margin-top: 0.4em;
+  font-size: 1em !important;
+  margin-top: 0.4em !important;
 }
 #user-actions {
-  margin-top: 0.8em;
-  font-size: 0.9em;
-  cursor: pointer;
+  margin-top: 0.8em !important;
+  font-size: 0.9em !important;
+  cursor: pointer !important;
 }
 .media-left p span {
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 24px;
+  cursor: pointer !important;
+  font-weight: bold !important;
+  font-size: 24px !important;
 }
 .media-left p span:hover {
-  color: #fc6076;
+  color: #fc6076 !important;
 }
 .active-vote {
-  color: #d7bce8;
+  color: #d7bce8 !important;
 }
 </style>

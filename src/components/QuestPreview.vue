@@ -40,19 +40,34 @@
       <div class="media-content" id="quest-primary-container">
         <!-- Quest-primary-header -->
         <div>
-          <router-link
-            class="title is-4 is-primary-text"
-            id="quest-title"
-            :to="`/${quest.id}`"
+          <b-tooltip
+            label="Click to view quest"
+            type="is-dark"
+            position="is-right"
+            animated
           >
-            {{ quest.title }}
-          </router-link>
-          <span
-            class="mdi mdi-close is-pulled-right"
-            v-if="user.id === quest.user_id"
-            v-on:click.prevent="confirmDelete"
-            id="quest-close"
-          ></span>
+            <router-link
+              class="title is-4 is-primary-text"
+              id="quest-title"
+              :to="`/${quest.id}`"
+            >
+              {{ quest.title }}
+            </router-link>
+          </b-tooltip>
+          <b-tooltip
+            class="is-pulled-right"
+            label="Delete this quest"
+            type="is-dark"
+            position="is-right"
+            animated
+          >
+            <span
+              class="mdi mdi-close"
+              v-if="user.id === quest.user_id"
+              v-on:click.prevent="confirmDelete"
+              id="quest-close"
+            ></span>
+          </b-tooltip>
         </div>
         <!-- Quest description -->
         <div class="is-secondary-text" id="quest-description-container">
@@ -67,18 +82,26 @@
               {{ quest.category }}
             </span>
           </p>
-          <p class="is-pulled-right">
-            <span class="has-text-grey subtitle is-7">
-              {{ quest.date_created }}
-            </span>
-            &nbsp;
-            <span class="has-text-grey subtitle is-7">
-              Posted by
-              <router-link :to="`profile/${quest.user_id}`">
+          <div
+            class="media is-pulled-right has-text-centered"
+            id="adventurer-info"
+          >
+            <figure class="media-left image is-32x32">
+              <img
+                :src="`../../${quest.user_img_url}`"
+                alt="adventurer image"
+                class="is-rounded"
+              />
+            </figure>
+            <div class="media-content">
+              <p class="title is-secondary-text" id="info-name">
                 {{ quest.full_name }}
-              </router-link>
-            </span>
-          </p>
+              </p>
+              <p class="subtitle is-secondary-text" id="info-time">
+                Posted {{ quest.date_created | date }}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -128,50 +151,57 @@ export default {
 </script>
 
 <style scoped>
-#feed-quest {
-  border-radius: 0;
-  text-decoration: none;
-  border: 3px solid #d7bce8;
-}
 #votes {
-  font-size: 1.5em;
+  font-size: 1.5em !important;
 }
 .active-vote {
-  color: #b686fe;
+  color: #17b79c !important;
+}
+.tag {
+  background-color: #17b79c !important;
+  color: #ffffff !important;
 }
 #quest-primary-container {
-  padding: 0.5em;
+  padding: 0.5em !important;
 }
 #quest-title {
-  color: #4b465e;
+  color: #242729 !important;
 }
 #quest-title:hover {
-  color: #b676fe;
+  color: #37ccb3 !important;
 }
 #quest-close {
-  font-size: 15px;
-  color: #b9b9b9;
-  cursor: pointer;
+  font-size: 15px !important;
+  color: #b9b9b9 !important;
+  cursor: pointer !important;
 }
 #quest-description-container {
-  background: #f7f7f7;
-  margin-top: 1em;
-  border: 3px solid #f4f4f4;
-  max-width: 100%;
-  width: 100%;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  hyphens: auto;
-  font-size: 1em;
-  padding: 5px;
-  color: #4b465e;
+  background: #eff0f1 !important;
+  margin-top: 1em !important;
+  border: 3px solid #f4f4f4 !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+  hyphens: auto !important;
+  font-size: 1em !important;
+  padding: 5px !important;
+  color: #242729 !important;
+}
+#adventurer-info {
+  padding: 15px !important;
+  background-color: #eef7ed !important;
+}
+#info-name,
+#info-time {
+  font-size: 0.8em !important;
 }
 .mdi {
-  font-size: 2em;
-  cursor: pointer;
-  font-weight: bold;
+  font-size: 2em !important;
+  cursor: pointer !important;
+  font-weight: bold !important;
 }
 .mdi:hover {
-  color: #b686fe;
+  color: #37ccb3 !important;
 }
 </style>

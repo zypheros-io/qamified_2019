@@ -53,18 +53,26 @@
                 {{ quest.category }}
               </span>
             </p>
-            <p class="is-pulled-right">
-              <span class="has-text-grey subtitle is-7">
-                {{ quest.date_created }}
-              </span>
-              &nbsp;
-              <span class="has-text-grey subtitle is-7">
-                Posted by
-                <router-link :to="`profile/${quest.user_id}`">
+            <div
+              class="media is-pulled-right has-text-centered"
+              id="adventurer-info"
+            >
+              <figure class="media-left image is-32x32">
+                <img
+                  :src="`../../${quest.user_img_url}`"
+                  alt="adventurer image"
+                  class="is-rounded"
+                />
+              </figure>
+              <div class="media-content">
+                <p class="title is-secondary-text" id="info-name">
                   {{ quest.full_name }}
-                </router-link>
-              </span>
-            </p>
+                </p>
+                <p class="subtitle is-secondary-text" id="info-time">
+                  Posted {{ quest.date_created | date }}
+                </p>
+              </div>
+            </div>
           </div>
           <social-sharing url="qamified.tk" inline-template>
             <div>
@@ -120,7 +128,10 @@
           <div class="level-left"></div>
           <div class="level-right">
             <div class="level-item">
-              <button v-on:click.prevent="postSolution" class="button is-info">
+              <button
+                v-on:click.prevent="postSolution"
+                class="button primary-btn is-secondary-text"
+              >
                 Leave a response
               </button>
             </div>
@@ -216,39 +227,47 @@ export default {
 
 <style scoped>
 #quest {
-  width: 100%;
-  padding-top: 75px;
-  padding-bottom: 15px;
-}
-#quest-container {
-  border-radius: 0;
-  border: 3px solid #d7bce8;
+  width: 100% !important;
+  padding-top: 75px !important;
+  padding-bottom: 15px !important;
 }
 .active-vote {
-  color: #b686fe;
+  color: #17b79c !important;
 }
-.media .media-left {
-  font-size: 2em;
-  cursor: pointer;
-  font-weight: bold;
+.tag {
+  background-color: #17b79c !important;
+  color: #ffffff !important;
 }
-.media .media-left .mdi:hover {
-  color: #b686fe;
+.mdi {
+  font-size: 2em !important;
+  cursor: pointer !important;
+  font-weight: bold !important;
+}
+.mdi:hover {
+  color: #37ccb3 !important;
 }
 #quest-primary-container {
-  padding: 0.5em;
+  padding: 0.5em !important;
 }
 #quest-description-container {
-  background: #f7f7f7;
-  margin-top: 1em;
-  border: 3px solid #f4f4f4;
-  max-width: 100%;
-  width: 100%;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  hyphens: auto;
-  font-size: 1.5em;
-  padding: 5px;
-  color: #4b465e;
+  background: #eff0f1 !important;
+  margin-top: 1em !important;
+  border: 3px solid #f4f4f4 !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+  hyphens: auto !important;
+  font-size: 1em !important;
+  padding: 5px !important;
+  color: #242729 !important;
+}
+#adventurer-info {
+  padding: 15px;
+  background-color: #eef7ed;
+}
+#info-name,
+#info-time {
+  font-size: 0.8em;
 }
 </style>

@@ -55,6 +55,7 @@
               </b-field>
             </div>
             <div v-else-if="step === 2" id="signup-part-two">
+              <b-field></b-field>
               <b-field label="First Name*">
                 <b-input
                   v-model="user.firstname"

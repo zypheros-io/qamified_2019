@@ -6,16 +6,21 @@ import Vue from 'vue';
 import Buefy from 'buefy';
 import AnimatedVue from 'animated-vue';
 import VueMarkdown from 'vue-markdown';
+import VueChartkick from 'vue-chartkick';
 import SocialSharing from 'vue-social-sharing';
+import Chart from 'chart.js';
 import App from './App';
 import router from './router';
 import store from './store';
+import DateFilter from './filters/date';
 import '../node_modules/buefy/dist/buefy.css';
 
+Vue.use(VueChartkick, { adapter: Chart });
 Vue.use(Buefy);
 Vue.use(AnimatedVue);
 Vue.use(VueMarkdown);
 Vue.use(SocialSharing);
+Vue.filter('date', DateFilter);
 
 Vue.config.productionTip = false;
 

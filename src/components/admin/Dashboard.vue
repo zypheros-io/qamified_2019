@@ -12,7 +12,6 @@
         v-if="loading"
         class="button is-loading primary-btn is-medium"
       ></button>
-      <bar-chart :chart-data="chart" :chart-options="options" />
     </div>
     <div id="stats-container" class="box has-text-centered is-primary-text">
       <p class="title">Application Statistics</p>
@@ -43,75 +42,20 @@
         </div>
       </div>
     </div>
+    <column-chart
+      :data="this.$store.getters['admin/chart']"
+      xtitle="User Activity"
+      ytitle="Frequency"
+    />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import BarChart from './BarChart';
 
 export default {
   name: 'Dashboard',
-  components: {
-    BarChart
-  },
   computed: {
-    chart() {
-      return {
-        labels: [
-          'VIEW_FEED',
-          'VIEW_PROFILE',
-          'VIEW_RANKING',
-          'VIEW_NOTIFICATION',
-          'VIEW_QUEST',
-          'VIEW_USER',
-          'VIEW_TODO',
-          'VIEW_ACHIEVEMENT',
-          'POST_QUEST',
-          'UPVOTE_QUEST',
-          'DOWNVOTE_QUEST',
-          'DELETE_QUEST',
-          'FLAG_QUEST',
-          'POST_SOLUTION',
-          'UPVOTE_SOLUTION',
-          'DOWNVOTE_SOLUTION',
-          'MARK_SOLUTION',
-          'DELETE_SOLUTION',
-          'POST_REPLY',
-          'CHANGE_CATEGORY',
-          'REPORT_USER'
-        ],
-        datasets: [
-          {
-            label: 'User Activity',
-            backgroundColor: '#b686fe',
-            data: this.$store.getters['admin/chart']
-          }
-        ]
-      };
-    },
-    options() {
-      return {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          xAxes: [
-            {
-              ticks: {
-                autoSkip: false
-              }
-            }
-          ],
-          yAxes: [
-            {
-              ticks: {
-                autoSkip: false
-              }
-            }
-          ]
-        }
-      };
-    },
     ...mapGetters({
       loading: 'admin/loading',
       userCount: 'admin/userCount',

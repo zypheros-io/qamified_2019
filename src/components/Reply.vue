@@ -15,15 +15,15 @@
           {{ reply.description }}
         </div>
         <!-- Misc -->
-        <div class="is-secondary-text" id="reply-actions">
+        <div class="is-secondary-text is-clearfix" id="reply-actions">
           <a
-            class="is-secondary-text"
+            class="is-secondary-text is-anchor is-pulled-left"
             v-on:click.prevent="confirmDelete"
             v-if="user.id === reply.user_id"
           >
             Delete Reply&nbsp;·&nbsp;
           </a>
-          Posted {{ reply.date_created }}
+          <p class="is-pulled-right">Posted {{ reply.date_created | date }}</p>
         </div>
       </div>
     </div>

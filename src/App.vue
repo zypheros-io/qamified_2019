@@ -138,7 +138,7 @@ ul {
 }
 /* custom modifiers */
 .is-anchor {
-  color: #17b79c !important;
+  color: #0b7765 !important;
 }
 .is-anchor:hover {
   -webkit-transition: 0.2s !important;
@@ -151,11 +151,11 @@ ul {
 /* fonts */
 .is-primary-text {
   font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
+  font-weight: 600 !important;
 }
 .is-secondary-text {
   font-family: 'Montserrat', sans-serif;
-  font-weight: 400;
+  font-weight: 500 !important;
 }
 .is-small-text {
   font-size: 2px !important;
@@ -173,11 +173,16 @@ ul {
 .color-grey {
   color: #eef7ed !important;
 }
+.color-highlight {
+  color: #f4e46b !important;
+}
 /* buttons  */
 .primary-btn {
   background: #17b79c !important;
   color: #ffffff !important;
   border: none !important;
+  border-radius: 8px !important;
+  text-decoration: none !important;
 }
 .primary-btn:hover,
 .primary-btn:focus {
