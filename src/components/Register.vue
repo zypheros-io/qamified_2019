@@ -20,7 +20,7 @@
               <b-field label="Email address*">
                 <b-input
                   v-model="user.email"
-                  type="text"
+                  type="email"
                   placeholder="Email address"
                   size="is-medium"
                   required
@@ -167,7 +167,7 @@ export default {
         }
       } else {
         this.$snackbar.open({
-          message: 'Please fill in all fields',
+          message: 'Password needs to be at least 6 characters long',
           type: 'is-danger'
         });
       }
