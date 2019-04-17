@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="hero is-fullheight is-success">
+    <div class="hero is-fullheight">
+      <!-- Navigation -->
       <div class="hero-head">
         <nav
           class="navbar is-fixed-top is-transparent"
@@ -8,22 +9,23 @@
           aria-label="main-navigation"
         >
           <div class="container">
+            <!-- Logo -->
             <div class="navbar-brand">
-              <span class="navbar-item" id="logo">QAMIFIED</span>
+              <span>LOGO</span>
             </div>
             <div class="navbar-menu">
               <div class="navbar-end">
                 <a
                   class="navbar-item"
                   id="nav-login"
-                  @click.prevent="goto('/signin')"
+                  v-on:click.prevent="goto('/signin')"
                 >
-                  Log In
+                  Login
                 </a>
                 <a
                   class="navbar-item"
                   id="nav-signup"
-                  @click.prevent="goto('/signup')"
+                  v-on:click.prevent="goto('/signup')"
                 >
                   Sign Up
                 </a>
@@ -32,25 +34,27 @@
           </div>
         </nav>
       </div>
+      <!-- Hero Body -->
       <div class="hero-body">
-        <span class="mdi mdi-arrow-right-drop-circle"></span>
-        <div class="container has-text-centered" id="banner">
-          <div id="landing-copy">
-            <p class="title is-spaced" id="banner-title">
-              Learn. Respond. Collaborate
+        <!-- Copy -->
+        <div class="container has-text-centered">
+          <div id="hero-copy">
+            <p class="title is-1 is-spaced" id="banner-title">
+              Learn. Respond. Collaborate.
             </p>
-            <p class="subtitle" id="banner-subtitle">Learning made more fun</p>
+            <p class="subtitle is-4" id="banner-subtitle">
+              Learning made more fun and collaborative for free, forever!
+            </p>
             <button
               class="button"
               id="banner-button"
-              @click.prevent="goto('/signup')"
+              v-on:click.prevent="goto('/signup')"
             >
-              <p>
-                <span class="mdi mdi-arrow-right-drop-circle"></span>Start your
-                adventure
-              </p>
+              <span class="mdi mdi-arrow-right-drop-circle"></span>
+              &nbsp;Start your adventure
             </button>
           </div>
+          <!-- Illustration -->
           <div class="has-text-centered" id="illustration">
             <img src="../assets/monitor.svg" id="monitor" />
             <img src="../assets/left.svg" id="left-bubble" class="bubbles" />
@@ -59,7 +63,6 @@
           </div>
         </div>
       </div>
-      <div class="hero-foot"></div>
     </div>
   </div>
 </template>
@@ -89,68 +92,52 @@ export default {
 
 <style scoped>
 .navbar {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Montserrat', sans-serif !important;
+  color: #ffffff;
 }
 .navbar-item {
-  font-size: 1.2em;
-}
-#logo {
-  color: #b686fe;
-  font-weight: bold;
-}
-#nav-login {
-  color: #707070;
-}
-#nav-signup {
-  color: #b686fe;
+  padding-top: 50px !important;
+  font-size: 1.4em !important;
 }
 .hero {
-  font-family: 'Montserrat', sans-serif;
-  background: #f4f4f4 url('../assets/landing.svg');
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+  font-family: 'Montserrat', sans-serif !important;
+  background-color: #17b79c !important;
 }
-#container {
-  margin-top: 200px;
+#nav-login:hover {
+  color: #f4e46b !important;
+}
+#nav-signup {
+  color: #f4e46b !important;
 }
 #banner-title {
-  font-size: 2.8em;
-  font-weight: bold;
-  color: #707070;
-  margin-bottom: 1.5rem;
+  color: #ffffff !important;
+  letter-spacing: 5px !important;
 }
 #banner-subtitle {
-  font-size: 1.8em;
-  color: #858585;
-  margin-bottom: 1.5rem;
+  color: #eef7ed !important;
+  letter-spacing: 2px !important;
 }
 #banner-button {
-  background-color: #b686fe;
-  margin-top: 1.2em;
-  padding: 30px 50px 30px 50px;
-  border-radius: 12px;
-  text-decoration: none;
-  opacity: 0;
-  animation: buttonIn 1s ease-in-out 4s forwards;
-}
-#banner-button p {
-  color: #ffffff;
-  font-size: 1.6em;
+  width: 62% !important;
+  height: 7vh !important;
+  background-color: #f4e46b !important;
+  border: none !important;
+  border-radius: 8px !important;
+  text-decoration: none !important;
+  text-transform: uppercase !important;
+  color: #17b79c !important;
+  font-size: 1.3em;
   font-weight: bold;
+  margin-top: 2em;
 }
-#banner-button .mdi {
-  margin-right: 10px;
-}
-
+/* Illustration */
 #illustration {
-  margin-top: 3.5em;
+  margin-top: 7em;
   align-self: center;
   justify-self: center;
 }
 #monitor {
-  width: 50%;
+  width: 40%;
   opacity: 0;
   -webkit-animation: monitorIn 1s ease-in-out forwards;
   -moz-animation: monitorIn 1s ease-in-out forwards;
@@ -159,10 +146,10 @@ export default {
 }
 .bubbles {
   position: absolute;
-  width: 25%;
+  width: 20%;
 }
 #left-bubble {
-  margin-left: -72.6%;
+  margin-left: -58%;
   margin-top: -3%;
   z-index: 2;
   opacity: 0;
@@ -170,14 +157,14 @@ export default {
 }
 #right-bubble {
   margin-top: 10%;
-  margin-left: -2.3%;
+  margin-left: -2%;
   z-index: 2;
   opacity: 0;
   animation: bubbles 0.5s ease-in-out 2.7s forwards;
 }
 #btm-bubble {
-  margin-top: 17.5%;
-  margin-left: -38%;
+  margin-top: 14%;
+  margin-left: -35%;
   z-index: 2;
   opacity: 0;
   animation: bubbles 0.5s ease-in-out 3.7s forwards;

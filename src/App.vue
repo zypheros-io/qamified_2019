@@ -171,11 +171,6 @@ ul {
   color: #aa73fe;
   text-decoration: underline;
 }
-.rounded-card {
-  border-radius: 5px !important;
-  border: 1px solid #f9c23e;
-  margin-top: 10px;
-}
 /* fonts */
 .is-primary-text {
   font-family: 'Montserrat', sans-serif;
@@ -204,23 +199,11 @@ ul {
 .color-grey {
   color: #f9f9f9;
 }
-.is-bold {
-  font-weight: bold;
-}
-.bg-white {
-  background-color: #fdfdfd;
-}
-.bg-primary {
-  background-color: #b686fe;
-}
-.bg-secondary {
-  background-color: #1a2c54;
-}
 /* buttons  */
 .primary-btn {
-  background: #b686fe;
-  color: #ffffff;
-  border: none;
+  background: #b686fe !important;
+  color: #ffffff !important;
+  border: none !important;
 }
 .primary-btn:hover,
 .primary-btn:focus {

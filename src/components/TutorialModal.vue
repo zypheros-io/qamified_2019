@@ -4,6 +4,7 @@
       <div class="card-image">
         <figure class="image is-4by3">
           <img src="/static/img/placeholder-1280x960.png" alt="Image" />
+          Tutorial Modal # {{ currentPage }}
         </figure>
       </div>
       <div class="card-content">

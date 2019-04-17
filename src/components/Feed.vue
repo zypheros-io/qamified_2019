@@ -1,8 +1,8 @@
 <template>
   <div class="feed container">
-    <!-- <b-modal :active.sync="showModal" :width="650">
+    <b-modal :active.sync="showModal" :width="650">
       <Tutorial-Modal></Tutorial-Modal>
-    </b-modal> -->
+    </b-modal>
     <div class="columns">
       <div class="column is-two-fifths" id="user_card_column">
         <User-Card></User-Card>
@@ -143,17 +143,17 @@ export default {
     this.populateFeed();
   },
   created() {
-    if (this.$store.getters['user/getUser']) {
-      this.$dialog.confirm({
-        title: 'Welcome!',
-        message:
-          'Oh, so you are the new adventurer they told me about. I hope you enjoy your stay in this wonderful world of QA.',
-        confirmText: 'Thanks!',
-        type: 'is-success',
-        hasIcon: true,
-        onConfirm: () => this.$toast.open('Godspeed, adventurer!')
-      });
-    }
+    // if (this.$store.getters['user/getUser']) {
+    //   this.$dialog.confirm({
+    //     title: 'Welcome!',
+    //     message:
+    //       'Oh, so you are the new adventurer they told me about. I hope you enjoy your stay in this wonderful world of QA.',
+    //     confirmText: 'Thanks!',
+    //     type: 'is-success',
+    //     hasIcon: true,
+    //     onConfirm: () => this.$toast.open('Godspeed, adventurer!')
+    //   });
+    // }
   }
 };
 </script>
