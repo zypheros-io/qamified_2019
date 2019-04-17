@@ -12,7 +12,6 @@
         v-if="loading"
         class="button is-loading primary-btn is-medium"
       ></button>
-      <bar-chart :chart-data="chart" :chart-options="options" />
     </div>
     <div id="stats-container" class="box has-text-centered is-primary-text">
       <p class="title">Application Statistics</p>
