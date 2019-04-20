@@ -49,7 +49,7 @@ const state = {
     ['DELETE_SOLUTION', 0],
     ['POST_REPLY', 0],
     ['CHANGE_CATEGORY', 0],
-    ['REPORT_USER', 0],
+    ['REPORT_USER', 0]
   ],
   user_count: 0,
   quest_count: 0,
@@ -161,7 +161,7 @@ const actions = {
       ['DELETE_SOLUTION', 0],
       ['POST_REPLY', 0],
       ['CHANGE_CATEGORY', 0],
-      ['REPORT_USER', 0],
+      ['REPORT_USER', 0]
     ];
     // Retrieve data from DB
     firebase
@@ -172,7 +172,7 @@ const actions = {
           logs.forEach(log => {
             let l = log.val();
             let logIndex = labels.indexOf(l.context);
-            if(values[logIndex]) {
+            if (values[logIndex]) {
               values[logIndex][1] += 1;
             }
           });

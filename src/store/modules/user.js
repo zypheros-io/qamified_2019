@@ -275,7 +275,7 @@ const actions = {
       });
   },
   endTutorial({ commit, rootGetters }) {
-    const updates = {}
+    const updates = {};
     const user = rootGetters['user/getUser'];
     updates[`user/${user.id}/is_new`] = false;
     // Commit changes to database
@@ -289,10 +289,9 @@ const actions = {
           message: 'Godspeed, adventurer!',
           duration: 3000,
           type: 'is-success'
-        })
-      })
-  }
-  ,
+        });
+      });
+  },
   logOut({ commit }) {
     firebase.auth().signOut();
     commit('setUser', null);

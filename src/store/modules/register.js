@@ -65,14 +65,14 @@ const actions = {
             commit('user/setUser', newUser, { root: true });
             commit('setLoading', false);
           })
-          .catch(error =>{
+          .catch(error => {
             commit('setError', error);
             commit('setLoading', false);
             Snackbar.open({
               message: error.message,
               type: 'is-danger',
               onAction: () => commit('clearError')
-            })
+            });
           });
       })
       .catch(error => {
@@ -82,8 +82,8 @@ const actions = {
           message: error.message,
           type: 'is-danger',
           onAction: () => commit('clearError')
-        })
-      })
+        });
+      });
   }
 };
 

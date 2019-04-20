@@ -51,7 +51,6 @@ const actions = {
       .then(() => {
         dispatch('user/updateLogs', 'POST_SOLUTION', { root: true });
         dispatch('user/addExperience', null, { root: true });
-        dispatch('notification/addSolutionNotification', quest, { root: true });
         // Event alert
         Toast.open({
           message: 'Solution successfully posted!',
@@ -106,10 +105,13 @@ const actions = {
         })
         .catch(error => {
           console.log(error);
-        })
+        });
     }
     // downvotes doesn't exist and wants upvote
-    else if (!solution.upvote || !Object.keys(solution.upvote).includes(user.id)) {
+    else if (
+      !solution.upvote ||
+      !Object.keys(solution.upvote).includes(user.id)
+    ) {
       updates[`/solution/${solution.id}/upvote/${user.id}`] = true;
       updates[`/solution/${solution.id}/votes`] = solution.votes + 1;
       // Commit changes
@@ -124,7 +126,7 @@ const actions = {
         })
         .catch(error => {
           console.log(error);
-        })
+        });
     }
     // upvote when already upvoted
     else if (Object.keys(solution.upvote).includes(user.id)) {
@@ -132,7 +134,7 @@ const actions = {
         message: 'You have already upvoted this solution, adventurer!',
         duration: 1000,
         type: 'is-danger'
-      })
+      });
     }
   },
   downvoteSolution({ dispatch, rootGetters }, solution) {
@@ -156,10 +158,13 @@ const actions = {
         })
         .catch(error => {
           console.log(error);
-        })
+        });
     }
     // Wants to downvote
-    else if (!solution.downvote || !Object.keys(solution.downvote).includes(user.id)) {
+    else if (
+      !solution.downvote ||
+      !Object.keys(solution.downvote).includes(user.id)
+    ) {
       updates[`/solution/${solution.id}/downvote/${user.id}`] = true;
       updates[`/solution/${solution.id}/votes`] = solution.votes -= 1;
       // Commit changes to database
@@ -173,7 +178,7 @@ const actions = {
         })
         .catch(error => {
           console.log(error);
-        })
+        });
     }
     // Downvote when already downvoted
     else if (Object.keys(solution.downvote).includes(user.id)) {
@@ -181,7 +186,7 @@ const actions = {
         message: 'You have already downvoted this solution, adventurer!',
         duration: 1000,
         type: 'is-danger'
-      })
+      });
     }
   },
   deleteSolution({ dispatch }, solutionId) {

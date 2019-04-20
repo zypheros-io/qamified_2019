@@ -39,7 +39,7 @@ const actions = {
           message: error.message,
           type: 'is-danger',
           onAction: () => commit('clearError')
-        })
+        });
       });
   },
   usernameLogin({ commit }, payload) {
@@ -59,7 +59,7 @@ const actions = {
         });
         // Check if matching user is empty
         if (matchingUser) {
-          console.log('I\'m not empty!');
+          console.log("I'm not empty!");
           // Check if user is currently banned
           if (!matchingUser.is_banned) {
             // If not, log user in.
@@ -79,18 +79,19 @@ const actions = {
                   type: 'is-danger',
                   onAction: () => commit('clearError')
                 });
-              })
+              });
           }
           // If user is banned
           else {
             Snackbar.open({
-              message: 'You are currently banned. Contact the administrator for details.',
-              type: 'is-danger',
+              message:
+                'You are currently banned. Contact the administrator for details.',
+              type: 'is-danger'
             });
             commit('setLoading', false);
           }
         } else {
-          console.log('I\'m empty!');
+          console.log("I'm empty!");
           commit('setLoading', false);
           Snackbar.open({
             message: 'User does not exist. Sign up?',
@@ -100,7 +101,7 @@ const actions = {
             onAction: () => router.push('/signup')
           });
         }
-      })
+      });
   },
   checkSignInMethod({ dispatch }, payload) {
     const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

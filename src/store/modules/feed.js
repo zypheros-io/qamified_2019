@@ -1,6 +1,6 @@
 /* eslint-disable */
 import firebase from 'firebase';
-import { Toast } from 'buefy/dist/components/toast';
+import { Snackbar } from 'buefy/dist/components/snackbar';
 
 const state = {
   quests: [],
@@ -40,10 +40,10 @@ const actions = {
       .update(updates)
       .then(() => {
         // Alert user of event
-        Toast.open({
-          message: 'Quest successfully posted!',
-          duration: 3000,
-          type: 'is-success'
+        Snackbar.open({
+          message: 'Quest has been successfully posted',
+          type: 'is-success',
+          duration: 3000
         });
         // Commit changes to local storage
         dispatch('user/updateLogs', 'POST_QUEST', { root: true });
@@ -107,6 +107,11 @@ const actions = {
         .ref()
         .update(updates)
         .then(() => {
+          Snackbar.open({
+            message: 'Quest upvoted!',
+            type: 'is-success',
+            duration: 3000
+          });
           dispatch('user/updateLogs', 'UPVOTE_QUEST', { root: true });
           quest.votes += 1;
         })
@@ -124,19 +129,24 @@ const actions = {
         .ref()
         .update(updates)
         .then(() => {
+          Snackbar.open({
+            message: 'Quest upvoted!',
+            type: 'is-success',
+            duration: 3000
+          });
           dispatch('user/updateLogs', 'UPVOTE_QUEST', { root: true });
           quest.votes += 1;
         })
         .catch(error => {
           console.log(error);
-        })
+        });
     }
     // upvote if already upvoted
     else if (quest.upvote.includes(user.id)) {
-      Toast.open({
-        message: 'You have already upvoted this quest, adventurer!',
-        duration: 1000,
-        type: 'is-danger'
+      Snackbar.open({
+        message: 'You have already upvoted this quest',
+        type: 'is-danger',
+        duration: 3000
       });
     }
   },
@@ -154,12 +164,17 @@ const actions = {
         .ref()
         .update(updates)
         .then(() => {
+          Snackbar.open({
+            message: 'Quest downvoted!',
+            type: 'is-success',
+            duration: 3000
+          });
           dispatch('user/updateLogs', 'DOWNVOTE_QUEST', { root: true });
           quest.votes -= 1;
         })
         .catch(error => {
           console.log(error);
-        })
+        });
     }
     // downvote if not included in upvote
     else if (!quest.downvote.includes(user.id)) {
@@ -171,20 +186,25 @@ const actions = {
         .ref()
         .update(updates)
         .then(() => {
+          Snackbar.open({
+            message: 'Quest downvoted!',
+            type: 'is-success',
+            duration: 3000
+          });
           dispatch('user/updateLogs', 'DOWNVOTE_QUEST', { root: true });
           quest.votes -= 1;
         })
         .catch(error => {
           console.log(error);
-        })
+        });
     }
     // downvote if already downvoted
     else if (quest.downvote.includes(user.id)) {
-      Toast.open({
-        message: 'You have already downvoted this quest, adventurer!',
-        duration: 1000,
-        type: 'is-danger'
-      })
+      Snackbar.open({
+        message: 'You have already upvoted this quest',
+        type: 'is-danger',
+        duration: 3000
+      });
     }
   },
   deleteQuest({ dispatch }, questId) {
@@ -237,8 +257,8 @@ const actions = {
       .ref()
       .update(updates)
       .then(() => {
-        Toast.open({
-          message: 'Message has been successfully deleted!',
+        Snackbar.open({
+          message: 'Quest successfully deleted',
           type: 'is-success',
           duration: 3000
         });
@@ -253,7 +273,7 @@ const actions = {
 const getters = {
   sortedQuests(state) {
     return state.quests.sort((questA, questB) => {
-      return questA.votes < questB.votes;
+      return questA.votes > questB.votes;
     });
   },
   loadQuest(state) {

@@ -13,12 +13,12 @@ const mutations = {
 };
 
 const actions = {
-  retrieveNotifications({ commit, rootGetters }) { 
+  retrieveNotifications({ commit, rootGetters }) {
     firebase
       .database()
       .ref('/notification')
       .on('value', notifications => {
-        if(notifications) {
+        if (notifications) {
           const notificationArray = [];
           notifications.forEach(notification => {
             const currNotif = notification.val();
@@ -27,7 +27,7 @@ const actions = {
           });
           commit('setNotifications', notificationArray);
         }
-      })
+      });
   },
   addSolutionNotification({ commit, rootGetters }, notification) {
     const currUser = rootGetters['user/getUser'];
