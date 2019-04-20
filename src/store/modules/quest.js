@@ -1,6 +1,6 @@
 /* eslint-disable */
 import firebase from 'firebase';
-import { Toast } from 'buefy/dist/components/toast';
+import { Snackbar } from 'buefy/dist/components/snackbar';
 
 const state = {
   quest: {},
@@ -52,10 +52,10 @@ const actions = {
         dispatch('user/updateLogs', 'POST_SOLUTION', { root: true });
         dispatch('user/addExperience', null, { root: true });
         // Event alert
-        Toast.open({
-          message: 'Solution successfully posted!',
-          duration: 3000,
-          type: 'is-success'
+        Snackbar.open({
+          message: 'Quest has been successfully posted',
+          type: 'is-success',
+          duration: 3000
         });
         commit('setLoading', false);
       })
@@ -99,6 +99,11 @@ const actions = {
         .ref()
         .update(updates)
         .then(() => {
+          Snackbar.open({
+            message: 'Solution upvoted!',
+            type: 'is-success',
+            duration: 3000
+          });
           dispatch('user/updateLogs', 'UPVOTE_SOLUTION', { root: true });
           dispatch('user/addReputation', solution.user_id, { root: true });
           solution.votes += 1;
@@ -120,6 +125,11 @@ const actions = {
         .ref()
         .update(updates)
         .then(() => {
+          Snackbar.open({
+            message: 'Solution upvoted!',
+            type: 'is-success',
+            duration: 3000
+          });
           dispatch('user/updateLogs', 'UPVOTE_SOLUTION', { root: true });
           dispatch('user/addReputation', solution.user_id, { root: true });
           solution.votes += 1;
@@ -130,9 +140,9 @@ const actions = {
     }
     // upvote when already upvoted
     else if (Object.keys(solution.upvote).includes(user.id)) {
-      Toast.open({
-        message: 'You have already upvoted this solution, adventurer!',
-        duration: 1000,
+      Snackbar.open({
+        message: 'You have already upvoted this solution',
+        duration: 3000,
         type: 'is-danger'
       });
     }
@@ -152,6 +162,11 @@ const actions = {
         .ref()
         .update(updates)
         .then(() => {
+          Snackbar.open({
+            message: 'Solution downvoted!',
+            type: 'is-success',
+            duration: 3000
+          });
           dispatch('user/updateLogs', 'DOWNVOTE_SOLUTION', { root: true });
           dispatch('user/deductReputation', solution.user_id, { root: true });
           solution.votes -= 1;
@@ -173,6 +188,11 @@ const actions = {
         .ref()
         .update(updates)
         .then(() => {
+          Snackbar.open({
+            message: 'Solution downvoted!',
+            type: 'is-success',
+            duration: 3000
+          });
           dispatch('user/updateLogs', 'DOWNVOTE_SOLUTION', { root: true });
           dispatch('user/deductReputation', solution.user_id, { root: true });
         })
@@ -182,10 +202,10 @@ const actions = {
     }
     // Downvote when already downvoted
     else if (Object.keys(solution.downvote).includes(user.id)) {
-      Toast.open({
-        message: 'You have already downvoted this solution, adventurer!',
-        duration: 1000,
-        type: 'is-danger'
+      Snackbar.open({
+        message: 'You have already downvoted this quest',
+        type: 'is-danger',
+        duration: 3000
       });
     }
   },
