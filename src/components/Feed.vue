@@ -6,6 +6,13 @@
     <div class="columns">
       <div class="column is-two-fifths" id="user_card_column">
         <User-Card></User-Card>
+        <div class="is-divider"></div>
+        <p class="title is-4">Missions</p>
+        <Mission
+          v-for="mission in missions"
+          :key="mission.index"
+          v-bind:mission="mission"
+        ></Mission>
       </div>
       <div class="column" id="feed_column">
         <!-- Quest Form -->
@@ -77,12 +84,14 @@ import moment from 'moment';
 import TutorialModal from './TutorialModal';
 import UserCard from './UserCard';
 import QuestPreview from './QuestPreview';
+import Mission from './Mission';
 
 export default {
   components: {
     TutorialModal,
     UserCard,
-    QuestPreview
+    QuestPreview,
+    Mission
   },
   data() {
     return {
@@ -109,7 +118,8 @@ export default {
       load: 'feed/loadQuest',
       loading: 'feed/isLoading',
       exp: 'user/getExp',
-      expRequired: 'user/getExpToLevel'
+      expRequired: 'user/getExpToLevel',
+      missions: 'user/getMissions'
     })
   },
   methods: {
