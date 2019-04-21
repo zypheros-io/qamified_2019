@@ -297,7 +297,7 @@ const actions = {
 const getters = {
   sortedQuests(state) {
     return state.quests.sort((questA, questB) => {
-      return questA.votes > questB.votes;
+      return questB.votes - questA.votes
     });
   },
   loadQuest(state) {

@@ -12,7 +12,7 @@
         id="counter"
         v-if="mission.requirements.current >= mission.requirements.required"
       >
-        DONE
+        DONE!
       </p>
       <p class="is-pulled-right is-secondary-text" id="counter" v-else>
         {{ mission.requirements.current }} / {{ mission.requirements.required }}
@@ -39,6 +39,6 @@ export default {
 }
 #counter {
   font-weight: 800 !important;
-  color: #17b79c !important;
+  color: #303030 !important;
 }
 </style>
