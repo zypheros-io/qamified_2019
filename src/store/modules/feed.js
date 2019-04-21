@@ -37,21 +37,26 @@ const actions = {
     const user = rootGetters['user/getUser'];
     const missions = rootGetters['user/getMissions'];
     // Get current mission index
-    const missionIndex = missions.findIndex(mission => mission.requirements.context === 'Post Quest');
+    const missionIndex = missions.findIndex(
+      mission => mission.requirements.context === 'Post Quest'
+    );
     // Retrieve current mission
     const currMission = user.missions[missionIndex];
     // If mission exists
     if (missionIndex !== -1) {
       let newCurrent = currMission.requirements.current + 1;
       // Store updates
-      updates[`user/${user.id}/missions/${missionIndex}/requirements/current`] = newCurrent;
+      updates[
+        `user/${user.id}/missions/${missionIndex}/requirements/current`
+      ] = newCurrent;
       // Check if mission is already done
       if (newCurrent === currMission.requirements.required) {
         // Update status of mission
         updates[`user/${user.id}/missions/${missionIndex}/done`] = true;
         Dialog.alert({
           title: 'Mission cleared!',
-          message: 'You have cleared a mission! Here\'s a trophy for your efforts, adventurer!',
+          message:
+            "You have cleared a mission! Here's a trophy for your efforts, adventurer!",
           type: 'is-success'
         });
         dispatch('user/addExperience', currMission.experience, { root: true });
@@ -179,7 +184,7 @@ const actions = {
         })
         .catch(error => {
           console.log(error);
-        })
+        });
     }
   },
   downvoteQuest({ dispatch, rootGetters }, quest) {
@@ -244,7 +249,7 @@ const actions = {
         })
         .catch(error => {
           console.log(error);
-        })
+        });
     }
   },
   deleteQuest({ dispatch }, questId) {
@@ -313,7 +318,7 @@ const actions = {
 const getters = {
   sortedQuests(state) {
     return state.quests.sort((questA, questB) => {
-      return questB.votes - questA.votes
+      return questB.votes - questA.votes;
     });
   },
   loadQuest(state) {

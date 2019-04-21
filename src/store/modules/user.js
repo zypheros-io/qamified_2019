@@ -58,7 +58,7 @@ const mutations = {
   },
   updateBadge(state, payload) {
     state.user.badge_url = payload;
-  },
+  }
 };
 
 const actions = {

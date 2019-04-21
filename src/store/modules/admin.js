@@ -236,7 +236,7 @@ const actions = {
       .ref()
       .child('/mission')
       .push().key;
-    
+
     mission.id = missionKey;
     const updates = {};
     updates[`/mission/${mission.id}`] = mission;

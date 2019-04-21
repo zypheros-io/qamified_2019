@@ -45,20 +45,25 @@ const actions = {
     // Commit changes to database
     const user = rootGetters['user/getUser'];
     const missions = rootGetters['user/getMissions'];
-    const missionIndex = missions.findIndex(mission => mission.requirements.context === 'Post Solution');
+    const missionIndex = missions.findIndex(
+      mission => mission.requirements.context === 'Post Solution'
+    );
     const currMission = user.missions[missionIndex];
     console.log(currMission);
     // If mission exists
     if (missionIndex !== -1) {
       let newCurrent = currMission.requirements.current + 1;
-      updates[`user/${user.id}/missions/${missionIndex}/requirements/current`] = newCurrent;
+      updates[
+        `user/${user.id}/missions/${missionIndex}/requirements/current`
+      ] = newCurrent;
       // Check if mission is done
       if (newCurrent === currMission.requirements.required) {
         // Update status of mission
         updates[`user/${user.id}/missions/${missionIndex}/done`] = true;
         Dialog.alert({
           title: 'Mission cleared!',
-          message: 'You have cleared a mission! Here\'s a trophy for your efforts, adventurer!',
+          message:
+            "You have cleared a mission! Here's a trophy for your efforts, adventurer!",
           type: 'is-success'
         });
         dispatch('user/addExperience', currMission.experience, { root: true });
