@@ -1,6 +1,7 @@
 /* eslint-disable */
 import firebase from 'firebase';
 import { Snackbar } from 'buefy/dist/components/snackbar';
+import { Dialog } from 'buefy/dist/components/dialog';
 
 const state = {
   quests: [],
@@ -17,7 +18,7 @@ const mutations = {
 };
 
 const actions = {
-  postQuest({ commit, dispatch }, quest) {
+  postQuest({ commit, dispatch, rootGetters }, quest) {
     commit('setLoading', true);
     // Store quest to a variable
     const newQuest = quest;
@@ -32,8 +33,31 @@ const actions = {
     // Store updates
     const updates = {};
     updates[`/quest/${newQuest.id}`] = newQuest;
-    console.log('hello');
-    // Commit updates to database
+    // Update mission
+    const user = rootGetters['user/getUser'];
+    const missions = rootGetters['user/getMissions'];
+    // Get current mission index
+    const missionIndex = missions.findIndex(mission => mission.requirements.context === 'Post Quest');
+    // Retrieve current mission
+    const currMission = user.missions[missionIndex];
+    // If mission exists
+    if (missionIndex !== -1) {
+      let newCurrent = currMission.requirements.current + 1;
+      // Store updates
+      updates[`user/${user.id}/missions/${missionIndex}/requirements/current`] = newCurrent;
+      // Check if mission is already done
+      if (newCurrent === currMission.requirements.required) {
+        // Update status of mission
+        updates[`user/${user.id}/missions/${missionIndex}/done`] = true;
+        Dialog.alert({
+          title: 'Mission cleared!',
+          message: 'You have cleared a mission! Here\'s a trophy for your efforts, adventurer!',
+          type: 'is-success'
+        });
+        dispatch('user/addExperience', currMission.experience, { root: true });
+      }
+    }
+    // Commit changes to database
     firebase
       .database()
       .ref()
@@ -47,7 +71,7 @@ const actions = {
         });
         // Commit changes to local storage
         dispatch('user/updateLogs', 'POST_QUEST', { root: true });
-        dispatch('user/addExperience', null, { root: true });
+        dispatch('user/addExperience', 5, { root: true });
         commit('setLoading', false);
       })
       .catch(error => {

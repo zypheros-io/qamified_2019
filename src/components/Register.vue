@@ -1,11 +1,5 @@
 <template>
   <div id="signup-page">
-    <!-- Pageloader -->
-    <b-loading
-      :is-full-page="true"
-      :active.sync="loading"
-      :can-cancel="false"
-    ></b-loading>
     <div class="level">
       <div class="level-item">
         <div>

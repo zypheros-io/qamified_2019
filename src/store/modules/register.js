@@ -1,6 +1,7 @@
 /* eslint-disable */
 import firebase from 'firebase';
 import moment from 'moment';
+import { Snackbar } from 'buefy/dist/components/snackbar';
 
 const state = {
   loading: false,
@@ -50,6 +51,41 @@ const actions = {
           is_banned: false,
           is_admin: false,
           is_new: true,
+          missions: [
+            {
+              description: 'Post five (5) quests on the quest board',
+              experience: 50,
+              title: 'Mission 1',
+              done: false,
+              requirements: {
+                context: 'Post Quest',
+                current: 0,
+                required: 5
+              }
+            },
+            {
+              description: 'Post three (3) solutions on any quest',
+              experience: 20,
+              title: 'Mission 2',
+              done: false,
+              requirements: {
+                context: 'Post Solution',
+                current: 0,
+                required: 3
+              }
+            },
+            {
+              description: 'Post one (1) reply on any solution',
+              experience: 20,
+              title: 'Mission 3',
+              done: false,
+              requirements: {
+                context: 'Post Reply',
+                current: 0,
+                required: 1
+              }
+            }
+          ],
           last_access: moment().format(),
           date_created: moment().format()
         };

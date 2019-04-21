@@ -58,7 +58,7 @@ const mutations = {
   },
   updateBadge(state, payload) {
     state.user.badge_url = payload;
-  }
+  },
 };
 
 const actions = {
@@ -103,8 +103,8 @@ const actions = {
         console.log(error);
       });
   },
-  addExperience({ commit, rootGetters }) {
-    const EXPERIENCE = 5;
+  addExperience({ commit, rootGetters }, experience) {
+    const EXPERIENCE = experience;
     // Retrieve the user that did the action
     let user = rootGetters['user/getUser'];
     let leveledUp = false;
@@ -316,6 +316,9 @@ const getters = {
   },
   isLoading(state) {
     return state.loading;
+  },
+  getMissions(state) {
+    return state.user.missions;
   }
 };
 

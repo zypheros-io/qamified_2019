@@ -44,7 +44,7 @@ const actions = {
       .then(() => {
         // Commit changes to local storage
         dispatch('user/updateLogs', 'POST_REPLY', { root: true });
-        dispatch('user/addExperience', null, { root: true });
+        dispatch('user/addExperience', 3, { root: true });
         // Event alert
         Toast.open({
           message: 'Reply successfully posted!',

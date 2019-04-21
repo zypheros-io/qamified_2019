@@ -50,7 +50,7 @@ const actions = {
       .update(updates)
       .then(() => {
         dispatch('user/updateLogs', 'POST_SOLUTION', { root: true });
-        dispatch('user/addExperience', null, { root: true });
+        dispatch('user/addExperience', 5, { root: true });
         // Event alert
         Snackbar.open({
           message: 'Quest has been successfully posted',

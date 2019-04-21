@@ -1,6 +1,6 @@
 /* eslint-disable */
 import firebase from 'firebase';
-import { Toast } from 'buefy/dist/components/toast';
+import { Snackbar } from 'buefy/dist/components/snackbar';
 
 const state = {
   users: [],
@@ -226,6 +226,34 @@ const actions = {
           replyCount += 1;
         });
         commit('setReplyCount', replyCount);
+      });
+  },
+  addMission({ commit }, payload) {
+    const mission = payload;
+    // get new mission key
+    const missionKey = firebase
+      .database()
+      .ref()
+      .child('/mission')
+      .push().key;
+    
+    mission.id = missionKey;
+    const updates = {};
+    updates[`/mission/${mission.id}`] = mission;
+
+    firebase
+      .database()
+      .ref()
+      .update(updates)
+      .then(() => {
+        Snackbar.open({
+          message: 'Mission successfully added.',
+          type: 'is-success',
+          duration: 3000
+        });
+      })
+      .catch(error => {
+        console.log(error);
       });
   }
 };
