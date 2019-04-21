@@ -1,6 +1,7 @@
 /* eslint-disable */
 import firebase from 'firebase';
 import { Toast } from 'buefy/dist/components/toast';
+import { Dialog } from 'buefy/dist/components/dialog';
 
 const state = {
   replies: [],
@@ -20,7 +21,7 @@ const mutations = {
 };
 
 const actions = {
-  postReply({ commit, dispatch }, reply) {
+  postReply({ commit, dispatch, rootGetters }, reply) {
     console.log(reply);
     // Set loading
     commit('setLoading', true);
@@ -37,6 +38,28 @@ const actions = {
     updates[`reply/${newReply.id}`] = newReply;
     updates[`user/${reply.user_id}/solution/${newReply.id}`] = true;
     // Commit changes to database
+    // Clear mission
+    const user = rootGetters['user/getUser'];
+    const missions = rootGetters['user/getMissions'];
+    const missionIndex = missions.findIndex(mission => mission.requirements.context === 'Post Reply');
+    const currMission = user.missions[missionIndex];
+    console.log(currMission);
+    // Check if mission exists
+    if (missionIndex !== -1) {
+      let newCurrent = currMission.requirements.current + 1;
+      updates[`user/${user.id}/missions/${missionIndex}/requirements/current`] = newCurrent;
+      // Check if mission is done
+      if (newCurrent === currMission.requirements.required) {
+        // Update status of mission
+        updates[`user/${user.id}/missions/${missionIndex}/done`] = true;
+        Dialog.alert({
+          title: 'Mission cleared!',
+          message: 'You have cleared a mission! Here\'s a trophy for your efforts, adventurer!',
+          type: 'is-success'
+        });
+        dispatch('user/addExperience', currMission.experience, { root: true });
+      }
+    }
     firebase
       .database()
       .ref()

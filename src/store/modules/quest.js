@@ -1,6 +1,7 @@
 /* eslint-disable */
 import firebase from 'firebase';
 import { Snackbar } from 'buefy/dist/components/snackbar';
+import { Dialog } from 'buefy/dist/components/dialog';
 
 const state = {
   quest: {},
@@ -42,8 +43,27 @@ const actions = {
     updates[`/user/${newSolution.user_id}/solution/${newSolution.id}`] = true;
     updates[`/solution/${newSolution.id}`] = newSolution;
     // Commit changes to database
-    // get current quest
-    const quest = rootGetters['feed/loadQuest'](solution.quest_id);
+    const user = rootGetters['user/getUser'];
+    const missions = rootGetters['user/getMissions'];
+    const missionIndex = missions.findIndex(mission => mission.requirements.context === 'Post Solution');
+    const currMission = user.missions[missionIndex];
+    console.log(currMission);
+    // If mission exists
+    if (missionIndex !== -1) {
+      let newCurrent = currMission.requirements.current + 1;
+      updates[`user/${user.id}/missions/${missionIndex}/requirements/current`] = newCurrent;
+      // Check if mission is done
+      if (newCurrent === currMission.requirements.required) {
+        // Update status of mission
+        updates[`user/${user.id}/missions/${missionIndex}/done`] = true;
+        Dialog.alert({
+          title: 'Mission cleared!',
+          message: 'You have cleared a mission! Here\'s a trophy for your efforts, adventurer!',
+          type: 'is-success'
+        });
+        dispatch('user/addExperience', currMission.experience, { root: true });
+      }
+    }
     firebase
       .database()
       .ref()
