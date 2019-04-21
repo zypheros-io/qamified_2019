@@ -232,11 +232,19 @@ const actions = {
     }
     // downvote if already downvoted
     else if (quest.downvote.includes(user.id)) {
-      Snackbar.open({
-        message: 'You have already upvoted this quest',
-        type: 'is-danger',
-        duration: 3000
-      });
+      updates[`/quest/${quest.id}/downvote/${user.id}`] = null;
+      updates[`/quest/${quest.id}/votes`] = quest.votes + 1;
+      // Commit changes to database
+      firebase
+        .database()
+        .ref()
+        .update(updates)
+        .then(() => {
+          quest.votes += 1;
+        })
+        .catch(error => {
+          console.log(error);
+        })
     }
   },
   deleteQuest({ dispatch }, questId) {
