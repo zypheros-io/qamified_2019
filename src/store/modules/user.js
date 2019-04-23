@@ -319,6 +319,9 @@ const getters = {
   },
   getMissions(state) {
     return state.user.missions;
+  },
+  isNew(state) {
+    return state.user.is_new;
   }
 };
 

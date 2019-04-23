@@ -1,6 +1,6 @@
 <template>
   <div class="feed container">
-    <b-modal :active.sync="showModal" :width="650">
+    <b-modal :active.sync="newUser" :width="650">
       <Tutorial-Modal></Tutorial-Modal>
     </b-modal>
     <div class="columns">
@@ -119,7 +119,8 @@ export default {
       loading: 'feed/isLoading',
       exp: 'user/getExp',
       expRequired: 'user/getExpToLevel',
-      missions: 'user/getMissions'
+      missions: 'user/getMissions',
+      newUser: 'user/isNew'
     })
   },
   methods: {
