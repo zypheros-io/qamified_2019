@@ -7,12 +7,16 @@
       <div class="column is-two-fifths" id="user_card_column">
         <User-Card></User-Card>
         <div class="is-divider"></div>
-        <p class="title is-4">Missions</p>
+        <p class="title is-4 is-primary-text">Missions</p>
         <Mission
+          v-if="missions"
           v-for="mission in missions"
           :key="mission.index"
           v-bind:mission="mission"
         ></Mission>
+        <div v-if="!missions" class="box has-text-centered">
+          <p class="is-secondary-text">You have no missions at the moment.</p>
+        </div>
       </div>
       <div class="column" id="feed_column">
         <!-- Quest Form -->
