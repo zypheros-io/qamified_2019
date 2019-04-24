@@ -58,6 +58,7 @@
                   required
                 ></b-input>
               </b-field>
+              <b-field></b-field>
               <b-field label="Last Name*" class="margin-top-1">
                 <b-input
                   v-model="user.lastname"
