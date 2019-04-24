@@ -10,7 +10,7 @@
         <div class="content">
           <!-- User name -->
           <div id="user-name">
-            <p class="is-primary-text color-primary">
+            <p class="is-primary-text color-secondary">
               {{ solution.full_name }}
             </p>
           </div>

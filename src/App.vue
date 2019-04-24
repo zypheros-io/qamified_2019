@@ -13,7 +13,7 @@
           </a>
         </div>
         <div class="navbar-menu">
-          <div class="navbar-end">
+          <div class="navbar-end is-secondary-text">
             <b-dropdown position="is-bottom-left" aria-role="menu">
               <!-- Dropdown Button -->
               <a class="navbar-item" slot="trigger" role="button">
@@ -28,16 +28,15 @@
               <hr class="dropdown-divider" />
               <b-dropdown-item has-link aria-role="menuitem">
                 <router-link to="/feed">
-                  <b-icon icon="home"></b-icon>
-                  Feed
+                  Quest Board
                 </router-link>
               </b-dropdown-item>
               <b-dropdown-item has-link aria-role="menuitem">
                 <router-link :to="`profile/${user.id}`">
-                  <b-icon icon="home"></b-icon>
-                  Profile
+                  Headquarters
                 </router-link>
               </b-dropdown-item>
+              <hr class="dropdown-divider" />
               <b-dropdown-item aria-role="menuitem" v-on:click="signOut">
                 Logout
               </b-dropdown-item>
@@ -155,7 +154,6 @@ ul {
 }
 .is-secondary-text {
   font-family: 'Montserrat', sans-serif;
-  font-weight: 500 !important;
 }
 .is-small-text {
   font-size: 2px !important;
