@@ -9,7 +9,6 @@
         <div class="is-divider"></div>
         <p class="title is-4 is-primary-text">Missions</p>
         <Mission
-          v-if="missions"
           v-for="mission in missions"
           :key="mission.index"
           v-bind:mission="mission"
