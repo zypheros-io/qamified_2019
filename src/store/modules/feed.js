@@ -326,11 +326,11 @@ const actions = {
           message: 'Quest successfully flagged',
           type: 'is-success',
           duration: 3000
-        })
+        });
       })
       .catch(error => {
         console.log(error);
-      })
+      });
   },
   unflagQuest({}, quest) {
     const updates = {};
@@ -345,11 +345,11 @@ const actions = {
           message: 'Quest unflagged',
           type: 'is-success',
           duration: 3000
-        })
+        });
       })
       .catch(error => {
         console.log(error);
-      })
+      });
   }
 };
 

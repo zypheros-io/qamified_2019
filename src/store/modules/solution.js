@@ -132,7 +132,7 @@ const actions = {
   markAsAnswer({}, payload) {
     // Update solution as correct
     const updates = {};
-    
+
     // Is solution correct?
     if (!payload.is_correct) {
       updates[`solution/${payload.id}/is_correct`] = true;
@@ -153,7 +153,7 @@ const actions = {
         })
         .catch(error => {
           console.log(error);
-        })
+        });
     } else {
       updates[`solution/${payload.id}/is_correct`] = false;
       updates[`quest/${payload.quest_id}/is_answered`] = false;
@@ -171,7 +171,7 @@ const actions = {
         })
         .catch(error => {
           console.log(error);
-        })
+        });
     }
   }
 };
