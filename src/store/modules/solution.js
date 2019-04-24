@@ -2,6 +2,7 @@
 import firebase from 'firebase';
 import { Toast } from 'buefy/dist/components/toast';
 import { Dialog } from 'buefy/dist/components/dialog';
+import { Snackbar } from 'buefy/dist/components/snackbar';
 
 const state = {
   replies: [],
@@ -127,6 +128,51 @@ const actions = {
       .catch(error => {
         console.log(error);
       });
+  },
+  markAsAnswer({}, payload) {
+    // Update solution as correct
+    const updates = {};
+    
+    // Is solution correct?
+    if (!payload.is_correct) {
+      updates[`solution/${payload.id}/is_correct`] = true;
+      // Set quest as answered
+      updates[`quest/${payload.quest_id}/is_answered`] = true;
+      // Update database
+      console.log(updates);
+      firebase
+        .database()
+        .ref()
+        .update(updates)
+        .then(() => {
+          Snackbar.open({
+            message: 'Solution marked as correct',
+            type: 'is-success',
+            duration: 3000
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    } else {
+      updates[`solution/${payload.id}/is_correct`] = false;
+      updates[`quest/${payload.quest_id}/is_answered`] = false;
+      console.log(updates);
+      firebase
+        .database()
+        .ref()
+        .update(updates)
+        .then(() => {
+          Snackbar.open({
+            message: 'Solution marked as correct',
+            type: 'is-success',
+            duration: 3000
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    }
   }
 };
 

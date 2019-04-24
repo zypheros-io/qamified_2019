@@ -24,6 +24,14 @@
             <div class="is-pulled-left">
               <a
                 class="is-secondary-text is-anchor"
+                v-on:click.prevent="markAsAnswer"
+                v-if="user.id === quest.user_id"
+              >
+                <span class="mdi mdi-check"></span>
+                Mark as Answer &nbsp;·&nbsp;
+              </a>
+              <a
+                class="is-secondary-text is-anchor"
                 v-on:click.prevent="toggleReply"
               >
                 <span class="mdi mdi-message-reply-text"></span>
@@ -102,7 +110,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import moment from 'moment';
 import Reply from './Reply';
 
@@ -127,14 +135,21 @@ export default {
   computed: {
     ...mapGetters({
       user: 'user/getUser',
-      getReplies: 'solution/replies'
+      getReplies: 'solution/replies',
+      load: 'feed/loadQuest'
     }),
     replies() {
       const replies = this.getReplies;
       return replies.filter(r => r.solution_id === this.solution.id);
+    },
+    quest() {
+      return this.load(this.solution.quest_id);
     }
   },
   methods: {
+    ...mapActions({
+      correct: 'solution/markAsAnswer'
+    }),
     postReply: function postReply() {
       this.$store.dispatch('solution/postReply', {
         ...this.reply,
@@ -172,6 +187,9 @@ export default {
         onConfirm: () =>
           this.$store.dispatch('quest/deleteSolution', this.solution.id)
       });
+    },
+    markAsAnswer: function markAsAnswer() {
+      this.correct(this.solution);
     }
   },
   mounted() {

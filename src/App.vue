@@ -145,7 +145,7 @@ ul {
   -moz-transition: 0.2s !important;
   -o-transition: 0.2s !important;
   transition: 0.2s !important;
-  color: #f4e46b !important;
+  color: #000 !important;
   text-decoration: underline !important;
 }
 /* fonts */
