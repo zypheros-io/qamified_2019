@@ -48,8 +48,8 @@
     </nav>
     <transition
       name="router-anim"
-      enter-active-class="animated fadeInDown"
-      leave-active-class="animated fadeOutDown"
+      enter-active-class="animated zoomIn"
+      leave-active-class="animated zoomOut"
       mode="out-in"
     >
       <router-view />

@@ -312,6 +312,44 @@ const actions = {
       .catch(error => {
         console.log(error);
       });
+  },
+  flagAsDuplicate({}, quest) {
+    const updates = {};
+    updates[`quest/${quest.id}/is_duplicate`] = true;
+    console.log('it worked!');
+    firebase
+      .database()
+      .ref()
+      .update(updates)
+      .then(() => {
+        Snackbar.open({
+          message: 'Quest successfully flagged',
+          type: 'is-success',
+          duration: 3000
+        })
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  },
+  unflagQuest({}, quest) {
+    const updates = {};
+    updates[`quest/${quest.id}/is_duplicate`] = false;
+    console.log('it gone now');
+    firebase
+      .database()
+      .ref()
+      .update(updates)
+      .then(() => {
+        Snackbar.open({
+          message: 'Quest unflagged',
+          type: 'is-success',
+          duration: 3000
+        })
+      })
+      .catch(error => {
+        console.log(error);
+      })
   }
 };
 

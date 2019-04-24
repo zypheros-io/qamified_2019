@@ -19,7 +19,7 @@
           <a
             class="is-secondary-text is-anchor is-pulled-left"
             v-on:click.prevent="confirmDelete"
-            v-if="user.id === reply.user_id"
+            v-if="user.id === reply.user_id || user.is_admin"
           >
             Delete Reply&nbsp;·&nbsp;
           </a>

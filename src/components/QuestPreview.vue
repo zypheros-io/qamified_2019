@@ -35,6 +35,19 @@
             v-else-if="!quest.downvote.includes(user.id)"
           ></span>
         </p>
+        <p class="is-divider"></p>
+        <p>
+          <span
+            v-if="!quest.is_duplicate"
+            v-on:click.prevent="flagAsDuplicate"
+            class="mdi mdi-flag-variant-outline"
+          ></span>
+          <span
+            v-else-if="quest.is_duplicate"
+            v-on:click.prevent="unflagQuest"
+            class="mdi mdi-flag-variant flagged"
+          ></span>
+        </p>
       </div>
       <!-- Main quest container -->
       <div class="media-content" id="quest-primary-container">
@@ -63,7 +76,7 @@
           >
             <span
               class="mdi mdi-close"
-              v-if="user.id === quest.user_id"
+              v-if="user.id === quest.user_id || user.is_admin"
               v-on:click.prevent="confirmDelete"
               id="quest-close"
             ></span>
@@ -120,14 +133,17 @@ export default {
   computed: {
     ...mapGetters({
       user: 'user/getUser',
-      load: 'feed/loadQuest'
+      load: 'feed/loadQuest',
+      flagged: 'quest/isFlagged'
     })
   },
   methods: {
     ...mapActions({
       upvote: 'feed/upvoteQuest',
       downvote: 'feed/downvoteQuest',
-      delete: 'feed/deleteQuest'
+      delete: 'feed/deleteQuest',
+      flag: 'feed/flagAsDuplicate',
+      unflag: 'feed/unflagQuest'
     }),
     upvoteQuest: function upvoteQuest() {
       this.upvote(this.load(this.quest.id));
@@ -145,6 +161,12 @@ export default {
         hasIcon: true,
         onConfirm: () => this.delete(this.quest.id)
       });
+    },
+    flagAsDuplicate: function flagAsDuplicate() {
+      this.flag(this.load(this.quest.id));
+    },
+    unflagQuest: function unflagQuest() {
+      this.unflag(this.load(this.quest.id));
     }
   }
 };
@@ -156,6 +178,9 @@ export default {
 }
 .active-vote {
   color: #17b79c !important;
+}
+.flagged {
+  color: #ff0266 !important;
 }
 .tag {
   background-color: #17b79c !important;

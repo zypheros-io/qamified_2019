@@ -48,7 +48,7 @@
               <a
                 class="is-secondary-text is-anchor"
                 v-on:click.prevent="confirmDelete"
-                v-if="user.id === solution.user_id"
+                v-if="user.id === solution.user_id || user.is_admin"
               >
                 &nbsp;·&nbsp;Delete Solution
               </a>
