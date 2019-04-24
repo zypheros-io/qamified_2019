@@ -3,7 +3,10 @@
     <div class="card">
       <div class="card-image">
         <figure class="image is-4by3">
-          <img src="../../static/tut1.png" alt="Image" />
+          <img
+            :src="`../../static/tutorial/tut${currentPage}.png`"
+            alt="Image"
+          />
           Tutorial Modal # {{ currentPage }}
         </figure>
       </div>
@@ -19,14 +22,14 @@
           <button
             class="button is-pulled-right primary-btn"
             v-on:click.prevent="next"
-            v-if="currentPage < 5"
+            v-if="currentPage < 16"
           >
             Next
           </button>
           <button
             class="button is-pulled-right primary-btn"
             v-on:click.prevent="confirm"
-            v-if="currentPage == 5"
+            v-if="currentPage == 16"
           >
             Understood
           </button>
@@ -45,7 +48,7 @@ export default {
   },
   methods: {
     next: function next() {
-      if (this.currentPage < 5) this.currentPage += 1;
+      if (this.currentPage < 16) this.currentPage += 1;
     },
     prev: function prev() {
       if (this.currentPage > 1) this.currentPage -= 1;
