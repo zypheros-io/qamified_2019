@@ -21,7 +21,8 @@ export default new Router({
     {
       path: '/admin',
       name: 'AdminPanel',
-      component: AdminPanel
+      component: AdminPanel,
+      beforeEnter: AuthGuard
     },
     {
       path: '/signup',

@@ -86,6 +86,34 @@
         <div class="is-secondary-text" id="quest-description-container">
           <vue-markdown>{{ quest.description }}</vue-markdown>
         </div>
+        <div class="is-clearfix">
+          <div class="is-pulled-right" id="sns-share">
+            <span class="subtitle is-7 is-secondary-text">Share to: </span>
+            <social-sharing
+              :url="`http://qamified.tk/${quest.id}`"
+              title="I have posted/found a quest, can you help us with this one?"
+              description="QAmifiED is a gamified collaborative QnA platform"
+              quote="Can you help me in this quest?"
+              hashtags="qamified,sablay2019"
+              inline-template
+            >
+              <div>
+                <network network="facebook">
+                  <span
+                    style="font-size: 1.5em; cursor: pointer; color: #17b79c;"
+                    class="mdi mdi-facebook-box"
+                  ></span>
+                </network>
+                <network network="twitter">
+                  <span
+                    style="font-size: 1.5em; cursor: pointer; color: #17b79c;"
+                    class="mdi mdi-twitter-box"
+                  ></span>
+                </network>
+              </div>
+            </social-sharing>
+          </div>
+        </div>
         <div class="is-divider"></div>
         <div class="is-clearfix" id="quest-miscellaneous-container">
           <!-- Category -->
@@ -228,5 +256,9 @@ export default {
 }
 .mdi:hover {
   color: #37ccb3 !important;
+}
+#sns-share {
+  margin-right: 15px;
+  margin-top: 5px;
 }
 </style>

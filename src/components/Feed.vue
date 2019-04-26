@@ -71,8 +71,34 @@
         </div>
         <div class="is-divider" data-content="QUEST BOARD"></div>
         <!-- Feed -->
+        <div class="is-clearfix">
+          <div class="is-pulled-left">
+            <b-field label="Search">
+              <b-input
+                type="text"
+                placeholder="Enter a keyword..."
+                v-model="searchKeyword"
+              />
+            </b-field>
+          </div>
+          <div class="is-pulled-right">
+            <b-field label="Filter by Category:">
+              <b-select v-model="filterCategory">
+                <optgroup label="Computer Science">
+                  <option value="Algorithm">Algorithm</option>
+                  <option value="Web Development">Web Development</option>
+                  <option value="Machine Learning">Machine Learning</option>
+                  <option value="Image Processing">Image Processing</option>
+                  <option value="Scripting">Scripting</option>
+                </optgroup>
+                <option value="ALL"> No Filter </option>
+              </b-select>
+            </b-field>
+          </div>
+        </div>
+        <br />
         <Quest-Preview
-          v-for="quest in quests"
+          v-for="quest in test"
           :key="quest.id"
           v-bind:quest="quest"
         ></Quest-Preview>
@@ -111,7 +137,9 @@ export default {
         solutions: [],
         is_duplicate: false
       },
-      showModal: true
+      showModal: true,
+      searchKeyword: '',
+      filterCategory: 'ALL'
     };
   },
   computed: {
@@ -124,7 +152,24 @@ export default {
       expRequired: 'user/getExpToLevel',
       missions: 'user/getMissions',
       newUser: 'user/isNew'
-    })
+    }),
+    test() {
+      const filQuest = this.quests;
+      if (this.searchKeyword && this.filterCategory !== 'ALL') {
+        return filQuest.filter(
+          q =>
+            q.title.toLowerCase().includes(this.searchKeyword.toLowerCase()) &&
+            q.category === this.filterCategory
+        );
+      } else if (this.searchKeyword) {
+        return filQuest.filter(q =>
+          q.title.toLowerCase().includes(this.searchKeyword.toLowerCase())
+        );
+      } else if (this.filterCategory !== 'ALL') {
+        return filQuest.filter(q => q.category === this.filterCategory);
+      }
+      return filQuest;
+    }
   },
   methods: {
     ...mapActions({

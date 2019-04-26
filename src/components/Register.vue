@@ -200,70 +200,9 @@ export default {
 }
 #signup-container {
   border: 2px solid #17b79c !important;
-  opacity: 0 !important;
   padding: 2em !important;
   text-decoration: none !important;
   box-shadow: 1px !important;
   width: 450px !important;
-  animation: formIn 0.5s ease-in-out 1s forwards !important;
-}
-#signup-copy {
-  opacity: 0 !important;
-  animation: slideIn 1s ease-in-out 0s forwards !important;
-}
-/* animations */
-@keyframes slideIn {
-  from {
-    transform: translateY(-30px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0px);
-    opacity: 1;
-  }
-}
-@-webkit-keyframes slideIn {
-  from {
-    -webkit-transform: translateY(-30px);
-    opacity: 0;
-  }
-  to {
-    -webkit-transform: translateY(0px);
-    opacity: 1;
-  }
-}
-@-moz-keyframes slideIn {
-  from {
-    -moz-transform: translateY(-30px);
-    opacity: 0;
-  }
-  to {
-    -moz-transform: translateY(0px);
-    opacity: 1;
-  }
-}
-@-o-keyframes slideIn {
-  from {
-    -o-transform: translateY(-30px);
-    opacity: 0;
-  }
-  to {
-    -o-transform: translateY(0px);
-    opacity: 1;
-  }
-}
-@keyframes formIn {
-  0% {
-    transform: scale(0);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1.2);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
 }
 </style>

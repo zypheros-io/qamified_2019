@@ -45,6 +45,34 @@
           <div class="is-secondary-text" id="quest-description-container">
             <vue-markdown>{{ quest.description }}</vue-markdown>
           </div>
+          <div class="is-clearfix">
+            <div class="is-pulled-right" id="sns-share">
+              <span class="subtitle is-7 is-secondary-text">Share to: </span>
+              <social-sharing
+                :url="`http://qamified.tk/${quest.id}`"
+                title="I have posted/found a quest, can you help us with this one?"
+                description="QAmifiED is a gamified collaborative QnA platform"
+                quote="Can you help me in this quest?"
+                hashtags="qamified,sablay2019"
+                inline-template
+              >
+                <div>
+                  <network network="facebook">
+                    <span
+                      style="font-size: 1.5em; cursor: pointer; color: #17b79c;"
+                      class="mdi mdi-facebook-box"
+                    ></span>
+                  </network>
+                  <network network="twitter">
+                    <span
+                      style="font-size: 1.5em; cursor: pointer; color: #17b79c;"
+                      class="mdi mdi-twitter-box"
+                    ></span>
+                  </network>
+                </div>
+              </social-sharing>
+            </div>
+          </div>
           <div class="is-divider"></div>
           <div class="is-clearfix" id="quest-miscellaneous-container">
             <p class="is-pulled-left">
@@ -74,37 +102,6 @@
               </div>
             </div>
           </div>
-          <social-sharing url="qamified.tk" inline-template>
-            <div>
-              <network network="facebook">
-                <i class="fa fa-fw fa-facebook"></i> Facebook
-              </network>
-              <network network="googleplus">
-                <i class="fa fa-fw fa-google-plus"></i> Google +
-              </network>
-              <network network="linkedin">
-                <i class="fa fa-fw fa-linkedin"></i> LinkedIn
-              </network>
-              <network network="pinterest">
-                <i class="fa fa-fw fa-pinterest"></i> Pinterest
-              </network>
-              <network network="reddit">
-                <i class="fa fa-fw fa-reddit"></i> Reddit
-              </network>
-              <network network="twitter">
-                <i class="fa fa-fw fa-twitter"></i> Twitter
-              </network>
-              <network network="vk">
-                <i class="fa fa-vk"></i> VKontakte
-              </network>
-              <network network="weibo">
-                <i class="fa fa-weibo"></i> Weibo
-              </network>
-              <network network="whatsapp">
-                <i class="fa fa-fw fa-whatsapp"></i> Whatsapp
-              </network>
-            </div>
-          </social-sharing>
         </div>
       </div>
     </div>
@@ -269,5 +266,9 @@ export default {
 #info-name,
 #info-time {
   font-size: 0.8em;
+}
+#sns-share {
+  margin-right: 15px;
+  margin-top: 5px;
 }
 </style>
