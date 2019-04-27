@@ -10,7 +10,7 @@
             </p>
           </div>
           <div class="box" id="signup-container">
-            <div v-if="step === 1" id="signup-part-one">
+            <div v-if="step === 1" id="signup-part-one" key="step-one">
               <b-field label="Email address*">
                 <b-input
                   v-model="user.email"
@@ -48,13 +48,13 @@
                 </button>
               </b-field>
             </div>
-            <div v-else-if="step === 2" id="signup-part-two">
-              <b-field></b-field>
+            <div v-else-if="step === 2" id="signup-part-two" key="step-two">
               <b-field label="First Name*">
                 <b-input
                   v-model="user.firstname"
                   placeholder="First name"
                   size="is-medium"
+                  type="text"
                   required
                 ></b-input>
               </b-field>
@@ -63,6 +63,7 @@
                 <b-input
                   v-model="user.lastname"
                   placeholder="Last name"
+                  type="text"
                   size="is-medium"
                   required
                 ></b-input>
@@ -72,6 +73,7 @@
                 <b-input
                   v-model="user.institution"
                   placeholder="Institution ex. CAS, CEM, etc."
+                  type="text"
                   size="is-medium"
                   required
                 ></b-input>
@@ -89,13 +91,18 @@
                   v-else-if="loading"
                 ></button>
               </b-field>
+              <div class="has-text-centered">
+                <a class="is-anchor" v-on:click.prevent="prev">
+                  Go to previous step
+                </a>
+              </div>
             </div>
             <div class="is-divider" data-content="OR"></div>
             <div class="has-text-centered is-secondary-text">
               Already have an account?
-              <a class="is-anchor" v-on:click.prevent="goto('/signin')">
+              <router-link class="is-anchor" to="/signin">
                 Sign in
-              </a>
+              </router-link>
               instead
             </div>
           </div>
@@ -133,7 +140,7 @@ export default {
   },
   watch: {
     getUser(value) {
-      if (value !== null) this.$router.push('/feed');
+      if (value !== null) this.$router.push('/board');
     }
   },
   methods: {
@@ -153,8 +160,19 @@ export default {
     next: function next() {
       if (this.user.password.length >= 6) {
         if (this.user.email && this.user.username && this.user.password) {
-          this.step += 1;
-          this.formOneClear = true;
+          // eslint-disable-next-line
+          const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          if (reg.test(this.user.email)) {
+            this.step += 1;
+            this.formOneClear = true;
+          } else {
+            this.$snackbar.open({
+              message:
+                'Invalid email format detected. Please re-enter your email address.',
+              type: 'is-danger',
+              duration: 3000
+            });
+          }
         } else {
           this.$snackbar.open({
             message: 'Please fill in all fields',
@@ -170,9 +188,6 @@ export default {
     },
     prev: function prev() {
       this.step -= 1;
-    },
-    goto: function goto(route) {
-      this.$router.push(route);
     }
   }
 };

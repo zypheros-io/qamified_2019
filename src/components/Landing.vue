@@ -11,26 +11,18 @@
           <div class="container">
             <!-- Logo -->
             <div class="navbar-brand">
-              <a class="navbar-item" href="https://bulma.io">
+              <a class="navbar-item" href="">
                 <img src="../assets/logo.png" alt="logo.svg" />
               </a>
             </div>
             <div class="navbar-menu">
               <div class="navbar-end">
-                <a
-                  class="navbar-item"
-                  id="nav-login"
-                  v-on:click.prevent="goto('/signin')"
-                >
+                <router-link class="navbar-item" id="nav-login" to="/signin">
                   Login
-                </a>
-                <a
-                  class="navbar-item"
-                  id="nav-signup"
-                  v-on:click.prevent="goto('/signup')"
-                >
+                </router-link>
+                <router-link class="navbar-item" id="nav-signup" to="/signup">
                   Sign Up
-                </a>
+                </router-link>
               </div>
             </div>
           </div>
@@ -47,14 +39,12 @@
             <p class="subtitle is-4" id="banner-subtitle">
               Learning made more fun and collaborative for free, forever!
             </p>
-            <button
-              class="button"
-              id="banner-button"
-              v-on:click.prevent="goto('/signup')"
-            >
-              <span class="mdi mdi-arrow-right-drop-circle"></span>
-              &nbsp;Start your adventure
-            </button>
+            <router-link to="/signup">
+              <button class="button" id="banner-button">
+                <span class="mdi mdi-arrow-right-drop-circle"></span>
+                &nbsp;Start your adventure
+              </button>
+            </router-link>
           </div>
           <!-- Illustration -->
           <div class="has-text-centered" id="illustration">
@@ -82,12 +72,6 @@ export default {
     getUser(value) {
       if (value !== null) this.$router.push('/feed');
     }
-  },
-  methods: {
-    goto: function goto(route) {
-      this.route = route;
-      this.$router.push(route);
-    }
   }
 };
 </script>
@@ -111,6 +95,9 @@ export default {
 #nav-signup {
   color: #f4e46b !important;
 }
+#nav-signup:hover {
+  color: #ffffff !important;
+}
 #banner-title {
   color: #ffffff !important;
   letter-spacing: 5px !important;
@@ -131,6 +118,9 @@ export default {
   font-size: 1.3em;
   font-weight: bold;
   margin-top: 2em;
+}
+#banner-button:hover {
+  background-color: #ffffff !important;
 }
 /* Illustration */
 #illustration {

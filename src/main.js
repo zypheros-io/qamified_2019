@@ -9,6 +9,7 @@ import VueChartkick from 'vue-chartkick';
 import SocialSharing from 'vue-social-sharing';
 import Chart from 'chart.js';
 import NProgress from 'nprogress';
+import VueLazyLoad from 'vue-lazyload';
 
 import App from './App';
 import router from './router';
@@ -22,6 +23,7 @@ Vue.use(VueChartkick, { adapter: Chart });
 Vue.use(Buefy);
 Vue.use(VueMarkdown);
 Vue.use(SocialSharing);
+Vue.use(VueLazyLoad);
 Vue.filter('date', DateFilter);
 
 Vue.config.productionTip = false;

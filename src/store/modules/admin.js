@@ -8,7 +8,6 @@ const state = {
   labels: [
     'VIEW_FEED',
     'VIEW_PROFILE',
-    'VIEW_RANKING',
     'VIEW_NOTIFICATION',
     'VIEW_QUEST',
     'VIEW_USER',
@@ -31,7 +30,6 @@ const state = {
   values: [
     ['VIEW_FEED', 0],
     ['VIEW_PROFILE', 0],
-    ['VIEW_RANKING', 0],
     ['VIEW_NOTIFICATION', 0],
     ['VIEW_QUEST', 0],
     ['VIEW_USER', 0],

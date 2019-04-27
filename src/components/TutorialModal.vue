@@ -4,10 +4,85 @@
       <div class="card-image">
         <figure class="image is-4by3">
           <img
-            :src="`../../static/tutorial/tut${currentPage}.png`"
+            v-if="currentPage === 1"
+            src="../assets/tutorial/tut1.png"
             alt="Image"
           />
-          Tutorial Modal # {{ currentPage }}
+          <img
+            v-if="currentPage === 2"
+            src="../assets/tutorial/tut2.png"
+            alt="Image"
+          />
+          <img
+            v-if="currentPage === 3"
+            src="../assets/tutorial/tut3.png"
+            alt="Image"
+          />
+          <img
+            v-if="currentPage === 4"
+            src="../assets/tutorial/tut4.png"
+            alt="Image"
+          />
+          <img
+            v-if="currentPage === 5"
+            src="../assets/tutorial/tut5.png"
+            alt="Image"
+          />
+          <img
+            v-if="currentPage === 6"
+            src="../assets/tutorial/tut6.png"
+            alt="Image"
+          />
+          <img
+            v-if="currentPage === 7"
+            src="../assets/tutorial/tut7.png"
+            alt="Image"
+          />
+          <img
+            v-if="currentPage === 8"
+            src="../assets/tutorial/tut8.png"
+            alt="Image"
+          />
+          <img
+            v-if="currentPage === 9"
+            src="../assets/tutorial/tut9.png"
+            alt="Image"
+          />
+          <img
+            v-if="currentPage === 10"
+            src="../assets/tutorial/tut10.png"
+            alt="Image"
+          />
+          <img
+            v-if="currentPage === 11"
+            src="../assets/tutorial/tut11.png"
+            alt="Image"
+          />
+          <img
+            v-if="currentPage === 12"
+            src="../assets/tutorial/tut12.png"
+            alt="Image"
+          />
+          <img
+            v-if="currentPage === 13"
+            src="../assets/tutorial/tut13.png"
+            alt="Image"
+          />
+          <img
+            v-if="currentPage === 14"
+            src="../assets/tutorial/tut14.png"
+            alt="Image"
+          />
+          <img
+            v-if="currentPage === 15"
+            src="../assets/tutorial/tut15.png"
+            alt="Image"
+          />
+          <img
+            v-if="currentPage === 16"
+            src="../assets/tutorial/tut16.png"
+            alt="Image"
+          />
         </figure>
       </div>
       <div class="card-content">

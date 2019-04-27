@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Register from '@/components/Register';
-import Feed from '@/components/Feed';
+import QuestBoard from '@/components/QuestBoard';
 import Quest from '@/components/Quest';
 import LogIn from '@/components/LogIn';
 import Landing from '@/components/Landing';
@@ -35,9 +35,9 @@ export default new Router({
       component: LogIn
     },
     {
-      path: '/feed',
-      name: 'Feed',
-      component: Feed,
+      path: '/board',
+      name: 'QuestBoard',
+      component: QuestBoard,
       beforeEnter: AuthGuard
     },
     {

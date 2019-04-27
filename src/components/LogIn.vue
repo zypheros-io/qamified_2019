@@ -45,9 +45,7 @@
             <div class="is-divider" data-content="OR"></div>
             <div class="has-text-centered is-secondary-text">
               Not yet an adventurer?
-              <a class="is-anchor" v-on:click.prevent="goto('/signup')">
-                Sign up
-              </a>
+              <router-link class="is-anchor" to="/signup">Sign up</router-link>
               now
             </div>
           </div>
@@ -77,7 +75,7 @@ export default {
   },
   watch: {
     getUser(value) {
-      if (value !== null) this.$router.push('/feed');
+      if (value !== null) this.$router.push('/board');
     }
   },
   methods: {
@@ -93,10 +91,6 @@ export default {
           type: 'is-danger'
         });
       }
-    },
-    goto: function goto(route) {
-      this.route = route;
-      this.$router.push(route);
     }
   }
 };

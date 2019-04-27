@@ -28,12 +28,16 @@
               <hr class="dropdown-divider" />
               <b-dropdown-item has-link aria-role="menuitem">
                 <router-link to="/feed">
-                  Quest Board
+                  <div v-on:click.prevent="logEvent('VIEW_FEED')">
+                    Quest Board
+                  </div>
                 </router-link>
               </b-dropdown-item>
               <b-dropdown-item has-link aria-role="menuitem">
                 <router-link :to="`profile/${user.id}`">
-                  Headquarters
+                  <div v-on:click.prevent="logEvent('VIEW_PROFILE')">
+                    Headquarters
+                  </div>
                 </router-link>
               </b-dropdown-item>
               <hr class="dropdown-divider" />
@@ -57,6 +61,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   computed: {
     user() {
@@ -64,8 +70,12 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      logout: 'user/logOut',
+      log: 'user/updateLogs'
+    }),
     signOut: function signOut() {
-      this.$store.dispatch('user/logOut');
+      this.logout();
       this.$router.push('/signin');
     },
     goto: function goto(route) {
@@ -79,6 +89,9 @@ export default {
       } else {
         el.classList.add('is-active');
       }
+    },
+    logEvent: function logEvent(eventContext) {
+      this.log(eventContext);
     }
   }
 };
@@ -138,6 +151,7 @@ ul {
 /* custom modifiers */
 .is-anchor {
   color: #0b7765 !important;
+  text-decoration: underline;
 }
 .is-anchor:hover {
   -webkit-transition: 0.2s !important;
