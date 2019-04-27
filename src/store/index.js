@@ -8,6 +8,7 @@ import feed from './modules/feed';
 import quest from './modules/quest';
 import solution from './modules/solution';
 import admin from './modules/admin';
+import headquarters from './modules/headquarters';
 
 Vue.use(Vuex);
 
@@ -19,7 +20,8 @@ export default new Vuex.Store({
     feed,
     quest,
     solution,
-    admin
+    admin,
+    headquarters
   },
   plugins: [createPersistedState()]
 });

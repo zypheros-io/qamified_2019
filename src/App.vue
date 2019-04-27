@@ -21,13 +21,16 @@
             >
               Quest Board
             </a>
-            <a
-              to="profile"
-              class="navbar-item"
-              v-on:click.prevent="goto('/headquarters')"
-            >
+            <router-link :to="`/headquarters/${user.id}`" class="navbar-item">
               Headquarters
-            </a>
+            </router-link>
+            <router-link
+              :to="`/admin`"
+              class="navbar-item"
+              v-if="user.is_admin"
+            >
+              Admin Panel
+            </router-link>
           </div>
           <div class="navbar-end is-primary-text">
             <a class="navbar-item">Log Out</a>

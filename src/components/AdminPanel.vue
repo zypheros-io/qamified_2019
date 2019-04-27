@@ -16,9 +16,6 @@
       <b-tab-item label="Users">
         <User></User>
       </b-tab-item>
-      <b-tab-item label="Mission">
-        <Mission></Mission>
-      </b-tab-item>
     </b-tabs>
   </div>
 </template>
@@ -26,14 +23,12 @@
 import Dashboard from './admin/Dashboard';
 import Logs from './admin/Logs';
 import User from './admin/User';
-import Mission from './admin/Mission';
 
 export default {
   components: {
     Dashboard,
     Logs,
-    User,
-    Mission
+    User
   },
   data() {
     return {

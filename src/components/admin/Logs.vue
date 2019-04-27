@@ -15,27 +15,29 @@
         <option value="DOWNVOTE_SOLUTION">DOWNVOTE_SOLUTION</option>
       </b-select>
     </b-field>
-    <table
-      class="table container is-fullwidth is-striped is-hoverable is-bordered is-scrollable"
-      id="logs-table"
-    >
-      <thead>
-        <tr>
-          <th>Timestamp</th>
-          <th>User</th>
-          <th>Username</th>
-          <th>Activity</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(log, index) in logs" :key="index">
-          <td>{{ log.date_created }}</td>
-          <td>{{ log.fullname }}</td>
-          <td>{{ log.username }}</td>
-          <td>{{ log.context }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="scrollable">
+      <table
+        class="table container is-fullwidth is-striped is-hoverable is-bordered is-scrollable"
+        id="logs-table"
+      >
+        <thead>
+          <tr>
+            <th>Timestamp</th>
+            <th>User</th>
+            <th>Username</th>
+            <th>Activity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(log, index) in logs" :key="index">
+            <td>{{ log.date_created }}</td>
+            <td>{{ log.fullname }}</td>
+            <td>{{ log.username }}</td>
+            <td>{{ log.context }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -69,7 +71,10 @@ export default {
 
 <style scoped>
 #logs {
-  margin-top: 5vh;
-  border: 5px solid #b686fe;
+  margin-top: 5vh !important;
+}
+.scrollable {
+  overflow: scroll !important;
+  height: 450px !important;
 }
 </style>

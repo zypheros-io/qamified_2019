@@ -5,7 +5,7 @@ import QuestBoard from '@/components/QuestBoard';
 import Quest from '@/components/Quest';
 import LogIn from '@/components/LogIn';
 import Landing from '@/components/Landing';
-import Profile from '@/components/Profile';
+import Headquarters from '@/components/Headquarters';
 import AdminPanel from '@/components/AdminPanel';
 import Error404 from '@/components/Error404';
 import AuthGuard from './auth-guard';
@@ -48,10 +48,10 @@ export default new Router({
       component: Quest
     },
     {
-      path: '/profile/:id',
+      path: '/headquarters/:id',
       props: true,
-      name: 'Profile',
-      component: Profile
+      name: 'Headquarters',
+      component: Headquarters
     },
     {
       path: '/error404',

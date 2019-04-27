@@ -335,6 +335,7 @@ const actions = {
           type: 'is-success',
           duration: 3000
         });
+        dispatch('user/updateLogs', 'FLAG_QUEST', { root: true });
       })
       .catch(error => {
         console.log(error);
@@ -354,6 +355,7 @@ const actions = {
           type: 'is-success',
           duration: 3000
         });
+        dispatch('user/updateLogs', 'UNFLAG_QUEST', { root: true });
       })
       .catch(error => {
         console.log(error);

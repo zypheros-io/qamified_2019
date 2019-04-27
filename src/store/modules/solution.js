@@ -169,6 +169,7 @@ const actions = {
             { authorId: payload.user_id, experience: 10 },
             { root: true }
           );
+          dispatch('user/updateLogs', 'MARK_SOLUTION', { root: true });
         })
         .catch(error => {
           console.log(error);
