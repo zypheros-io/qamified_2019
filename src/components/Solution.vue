@@ -3,7 +3,7 @@
     <article class="media">
       <figure class="media-left has-text-centered">
         <p class="image is-64x64">
-          <img :src="user.img_url" />
+          <img :src="`../${user.img_url}`" />
         </p>
       </figure>
       <div class="media-content">
