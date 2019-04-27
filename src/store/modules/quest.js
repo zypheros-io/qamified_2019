@@ -130,7 +130,7 @@ const actions = {
             duration: 3000
           });
           dispatch('user/updateLogs', 'UPVOTE_SOLUTION', { root: true });
-          dispatch('user/addReputation', solution.user_id, { root: true });
+          dispatch('user/addReputation', { authorId: solution.user_id, reputation: 10 }, { root: true });
           solution.votes += 1;
         })
         .catch(error => {
@@ -156,7 +156,7 @@ const actions = {
             duration: 3000
           });
           dispatch('user/updateLogs', 'UPVOTE_SOLUTION', { root: true });
-          dispatch('user/addReputation', solution.user_id, { root: true });
+          dispatch('user/addReputation', { authorId: solution.user_id, reputation: 10 }, { root: true });
           solution.votes += 1;
         })
         .catch(error => {
@@ -165,11 +165,19 @@ const actions = {
     }
     // upvote when already upvoted
     else if (Object.keys(solution.upvote).includes(user.id)) {
-      Snackbar.open({
-        message: 'You have already upvoted this solution',
-        duration: 3000,
-        type: 'is-danger'
-      });
+      updates[`solution/${solution.id}/upvotes/${user.id}`] = false;
+      updates[`solution/${solution.id}/votes`] = solution.votes - 1;
+      
+      firebase
+        .database()
+        .ref()
+        .update(updates)
+        .then(() => {
+          solution.votes -= 1;
+        })
+        .catch(error => {
+          console.log(error);
+        })
     }
   },
   downvoteSolution({ dispatch, rootGetters }, solution) {
@@ -193,7 +201,7 @@ const actions = {
             duration: 3000
           });
           dispatch('user/updateLogs', 'DOWNVOTE_SOLUTION', { root: true });
-          dispatch('user/deductReputation', solution.user_id, { root: true });
+          dispatch('user/deductReputation', { authorId: solution.user_id, reputation: 10 }, { root: true });
           solution.votes -= 1;
         })
         .catch(error => {
@@ -219,7 +227,7 @@ const actions = {
             duration: 3000
           });
           dispatch('user/updateLogs', 'DOWNVOTE_SOLUTION', { root: true });
-          dispatch('user/deductReputation', solution.user_id, { root: true });
+          dispatch('user/deductReputation', { authorId: solution.user_id, reputation: 10 }, { root: true });
         })
         .catch(error => {
           console.log(error);
@@ -227,11 +235,19 @@ const actions = {
     }
     // Downvote when already downvoted
     else if (Object.keys(solution.downvote).includes(user.id)) {
-      Snackbar.open({
-        message: 'You have already downvoted this quest',
-        type: 'is-danger',
-        duration: 3000
-      });
+      updates[`solution/${solution.id}/downvote/${user.id}`] = false;
+      updates[`solution/${solution.id}/votes`] = solution.votes + 1;
+      
+      firebase
+        .database()
+        .ref()
+        .update(updates)
+        .then(() => {
+          solution.votes += 1;
+        })
+        .catch(error => {
+          console.log(error);
+        })
     }
   },
   deleteSolution({ dispatch }, solutionId) {

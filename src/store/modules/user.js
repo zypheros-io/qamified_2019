@@ -149,130 +149,107 @@ const actions = {
         console.log(error);
       });
   },
-  addReputation({ commit, rootGetters }, authorId) {
-    const REPUTATION = 5;
+  /*
+    Adds reputation to the user with the provided ID
+    Accepts payload which consists of the author ID and reputation points
+    Also checks if the user's rank changed and updates the badge and rank accordingly
+  */
+  addReputation({ commit, rootGetters }, payload) {
+    const REPUTATION = payload.reputation;
     const REPUTATION_RATIO = 10;
     const BADGES = rootGetters['user/getBadges'];
     const RANKS = rootGetters['user/getRanks'];
-    // Retrieve user
+    
     let user;
     firebase
       .database()
-      .ref(`user/${authorId}`)
+      .ref(`user/${payload.authorId}`)
       .on('value', u => {
         if (u.val() !== null) {
           user = u.val();
         }
       });
-    // Store user's current rank
+    
     let previousRank = user.rank;
-    // Update user's reputation
-    user.reputation = user.reputation + REPUTATION;
-    // Compute for the matching rank index
+    user.reputation += REPUTATION;
     let ratio = Math.floor(user.reputation / REPUTATION_RATIO);
     if (ratio <= 9 && ratio >= 0) {
-      // [0-9]
       user.rank = RANKS[ratio];
     } else if (ratio > 9) {
       user.rank = RANKS[9];
     }
-    // Update user badge based on current rank
+
     user.badge_url = BADGES[user.rank];
-    // Check if the user ranked up
     let rankedUp = false;
     if (user.rank !== previousRank) rankedUp = true;
-    // Store updates
+
     const updates = {};
-    updates[`user/${authorId}/reputation`] = user.reputation;
-    updates[`user/${authorId}/rank`] = user.rank;
-    updates[`user/${authorId}/badge_url`] = user.badge_url;
-    // Commit changes to database
+    updates[`user/${payload.authorId}/reputation`] = user.reputation;
+    updates[`user/${payload.authorId}/rank`] = user.rank;
+    updates[`user/${payload.authorId}/badge_url`] = user.badge_url;
     firebase
       .database()
       .ref()
       .update(updates)
       .then(() => {
-        // Commit changes to local storage
         commit('updateReputation', user.reputation);
         if (rankedUp) {
           commit('updateRank', user.rank);
           commit('updateBadge', user.badge_url);
-          // Event alert
-          Dialog.alert({
-            title: 'Rank up!',
-            message:
-              'Congratulations adventurer! You have accumulated enough reputation points to get to the next rank. Keep it up!',
-            type: 'is-success'
-          });
         }
-        // Reset values;
-        rankedUp = false;
       })
       .catch(error => {
         console.log(error);
-      });
+      })
   },
-  deductReputation({ commit, rootGetters }, authorId) {
-    const REPUTATION = 5;
+  deductReputation({ commit, rootGetters }, payload) {
+    const REPUTATION = payload.reputation;
     const REPUTATION_RATIO = 10;
     const BADGES = rootGetters['user/getBadges'];
     const RANKS = rootGetters['user/getRanks'];
-    // Retrieve user
+
     let user;
     firebase
       .database()
-      .ref(`user/${authorId}`)
+      .ref(`user/${payload.authorId}`)
       .on('value', u => {
         if (u.val() !== null) {
           user = u.val();
         }
       });
-    // Store user's current rank
+
     let previousRank = user.rank;
-    // Update user's reputation
     user.reputation = user.reputation - REPUTATION;
-    // Compute for matching rank index
     let ratio = Math.floor(user.reputation / REPUTATION_RATIO);
     if (ratio <= 9 && ratio >= 0) {
       user.rank = RANKS[ratio];
     } else if (ratio < 0) {
       user.rank = RANKS[0];
     }
-    // Update user badge based on current rank
+
     user.badge_url = BADGES[user.rank];
-    // Check if the user's rank changed
     let rankedDown = false;
     if (user.rank !== previousRank) rankedDown = true;
-    // Store updates
+    
     const updates = {};
-    updates[`user/${authorId}/reputation`] = user.reputation;
-    updates[`user/${authorId}/rank`] = user.rank;
-    updates[`user/${authorId}/badge_url`] = user.badge_url;
-    // Commit changes to database
+    updates[`user/${payload.authorId}/reputation`] = user.reputation;
+    updates[`user/${payload.authorId}/rank`] = user.rank;
+    updates[`user/${payload.authorId}/badge_url`] = user.badge_url;
+
     firebase
       .database()
       .ref()
       .update(updates)
       .then(() => {
-        // Commit changes to local storage
         commit('updateReputation', user.reputation);
         if (rankedDown) {
           commit('updateRank', user.rank);
           commit('updateBadge', user.badge_url);
-          // Event alert
-          Dialog.alert({
-            title: 'Rank down!',
-            message:
-              'Majority of the adventurers downvoted the assistance you provided causing you to lose reputation. You have ranked down.',
-            type: 'is-danger'
-          });
         }
-        // Reset values;
-        rankedDown = false;
       })
       .catch(error => {
         console.log(error);
-      });
+      })
   },
   endTutorial({ commit, rootGetters }) {
     const updates = {};

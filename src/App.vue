@@ -84,11 +84,6 @@ export default {
       } else {
         el.classList.add('is-active');
       }
-    },
-    logEvent: function logEvent() {
-      // eslint-disable-next-line
-      console.log('hello');
-      // this.log(eventContext);
     }
   }
 };
