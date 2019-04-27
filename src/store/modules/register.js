@@ -43,9 +43,9 @@ const actions = {
           level: 1,
           level_cap: 20,
           experience: 0,
-          rank: 'Novice',
+          rank: 'Pathfinder',
           reputation: 0,
-          badge_url: '../../static/badges/chevron-1.png',
+          badge_url: '../../static/badges/Badge01.png',
           img_url: 'static/avatars/avatar_boy.png',
           // Hidden information
           is_banned: false,

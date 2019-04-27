@@ -33,7 +33,9 @@
             </router-link>
           </div>
           <div class="navbar-end is-primary-text">
-            <a class="navbar-item">Log Out</a>
+            <a class="navbar-item" v-on:click.prevent="signOut">
+              Log Out
+            </a>
           </div>
         </div>
       </div>

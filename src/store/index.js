@@ -9,6 +9,7 @@ import quest from './modules/quest';
 import solution from './modules/solution';
 import admin from './modules/admin';
 import headquarters from './modules/headquarters';
+import badges from './modules/badges';
 
 Vue.use(Vuex);
 
@@ -21,7 +22,8 @@ export default new Vuex.Store({
     quest,
     solution,
     admin,
-    headquarters
+    headquarters,
+    badges
   },
   plugins: [createPersistedState()]
 });

@@ -6,28 +6,6 @@ import { Toast } from 'buefy/dist/components/toast';
 
 const state = {
   user: null,
-  ranks: [
-    'Novice',
-    'Copper',
-    'Iron',
-    'Silver',
-    'Gold',
-    'Platinum',
-    'Mithril',
-    'Diamond',
-    'Adamantium',
-    'Orichalcum'
-  ],
-  badges: {
-    Novice: '../../static/badges/chevron-1.png',
-    Copper: '../../static/badges/chevron-2.png',
-    Iron: '../../static/badges/chevron-21.png',
-    Silver: '../../static/badges/chevron-4.png',
-    Gold: '../../static/badges/chevron-4.png',
-    Platinum: '../../static/badges/chevron-4.png',
-    Mithril: '../../static/badges/chevron-4.png',
-    Diamond: '../../static/badges/chevron-4.png'
-  },
   loading: false
 };
 
@@ -150,9 +128,8 @@ const actions = {
   addReputation({ commit, rootGetters }, payload) {
     const REPUTATION = payload.reputation;
     const REPUTATION_RATIO = 10;
-    const BADGES = rootGetters['user/getBadges'];
-    const RANKS = rootGetters['user/getRanks'];
-
+    const BADGES = rootGetters['badges/getBadges'];
+    const RANKS = rootGetters['badges/getRanks'];
     let user;
     firebase
       .database()
@@ -180,6 +157,7 @@ const actions = {
     updates[`user/${payload.authorId}/reputation`] = user.reputation;
     updates[`user/${payload.authorId}/rank`] = user.rank;
     updates[`user/${payload.authorId}/badge_url`] = user.badge_url;
+    console.log(updates);
     firebase
       .database()
       .ref()
@@ -277,12 +255,6 @@ const getters = {
   },
   getExpToLevel(state) {
     return state.user.level_cap;
-  },
-  getRanks(state) {
-    return state.ranks;
-  },
-  getBadges(state) {
-    return state.badges;
   },
   isLoading(state) {
     return state.loading;
