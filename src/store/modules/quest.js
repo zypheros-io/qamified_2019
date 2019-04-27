@@ -130,7 +130,7 @@ const actions = {
             duration: 3000
           });
           dispatch('user/updateLogs', 'UPVOTE_SOLUTION', { root: true });
-          dispatch('user/addReputation', { authorId: solution.user_id, reputation: 10 }, { root: true });
+          dispatch('user/addReputation', { authorId: solution.user_id, reputation: 3 }, { root: true });
           solution.votes += 1;
         })
         .catch(error => {
@@ -156,7 +156,7 @@ const actions = {
             duration: 3000
           });
           dispatch('user/updateLogs', 'UPVOTE_SOLUTION', { root: true });
-          dispatch('user/addReputation', { authorId: solution.user_id, reputation: 10 }, { root: true });
+          dispatch('user/addReputation', { authorId: solution.user_id, reputation: 3 }, { root: true });
           solution.votes += 1;
         })
         .catch(error => {
@@ -201,7 +201,7 @@ const actions = {
             duration: 3000
           });
           dispatch('user/updateLogs', 'DOWNVOTE_SOLUTION', { root: true });
-          dispatch('user/deductReputation', { authorId: solution.user_id, reputation: 10 }, { root: true });
+          dispatch('user/deductReputation', { authorId: solution.user_id, reputation: 3 }, { root: true });
           solution.votes -= 1;
         })
         .catch(error => {
@@ -227,7 +227,7 @@ const actions = {
             duration: 3000
           });
           dispatch('user/updateLogs', 'DOWNVOTE_SOLUTION', { root: true });
-          dispatch('user/deductReputation', { authorId: solution.user_id, reputation: 10 }, { root: true });
+          dispatch('user/deductReputation', { authorId: solution.user_id, reputation: 3 }, { root: true });
         })
         .catch(error => {
           console.log(error);

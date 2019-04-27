@@ -129,11 +129,8 @@ const actions = {
         console.log(error);
       });
   },
-  markAsAnswer({}, payload) {
-    // Update solution as correct
+  markAsAnswer({ dispatch }, payload) {
     const updates = {};
-
-    // Is solution correct?
     if (!payload.is_correct) {
       updates[`solution/${payload.id}/is_correct`] = true;
       // Set quest as answered
@@ -150,6 +147,7 @@ const actions = {
             type: 'is-success',
             duration: 3000
           });
+          dispatch('user/addReputation', { authorId: payload.user_id, reputation: 15 }, { root: true });
         })
         .catch(error => {
           console.log(error);
@@ -168,6 +166,7 @@ const actions = {
             type: 'is-success',
             duration: 3000
           });
+          dispatch('user/deductReputation', { authorId: payload.user_id, reputation: 15 }, { root: true });
         })
         .catch(error => {
           console.log(error);
