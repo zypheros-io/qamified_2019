@@ -66,7 +66,11 @@ const actions = {
             "You have cleared a mission! Here's a trophy for your efforts, adventurer!",
           type: 'is-success'
         });
-        dispatch('user/addExperience', { authorId: user.id, experience: currMission.experience }, { root: true });
+        dispatch(
+          'user/addExperience',
+          { authorId: user.id, experience: currMission.experience },
+          { root: true }
+        );
       }
     }
     firebase
@@ -75,7 +79,11 @@ const actions = {
       .update(updates)
       .then(() => {
         dispatch('user/updateLogs', 'POST_SOLUTION', { root: true });
-        dispatch('user/addExperience', { authorId: user.id, experience: 7 }, { root: true });
+        dispatch(
+          'user/addExperience',
+          { authorId: user.id, experience: 7 },
+          { root: true }
+        );
         // Event alert
         Snackbar.open({
           message: 'Quest has been successfully posted',
@@ -130,7 +138,11 @@ const actions = {
             duration: 3000
           });
           dispatch('user/updateLogs', 'UPVOTE_SOLUTION', { root: true });
-          dispatch('user/addReputation', { authorId: solution.user_id, reputation: 3 }, { root: true });
+          dispatch(
+            'user/addReputation',
+            { authorId: solution.user_id, reputation: 3 },
+            { root: true }
+          );
           solution.votes += 1;
         })
         .catch(error => {
@@ -156,7 +168,11 @@ const actions = {
             duration: 3000
           });
           dispatch('user/updateLogs', 'UPVOTE_SOLUTION', { root: true });
-          dispatch('user/addReputation', { authorId: solution.user_id, reputation: 3 }, { root: true });
+          dispatch(
+            'user/addReputation',
+            { authorId: solution.user_id, reputation: 3 },
+            { root: true }
+          );
           solution.votes += 1;
         })
         .catch(error => {
@@ -167,7 +183,7 @@ const actions = {
     else if (Object.keys(solution.upvote).includes(user.id)) {
       updates[`solution/${solution.id}/upvotes/${user.id}`] = false;
       updates[`solution/${solution.id}/votes`] = solution.votes - 1;
-      
+
       firebase
         .database()
         .ref()
@@ -177,7 +193,7 @@ const actions = {
         })
         .catch(error => {
           console.log(error);
-        })
+        });
     }
   },
   downvoteSolution({ dispatch, rootGetters }, solution) {
@@ -201,7 +217,11 @@ const actions = {
             duration: 3000
           });
           dispatch('user/updateLogs', 'DOWNVOTE_SOLUTION', { root: true });
-          dispatch('user/deductReputation', { authorId: solution.user_id, reputation: 3 }, { root: true });
+          dispatch(
+            'user/deductReputation',
+            { authorId: solution.user_id, reputation: 3 },
+            { root: true }
+          );
           solution.votes -= 1;
         })
         .catch(error => {
@@ -227,7 +247,11 @@ const actions = {
             duration: 3000
           });
           dispatch('user/updateLogs', 'DOWNVOTE_SOLUTION', { root: true });
-          dispatch('user/deductReputation', { authorId: solution.user_id, reputation: 3 }, { root: true });
+          dispatch(
+            'user/deductReputation',
+            { authorId: solution.user_id, reputation: 3 },
+            { root: true }
+          );
         })
         .catch(error => {
           console.log(error);
@@ -237,7 +261,7 @@ const actions = {
     else if (Object.keys(solution.downvote).includes(user.id)) {
       updates[`solution/${solution.id}/downvote/${user.id}`] = false;
       updates[`solution/${solution.id}/votes`] = solution.votes + 1;
-      
+
       firebase
         .database()
         .ref()
@@ -247,7 +271,7 @@ const actions = {
         })
         .catch(error => {
           console.log(error);
-        })
+        });
     }
   },
   deleteSolution({ dispatch }, solutionId) {

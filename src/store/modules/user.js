@@ -105,7 +105,7 @@ const actions = {
   },
   addExperience({ commit, rootGetters }, payload) {
     const EXPERIENCE = payload.experience;
-    
+
     let user;
     firebase
       .database()
@@ -114,10 +114,10 @@ const actions = {
         if (u.val() !== null) {
           user = u.val();
         }
-      })
+      });
 
     let leveledUp = false;
-    
+
     user.experience += EXPERIENCE;
     if (user.experience >= user.level_cap) {
       user.level = user.level + 1;
@@ -140,7 +140,7 @@ const actions = {
       })
       .catch(error => {
         console.log(error);
-      })
+      });
   },
   /*
     Adds reputation to the user with the provided ID
@@ -152,7 +152,7 @@ const actions = {
     const REPUTATION_RATIO = 10;
     const BADGES = rootGetters['user/getBadges'];
     const RANKS = rootGetters['user/getRanks'];
-    
+
     let user;
     firebase
       .database()
@@ -162,7 +162,7 @@ const actions = {
           user = u.val();
         }
       });
-    
+
     let previousRank = user.rank;
     user.reputation += REPUTATION;
     let ratio = Math.floor(user.reputation / REPUTATION_RATIO);
@@ -193,7 +193,7 @@ const actions = {
       })
       .catch(error => {
         console.log(error);
-      })
+      });
   },
   deductReputation({ commit, rootGetters }, payload) {
     const REPUTATION = payload.reputation;
@@ -223,7 +223,7 @@ const actions = {
     user.badge_url = BADGES[user.rank];
     let rankedDown = false;
     if (user.rank !== previousRank) rankedDown = true;
-    
+
     const updates = {};
     updates[`user/${payload.authorId}/reputation`] = user.reputation;
     updates[`user/${payload.authorId}/rank`] = user.rank;
@@ -242,7 +242,7 @@ const actions = {
       })
       .catch(error => {
         console.log(error);
-      })
+      });
   },
   endTutorial({ commit, rootGetters }) {
     const updates = {};

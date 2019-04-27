@@ -63,7 +63,11 @@ const actions = {
             "You have cleared a mission! Here's a trophy for your efforts, adventurer!",
           type: 'is-success'
         });
-        dispatch('user/addExperience', { authorId: user.id, experience: currMission.experience }, { root: true });
+        dispatch(
+          'user/addExperience',
+          { authorId: user.id, experience: currMission.experience },
+          { root: true }
+        );
       }
     }
     firebase
@@ -73,7 +77,11 @@ const actions = {
       .then(() => {
         // Commit changes to local storage
         dispatch('user/updateLogs', 'POST_REPLY', { root: true });
-        dispatch('user/addExperience', { authorId: user.id, experience: 3 }, { root: true });
+        dispatch(
+          'user/addExperience',
+          { authorId: user.id, experience: 3 },
+          { root: true }
+        );
         // Event alert
         Toast.open({
           message: 'Reply successfully posted!',
@@ -151,8 +159,16 @@ const actions = {
             type: 'is-success',
             duration: 3000
           });
-          dispatch('user/addReputation', { authorId: payload.user_id, reputation: 15 }, { root: true });
-          dispatch('user/addExperience', { authorId: payload.user_id, experience: 10 }, { root: true });
+          dispatch(
+            'user/addReputation',
+            { authorId: payload.user_id, reputation: 15 },
+            { root: true }
+          );
+          dispatch(
+            'user/addExperience',
+            { authorId: payload.user_id, experience: 10 },
+            { root: true }
+          );
         })
         .catch(error => {
           console.log(error);
@@ -171,7 +187,11 @@ const actions = {
             type: 'is-success',
             duration: 3000
           });
-          dispatch('user/deductReputation', { authorId: payload.user_id, reputation: 15 }, { root: true });
+          dispatch(
+            'user/deductReputation',
+            { authorId: payload.user_id, reputation: 15 },
+            { root: true }
+          );
         })
         .catch(error => {
           console.log(error);
