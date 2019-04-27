@@ -66,7 +66,7 @@ const actions = {
             "You have cleared a mission! Here's a trophy for your efforts, adventurer!",
           type: 'is-success'
         });
-        dispatch('user/addExperience', currMission.experience, { root: true });
+        dispatch('user/addExperience', { authorId: user.id, experience: currMission.experience }, { root: true });
       }
     }
     firebase
@@ -75,7 +75,7 @@ const actions = {
       .update(updates)
       .then(() => {
         dispatch('user/updateLogs', 'POST_SOLUTION', { root: true });
-        dispatch('user/addExperience', 5, { root: true });
+        dispatch('user/addExperience', { authorId: user.id, experience: 7 }, { root: true });
         // Event alert
         Snackbar.open({
           message: 'Quest has been successfully posted',

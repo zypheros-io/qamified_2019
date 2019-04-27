@@ -59,7 +59,7 @@ const actions = {
             "You have cleared a mission! Here's a trophy for your efforts, adventurer!",
           type: 'is-success'
         });
-        dispatch('user/addExperience', currMission.experience, { root: true });
+        dispatch('user/addExperience', { authorId: user.id, experience: currMission.experience }, { root: true });
       }
     }
     // Commit changes to database
@@ -76,7 +76,7 @@ const actions = {
         });
         // Commit changes to local storage
         dispatch('user/updateLogs', 'POST_QUEST', { root: true });
-        dispatch('user/addExperience', 5, { root: true });
+        dispatch('user/addExperience', { authorId: user.id, experience: 5 }, { root: true });
         commit('setLoading', false);
       })
       .catch(error => {

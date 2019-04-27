@@ -103,51 +103,44 @@ const actions = {
         console.log(error);
       });
   },
-  addExperience({ commit, rootGetters }, experience) {
-    const EXPERIENCE = experience;
-    // Retrieve the user that did the action
-    let user = rootGetters['user/getUser'];
+  addExperience({ commit, rootGetters }, payload) {
+    const EXPERIENCE = payload.experience;
+    
+    let user;
+    firebase
+      .database()
+      .ref(`user/${payload.authorId}`)
+      .on('value', u => {
+        if (u.val() !== null) {
+          user = u.val();
+        }
+      })
+
     let leveledUp = false;
-    // User gained experience from the action it did
-    user.experience = user.experience + EXPERIENCE;
-    // Check if the user leveled up
+    
+    user.experience += EXPERIENCE;
     if (user.experience >= user.level_cap) {
-      /*
-        If the user leveled up, update the user's level and level cap
-        Reset experience points
-      */
       user.level = user.level + 1;
       user.level_cap = user.level_cap * 2;
       user.experience = 0;
       leveledUp = true;
     }
-    // Store changes into updates
+
     const updates = {};
     updates[`user/${user.id}/experience`] = user.experience;
     updates[`user/${user.id}/level_cap`] = user.level_cap;
     updates[`user/${user.id}/level`] = user.level;
-    // Commit changes to database
+
     firebase
       .database()
       .ref()
       .update(updates)
       .then(() => {
-        // Commit changes to local storage
-        commit('updateExp', user.experience);
-        if (leveledUp) {
-          commit('updateLevel', user.level);
-          commit('updateExpToLevel', user.level_cap);
-          // Display a prompt to user
-          Dialog.alert({
-            title: 'Leveled up!',
-            message: 'Congratulations, you have leveled up!',
-            type: 'is-success'
-          });
-        }
+        console.log('hello exp yay');
       })
       .catch(error => {
         console.log(error);
-      });
+      })
   },
   /*
     Adds reputation to the user with the provided ID
