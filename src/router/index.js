@@ -7,6 +7,7 @@ import LogIn from '@/components/LogIn';
 import Landing from '@/components/Landing';
 import Profile from '@/components/Profile';
 import AdminPanel from '@/components/AdminPanel';
+import Error404 from '@/components/Error404';
 import AuthGuard from './auth-guard';
 
 Vue.use(Router);
@@ -41,7 +42,7 @@ export default new Router({
       beforeEnter: AuthGuard
     },
     {
-      path: '/:id',
+      path: '/quest/:id',
       props: true,
       name: 'Quest',
       component: Quest
@@ -51,6 +52,15 @@ export default new Router({
       props: true,
       name: 'Profile',
       component: Profile
+    },
+    {
+      path: '/error404',
+      name: 'Error404',
+      component: Error404
+    },
+    {
+      path: '*',
+      redirect: '/error404'
     }
   ],
   mode: 'history'

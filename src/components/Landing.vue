@@ -70,7 +70,7 @@ export default {
   },
   watch: {
     getUser(value) {
-      if (value !== null) this.$router.push('/feed');
+      if (value !== null) this.$router.push('/board');
     }
   }
 };
