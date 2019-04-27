@@ -321,7 +321,7 @@ const actions = {
         console.log(error);
       });
   },
-  flagAsDuplicate({}, quest) {
+  flagAsDuplicate({ dispatch }, quest) {
     const updates = {};
     updates[`quest/${quest.id}/is_duplicate`] = true;
     console.log('it worked!');
@@ -341,7 +341,7 @@ const actions = {
         console.log(error);
       });
   },
-  unflagQuest({}, quest) {
+  unflagQuest({ dispatch }, quest) {
     const updates = {};
     updates[`quest/${quest.id}/is_duplicate`] = false;
     console.log('it gone now');

@@ -75,11 +75,10 @@ export default {
 
 <style scoped>
 #users {
-  margin-top: 5vh;
-  border: 5px solid #b686fe;
+  margin-top: 5vh !important;
 }
 .scrollable {
-  overflow: scroll;
-  height: 450px;
+  overflow: scroll !important;
+  height: 60vh !important;
 }
 </style>

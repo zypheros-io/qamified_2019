@@ -17,22 +17,23 @@ const mutations = {
 const actions = {
   populateProfile({ commit }, userId) {
     let user;
-    
     firebase
       .database()
       .ref(`user/${userId}`)
       .on('value', u => {
         if (u.val() !== null) {
           user = u.val();
+          commit('setProfileUser', user);
         }
       });
-    
-    console.log(user);
-    commit('setProfileUser', user);
   }
 };
 
-const getters = {};
+const getters = {
+  user(state) {
+    return state.user;
+  }
+};
 
 export default {
   namespaced: true,

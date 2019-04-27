@@ -75,6 +75,6 @@ export default {
 }
 .scrollable {
   overflow: scroll !important;
-  height: 450px !important;
+  height: 50vh !important;
 }
 </style>

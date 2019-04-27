@@ -4,19 +4,24 @@
       <div class="column is-two-fifths" id="profile-card">
         <Profile-Card></Profile-Card>
       </div>
-      <div class="column"></div>
+      <div class="column">{{ user.fname }}</div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import ProfileCard from './ProfileCard';
 
 export default {
   props: ['id'],
   components: {
     ProfileCard
+  },
+  computed: {
+    ...mapGetters({
+      user: 'headquarters/user'
+    })
   },
   methods: {
     ...mapActions({
