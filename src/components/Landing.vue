@@ -115,30 +115,30 @@ export default {
   text-decoration: none !important;
   text-transform: uppercase !important;
   color: #17b79c !important;
-  font-size: 1.3em;
-  font-weight: bold;
-  margin-top: 2em;
+  font-size: 1.3em !important;
+  font-weight: bold !important;
+  margin-top: 2em !important;
 }
 #banner-button:hover {
   background-color: #ffffff !important;
 }
 /* Illustration */
 #illustration {
-  margin-top: 7em;
-  align-self: center;
-  justify-self: center;
+  margin-top: 7em !important;
+  align-self: center !important;
+  justify-self: center !important;
 }
 #monitor {
-  width: 40%;
-  opacity: 0;
-  -webkit-animation: monitorIn 1s ease-in-out forwards;
-  -moz-animation: monitorIn 1s ease-in-out forwards;
-  -o-animation: monitorIn 1s ease-in-out forwards;
-  animation: monitorIn 1s ease-in-out forwards;
+  width: 40% !important;
+  opacity: 0 !important;
+  -webkit-animation: monitorIn 1s ease-in-out forwards !important;
+  -moz-animation: monitorIn 1s ease-in-out forwards !important;
+  -o-animation: monitorIn 1s ease-in-out forwards !important;
+  animation: monitorIn 1s ease-in-out forwards !important;
 }
 .bubbles {
-  position: absolute;
-  width: 20%;
+  position: absolute !important;
+  width: 20 !important;
 }
 #left-bubble {
   margin-left: -58%;

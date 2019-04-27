@@ -45,8 +45,8 @@ export default {
 
 <style scoped>
 #admin-panel {
-  height: 100vh;
-  width: 100%;
-  padding-top: 100px;
+  height: 100vh !important;
+  width: 100 !important;
+  padding-top: 100px !important;
 }
 </style>

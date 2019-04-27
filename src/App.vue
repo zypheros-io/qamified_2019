@@ -8,9 +8,9 @@
     >
       <div class="container">
         <div class="navbar-brand">
-          <a class="navbar-item" v-on:click.prevent="goto('/feed')">
+          <router-link class="navbar-item" to="/board">
             <img src="./assets/logo.png" alt="LOGO" />
-          </a>
+          </router-link>
         </div>
         <div class="navbar-menu">
           <div class="navbar-end is-secondary-text">
@@ -103,8 +103,8 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Montserrat:300,700');
 
 html {
-  margin: 0;
-  background: #eef7ed;
+  margin: 0 !important;
+  background: #eef7ed !important;
 }
 /**
 Override buefy styling for markdown use

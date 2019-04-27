@@ -260,15 +260,15 @@ export default {
   color: #242729 !important;
 }
 #adventurer-info {
-  padding: 15px;
-  background-color: #eef7ed;
+  padding: 15px !important;
+  background-color: #eef7ed !important;
 }
 #info-name,
 #info-time {
-  font-size: 0.8em;
+  font-size: 0.8em !important;
 }
 #sns-share {
-  margin-right: 15px;
-  margin-top: 5px;
+  margin-right: 15px !important;
+  margin-top: 5px !important;
 }
 </style>

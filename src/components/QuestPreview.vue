@@ -258,7 +258,7 @@ export default {
   color: #37ccb3 !important;
 }
 #sns-share {
-  margin-right: 15px;
-  margin-top: 5px;
+  margin-right: 15px !important;
+  margin-top: 5px !important;
 }
 </style>

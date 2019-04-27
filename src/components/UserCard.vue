@@ -76,60 +76,60 @@ export default {
 
 <style scoped>
 .card-header {
-  width: 100%;
-  background-color: #37ccb3;
-  padding: 15px;
+  width: 100% !important;
+  background-color: #37ccb3 !important;
+  padding: 15px !important;
 }
 .card-content {
-  width: 100%;
-  background-color: #17b79c;
-  padding: 15px;
+  width: 100% !important;
+  background-color: #17b79c !important;
+  padding: 15px !important;
 }
 #card-user-avatar {
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
-  width: 25%;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: block !important;
+  width: 25% !important;
 }
 #card-user-badge {
-  position: absolute;
-  margin-left: 50%;
-  margin-top: 13%;
-  width: 13%;
+  position: absolute !important;
+  margin-left: 50% !important;
+  margin-top: 13% !important;
+  width: 13% !important;
 }
 #user-details {
-  width: 100%;
-  color: #4b465e;
+  width: 100% !important;
+  color: #4b465e !important;
 }
 /* overrides */
 progress {
-  display: block; /* default: inline-block */
-  width: 100%;
-  height: 15px;
-  margin: 2em auto;
-  margin-top: 0.2em;
-  margin-bottom: 0.2em;
-  padding: 4px;
-  border: 0 none;
-  background: #444;
-  border-radius: 14px;
-  box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5),
-    0px 1px 0px rgba(255, 255, 255, 0.2);
+  display: block !important;
+  width: 100% !important;
+  height: 15px !important;
+  margin: 2em auto !important;
+  margin-top: 0.2em !important;
+  margin-bottom: 0.2em !important;
+  padding: 4px !important;
+  border: 0 none !important;
+  background: #444 !important;
+  border-radius: 14px !important;
+  box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5) 0px 1px 0px
+    rgba(255, 255, 255, 0.2) !important;
 }
 progress::-moz-progress-bar {
-  border-radius: 12px;
-  background: #64df31;
+  border-radius: 12px !important;
+  background: #64df31 !important;
   box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.4),
-    0 2px 5px 0px rgba(0, 0, 0, 0.3);
+    0 2px 5px 0px rgba(0, 0, 0, 0.3) !important;
 }
 progress::-webkit-progress-bar {
-  background: transparent;
+  background: transparent !important;
 }
 progress::-webkit-progress-value {
-  border-radius: 12px;
-  background: #64df31;
+  border-radius: 12px !important;
+  background: #64df31 !important;
   box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.4),
-    0 2px 5px 0px rgba(0, 0, 0, 0.3);
+    0 2px 5px 0px rgba(0, 0, 0, 0.3) !important;
 }
 .stats-head {
   color: #242729 !important;

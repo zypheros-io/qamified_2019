@@ -95,8 +95,8 @@ export default {
 
 <style scoped>
 #profile-page {
-  padding: 150px;
-  height: 100%;
+  padding: 150px !important;
+  height: 100% !important;
 }
 #profile-page .columns,
 #profile-page .columns .column {
