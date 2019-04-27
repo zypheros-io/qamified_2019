@@ -84,7 +84,7 @@
               <router-link
                 class="title is-4 is-primary-text"
                 id="quest-title"
-                :to="`${quest.id}`"
+                :to="`/quest/${quest.id}`"
               >
                 {{ quest.title }}
               </router-link>
