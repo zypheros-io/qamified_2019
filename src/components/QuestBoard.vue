@@ -207,10 +207,10 @@ export default {
 
 <style scoped>
 .feed {
-  width: 100%;
-  padding-top: 75px;
+  width: 100% !important;
+  padding-top: 75px !important;
 }
 #post-button {
-  font-size: 1em;
+  font-size: 1em !important;
 }
 </style>

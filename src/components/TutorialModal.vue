@@ -111,7 +111,7 @@
               Skip Tutorial
             </button>
             <button
-              class="button primary-btn"
+              class="button primary-btn is-primary-text"
               v-on:click.prevent="confirm"
               v-if="currentPage == 16"
             >
@@ -160,12 +160,12 @@ export default {
 
 <style scoped>
 #modal {
-  background: #f7f7f7;
-  border: 2px solid green;
+  background: #f7f7f7 !important;
+  border: 2px solid green !important;
 }
 #skip-button {
-  background: #f4e46b;
-  color: #242729;
-  margin-right: 10px;
+  background: #f4e46b !important;
+  color: #242729 !important;
+  margin-right: 10px !important;
 }
 </style>

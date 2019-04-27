@@ -1,7 +1,7 @@
 <template>
   <div class="box" id="solution-container">
     <article class="media">
-      <figure class="media-left">
+      <figure class="media-left has-text-centered">
         <p class="image is-64x64">
           <img :src="user.img_url" />
         </p>
@@ -9,14 +9,31 @@
       <div class="media-content">
         <div class="content">
           <!-- User name -->
-          <div id="user-name">
-            <p class="is-primary-text color-secondary">
-              {{ solution.full_name }}
-            </p>
-          </div>
-          <!-- Response -->
-          <div class="is-secondary-text" id="solution-response">
-            {{ solution.description }}
+          <div class="is-clearfix">
+            <div class="is-pulled-left">
+              <div id="user-name">
+                <p class="is-primary-text color-secondary">
+                  {{ solution.full_name }}
+                </p>
+              </div>
+              <!-- Response -->
+              <div class="is-secondary-text" id="solution-response">
+                {{ solution.description }}
+              </div>
+            </div>
+            <div
+              v-if="solution.is_correct"
+              class="is-pulled-right"
+              id="is-correct"
+            >
+              <b-tooltip
+                label="The quest owner marked this solution as the correct response"
+                type="is-light"
+                position="is-bottom"
+              >
+                <span class="mdi mdi-check-outline"></span>
+              </b-tooltip>
+            </div>
           </div>
           <!-- Actions -->
           <div class="is-secondary-text is-clearfix" id="user-actions">
@@ -25,11 +42,20 @@
               <a
                 class="is-secondary-text is-anchor"
                 v-on:click.prevent="markAsAnswer"
-                v-if="user.id === quest.user_id"
+                v-if="user.id === quest.user_id && !solution.is_correct"
               >
                 <span class="mdi mdi-check"></span>
-                Mark as Answer &nbsp;·&nbsp;
+                Mark as Answer
               </a>
+              <a
+                class="is-secondary-text is-anchor"
+                v-on:click.prevent="markAsAnswer"
+                v-else-if="user.id === quest.user_id && solution.is_correct"
+              >
+                <span class="mdi mdi-check"></span>
+                Unmark
+              </a>
+              &nbsp;·&nbsp;
               <a
                 class="is-secondary-text is-anchor"
                 v-on:click.prevent="toggleReply"
@@ -53,12 +79,13 @@
                 <span class="mdi mdi-arrow-down-thick"></span>
                 Downvote
               </a>
+              &nbsp;|&nbsp;
               <a
                 class="is-secondary-text is-anchor"
                 v-on:click.prevent="confirmDelete"
                 v-if="user.id === solution.user_id || user.is_admin"
               >
-                &nbsp;·&nbsp;Delete Solution
+                Delete Solution
               </a>
               &nbsp;·&nbsp;
               {{ solution.votes }} votes
@@ -225,5 +252,9 @@ export default {
 }
 .active-vote {
   color: #d7bce8 !important;
+}
+#is-correct {
+  font-size: 1.5em;
+  color: #45a163;
 }
 </style>

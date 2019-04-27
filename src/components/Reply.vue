@@ -59,14 +59,14 @@ export default {
 
 <style scoped>
 #user-name {
-  font-size: 1.1em;
+  font-size: 1.1em !important;
 }
 #reply-response {
-  font-size: 1em;
-  margin-top: 0.4em;
+  font-size: 1em !important;
+  margin-top: 0.4em !important;
 }
 #reply-actions {
-  font-size: 0.8em;
-  margin-top: 0.7em;
+  font-size: 0.8em !important;
+  margin-top: 0.7em !important;
 }
 </style>

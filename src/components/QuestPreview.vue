@@ -5,16 +5,23 @@
       <div class="media-left has-text-centered has-text-grey-lighter">
         <!-- Upvote -->
         <p>
-          <span
-            class="mdi mdi-arrow-up-bold-circle-outline active-vote"
-            v-on:click.prevent="upvoteQuest"
-            v-if="quest.upvote.includes(user.id)"
-          ></span>
-          <span
-            class="mdi mdi-arrow-up-bold-circle-outline"
-            v-on:click.prevent="upvoteQuest"
-            v-else-if="!quest.upvote.includes(user.id)"
-          ></span>
+          <b-tooltip
+            label="Quest is useful and clear"
+            type="is-light"
+            position="is-left"
+            animated
+          >
+            <span
+              class="mdi mdi-arrow-up-bold-circle-outline active-vote"
+              v-on:click.prevent="upvoteQuest"
+              v-if="quest.upvote.includes(user.id)"
+            ></span>
+            <span
+              class="mdi mdi-arrow-up-bold-circle-outline"
+              v-on:click.prevent="upvoteQuest"
+              v-else-if="!quest.upvote.includes(user.id)"
+            ></span>
+          </b-tooltip>
         </p>
         <!-- Vote Count -->
         <p>
@@ -24,63 +31,88 @@
         </p>
         <!-- Downvote Quest -->
         <p>
-          <span
-            class="mdi mdi-arrow-down-bold-circle-outline active-vote"
-            v-on:click.prevent="downvoteQuest"
-            v-if="quest.downvote.includes(user.id)"
-          ></span>
-          <span
-            class="mdi mdi-arrow-down-bold-circle-outline"
-            v-on:click.prevent="downvoteQuest"
-            v-else-if="!quest.downvote.includes(user.id)"
-          ></span>
+          <b-tooltip
+            label="Quest shows no effort at all"
+            type="is-light"
+            position="is-left"
+            animated
+          >
+            <span
+              class="mdi mdi-arrow-down-bold-circle-outline active-vote"
+              v-on:click.prevent="downvoteQuest"
+              v-if="quest.downvote.includes(user.id)"
+            ></span>
+            <span
+              class="mdi mdi-arrow-down-bold-circle-outline"
+              v-on:click.prevent="downvoteQuest"
+              v-else-if="!quest.downvote.includes(user.id)"
+            ></span>
+          </b-tooltip>
         </p>
         <p class="is-divider"></p>
         <p>
-          <span
-            v-if="!quest.is_duplicate"
-            v-on:click.prevent="flagAsDuplicate"
-            class="mdi mdi-flag-variant-outline"
-          ></span>
-          <span
-            v-else-if="quest.is_duplicate"
-            v-on:click.prevent="unflagQuest"
-            class="mdi mdi-flag-variant flagged"
-          ></span>
+          <b-tooltip
+            label="Flag quest as a duplicate quest"
+            type="is-light"
+            position="is-left"
+            animated
+          >
+            <span
+              v-if="!quest.is_duplicate"
+              v-on:click.prevent="flagAsDuplicate"
+              class="mdi mdi-flag-variant-outline"
+            ></span>
+            <span
+              v-else-if="quest.is_duplicate"
+              v-on:click.prevent="unflagQuest"
+              class="mdi mdi-flag-variant flagged"
+            ></span>
+          </b-tooltip>
         </p>
       </div>
       <!-- Main quest container -->
       <div class="media-content" id="quest-primary-container">
         <!-- Quest-primary-header -->
-        <div>
-          <b-tooltip
-            label="Click to view quest"
-            type="is-dark"
-            position="is-right"
-            animated
-          >
-            <router-link
-              class="title is-4 is-primary-text"
-              id="quest-title"
-              :to="`quest/${quest.id}`"
+        <div class="is-clearfix">
+          <div class="is-pulled-left">
+            <b-tooltip
+              label="Click to view quest"
+              type="is-light"
+              position="is-right"
+              animated
             >
-              {{ quest.title }}
-            </router-link>
-          </b-tooltip>
-          <b-tooltip
-            class="is-pulled-right"
-            label="Delete this quest"
-            type="is-dark"
-            position="is-right"
-            animated
-          >
-            <span
-              class="mdi mdi-close"
-              v-if="user.id === quest.user_id || user.is_admin"
-              v-on:click.prevent="confirmDelete"
-              id="quest-close"
-            ></span>
-          </b-tooltip>
+              <router-link
+                class="title is-4 is-primary-text"
+                id="quest-title"
+                :to="`/quest/${quest.id}`"
+              >
+                {{ quest.title }}
+              </router-link>
+            </b-tooltip>
+          </div>
+          <div class="is-pulled-right">
+            <b-tooltip
+              v-if="quest.is_answered"
+              label="Quest has already been answered correctly"
+              type="is-light"
+              position="is-bottom"
+            >
+              <span class="mdi mdi-check-outline" id="is-answered"></span>
+            </b-tooltip>
+            <b-tooltip
+              label="Delete this quest"
+              type="is-light"
+              position="is-right"
+              animated
+            >
+              <span
+                class="mdi mdi-close"
+                v-if="user.id === quest.user_id || user.is_admin"
+                v-on:click.prevent="confirmDelete"
+                id="quest-close"
+              ></span>
+            </b-tooltip>
+          </div>
         </div>
         <!-- Quest description -->
         <div class="is-secondary-text" id="quest-description-container">
@@ -258,7 +290,11 @@ export default {
   color: #37ccb3 !important;
 }
 #sns-share {
-  margin-right: 15px;
-  margin-top: 5px;
+  margin-right: 15px !important;
+  margin-top: 5px !important;
+}
+#is-answered {
+  color: #45a163 !important;
+  font-size: 1.3em !important;
 }
 </style>
