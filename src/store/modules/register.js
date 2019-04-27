@@ -51,6 +51,7 @@ const actions = {
           is_banned: false,
           is_admin: false,
           is_new: true,
+          is_reported: false,
           missions: [
             {
               description: 'Post five (5) quests on the quest board',

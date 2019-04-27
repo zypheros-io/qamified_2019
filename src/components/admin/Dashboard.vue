@@ -13,6 +13,12 @@
         class="button is-loading primary-btn is-medium"
       ></button>
     </div>
+    <column-chart
+      :data="this.$store.getters['admin/chart']"
+      xtitle="User Activity"
+      ytitle="Frequency"
+    />
+    <div class="is-divider"></div>
     <div id="stats-container" class="box has-text-centered is-primary-text">
       <p class="title">Application Statistics</p>
       <div class="level">
@@ -42,11 +48,6 @@
         </div>
       </div>
     </div>
-    <column-chart
-      :data="this.$store.getters['admin/chart']"
-      xtitle="User Activity"
-      ytitle="Frequency"
-    />
   </div>
 </template>
 
@@ -78,15 +79,13 @@ export default {
 
 <style scoped>
 #dashboard {
-  margin-top: 5vh;
-  border: 5px solid #b686fe;
+  margin-top: 5vh !important;
 }
 #chart {
-  max-width: 100%;
-  margin-top: 5vh;
+  max-width: 100% !important;
+  margin-top: 5vh !important;
 }
 #stats-container {
-  border: 5px solid #b686fe;
-  background: #f4f4f4;
+  background: #f4f4f4 !important;
 }
 </style>

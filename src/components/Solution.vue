@@ -12,9 +12,12 @@
           <div class="is-clearfix">
             <div class="is-pulled-left">
               <div id="user-name">
-                <p class="is-primary-text color-secondary">
+                <router-link
+                  :to="`/headquarters/${solution.user_id}`"
+                  class="is-primary-text color-secondary"
+                >
                   {{ solution.full_name }}
-                </p>
+                </router-link>
               </div>
               <!-- Response -->
               <div class="is-secondary-text" id="solution-response">
@@ -100,7 +103,7 @@
         <article v-if="showReply" class="media">
           <figure class="media-left">
             <p class="image is-32x32">
-              <img :src="user.img_url" />
+              <img :src="`../${user.img_url}`" />
             </p>
           </figure>
           <div class="media-content">

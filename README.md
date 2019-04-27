@@ -28,8 +28,8 @@
       * [x] Badges
       * [x] # of Quests Posted
       * [x] # of Solutions Posted
-* [ ] Tutorial
-    * [ ] Short modal that appears upon signing up
+* [x] Tutorial
+    * [x] Short modal that appears upon signing up
 * [x] Experience
     * [x] Give EXP for posting quest
     * [x] Give EXP for posting solution
@@ -42,17 +42,16 @@
 * [x] Reputation
     * [x] Give REP for every user that upvotes your solution
     * [x] Deduct REP for every user that downvotes your solution
-* [ ] Monthly Rewards
-* [ ] Headquarters
+* [x] Headquarters
     * [ ] Showcase user card same to feed
     * [ ] Elaborate display of achievements/trophies
 * [ ] Trophies
-    * [ ] Design trophies
+    * [x] Design trophies
 * [ ] Badges
-    * [ ] Design badges
+    * [x] Design badges
 * [x] Progress Tracker
 * [ ] Report System
-    * [ ] Add report button to user profile
+    * [x] Add report button to user profile
     * [x] Allow admin to ban users
 * [x ] Rich Text Format Handling
     * [x] Allow users to format their posts/solutions/replies with Markdown Editor
@@ -63,17 +62,17 @@
 
 # Miscellaneous features
 * [ ] Notifications
-* [ ] Mission
+* [x] Mission
 * [ ] Allow user to view other players' profile
-* [ ] Sorting and searching (feed)
-* [ ] SNS integration
+* [x] Sorting and searching (feed)
+* [x] SNS integration
 * [ ] Permissions (user/admin)
 
 # Bugs
 
 * [x] User is still able to go to landing/signin/signup even after logging in
-* [ ] Chart disappears after logging in
-* [ ] Table isn't scrollable (not really a bug lol)
+* [x] Chart disappears after logging in
+* [x] Table isn't scrollable (not really a bug lol)
 * [x] Input seems slower due to markdown in feed
-* [ ] Posting sometimes doesn't work when just logged in (need testing)
+* [x] Posting sometimes doesn't work when just logged in (need testing)
 * [x] Doesn't detect when user doesn't exist (infinite loading)

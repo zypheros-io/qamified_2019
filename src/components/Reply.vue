@@ -1,7 +1,7 @@
 <template>
   <article class="media">
     <figure class="media-left image is-64x64">
-      <img :src="`../reply.user_img_url`" />
+      <img :src="`../${reply.user_img_url}`" />
     </figure>
     <div class="media-content">
       <div class="content">

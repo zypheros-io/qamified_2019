@@ -1,11 +1,9 @@
 /* eslint-disable */
 import firebase from 'firebase';
-import moment from 'moment';
-import { Dialog } from 'buefy/dist/components/dialog';
-import { Toast } from 'buefy/dist/components/toast';
+import { Snackbar } from 'buefy/dist/components/snackbar';
 
 const state = {
-  user: null,
+  user: null
 };
 
 const mutations = {
@@ -22,9 +20,36 @@ const actions = {
       .ref(`user/${userId}`)
       .on('value', u => {
         if (u.val() !== null) {
+          const solutions = [];
           user = u.val();
+          if (user.solution) {
+            Object.keys(user.solution).forEach(solution => {
+              solutions.push(solution);
+            });
+          }
+          user.solution = solutions;
           commit('setProfileUser', user);
         }
+      });
+  },
+  reportUser({ dispatch }, userId) {
+    const updates = {};
+    updates[`user/${userId}/is_reported`] = true;
+
+    firebase
+      .database()
+      .ref()
+      .update(updates)
+      .then(() => {
+        Snackbar.open({
+          message: 'User successfully reported',
+          type: 'is-success',
+          duration: 3000
+        });
+        dispatch('user/updateLogs', 'REPORT_USER', { root: true });
+      })
+      .catch(error => {
+        console.log(error);
       });
   }
 };
@@ -32,6 +57,9 @@ const actions = {
 const getters = {
   user(state) {
     return state.user;
+  },
+  missions(state) {
+    return state.user.missions;
   }
 };
 
