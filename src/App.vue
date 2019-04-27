@@ -27,17 +27,17 @@
               <!-- Divider -->
               <hr class="dropdown-divider" />
               <b-dropdown-item has-link aria-role="menuitem">
-                <router-link to="/feed">
-                  <div v-on:click.prevent="logEvent('VIEW_FEED')">
+                <router-link to="/board">
+                  <span v-on:click.prevent="logEvent('VIEW_FEED')">
                     Quest Board
-                  </div>
+                  </span>
                 </router-link>
               </b-dropdown-item>
               <b-dropdown-item has-link aria-role="menuitem">
                 <router-link :to="`profile/${user.id}`">
-                  <div v-on:click.prevent="logEvent('VIEW_PROFILE')">
+                  <span v-on:click.prevent="logEvent('VIEW_PROFILE')">
                     Headquarters
-                  </div>
+                  </span>
                 </router-link>
               </b-dropdown-item>
               <hr class="dropdown-divider" />

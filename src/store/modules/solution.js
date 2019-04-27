@@ -164,7 +164,7 @@ const actions = {
         .update(updates)
         .then(() => {
           Snackbar.open({
-            message: 'Solution marked as correct',
+            message: 'Solution unmarked',
             type: 'is-success',
             duration: 3000
           });

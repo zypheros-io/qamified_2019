@@ -42,11 +42,20 @@
               <a
                 class="is-secondary-text is-anchor"
                 v-on:click.prevent="markAsAnswer"
-                v-if="user.id === quest.user_id"
+                v-if="user.id === quest.user_id && !solution.is_correct"
               >
                 <span class="mdi mdi-check"></span>
-                Mark as Answer &nbsp;·&nbsp;
+                Mark as Answer
               </a>
+              <a
+                class="is-secondary-text is-anchor"
+                v-on:click.prevent="markAsAnswer"
+                v-else-if="user.id === quest.user_id && solution.is_correct"
+              >
+                <span class="mdi mdi-check"></span>
+                Unmark
+              </a>
+              &nbsp;·&nbsp;
               <a
                 class="is-secondary-text is-anchor"
                 v-on:click.prevent="toggleReply"
@@ -70,12 +79,13 @@
                 <span class="mdi mdi-arrow-down-thick"></span>
                 Downvote
               </a>
+              &nbsp;|&nbsp;
               <a
                 class="is-secondary-text is-anchor"
                 v-on:click.prevent="confirmDelete"
                 v-if="user.id === solution.user_id || user.is_admin"
               >
-                &nbsp;·&nbsp;Delete Solution
+                Delete Solution
               </a>
               &nbsp;·&nbsp;
               {{ solution.votes }} votes
