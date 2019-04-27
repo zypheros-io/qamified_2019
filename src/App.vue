@@ -13,38 +13,24 @@
           </router-link>
         </div>
         <div class="navbar-menu">
-          <div class="navbar-end is-secondary-text">
-            <b-dropdown position="is-bottom-left" aria-role="menu">
-              <!-- Dropdown Button -->
-              <a class="navbar-item" slot="trigger" role="button">
-                <span>{{ user.fname }}</span>
-                <b-icon icon="menu-down"></b-icon>
-              </a>
-              <!-- Logged -->
-              <b-dropdown-item aria-role="menuitem" custom>
-                Logged as <b>{{ user.fname + ' ' + user.lname }}</b>
-              </b-dropdown-item>
-              <!-- Divider -->
-              <hr class="dropdown-divider" />
-              <b-dropdown-item has-link aria-role="menuitem">
-                <router-link to="/board">
-                  <span v-on:click.prevent="logEvent('VIEW_FEED')">
-                    Quest Board
-                  </span>
-                </router-link>
-              </b-dropdown-item>
-              <b-dropdown-item has-link aria-role="menuitem">
-                <router-link :to="`profile/${user.id}`">
-                  <span v-on:click.prevent="logEvent('VIEW_PROFILE')">
-                    Headquarters
-                  </span>
-                </router-link>
-              </b-dropdown-item>
-              <hr class="dropdown-divider" />
-              <b-dropdown-item aria-role="menuitem" v-on:click="signOut">
-                Logout
-              </b-dropdown-item>
-            </b-dropdown>
+          <div class="navbar-start is-primary-text">
+            <a
+              to="board"
+              class="navbar-item"
+              v-on:click.prevent="goto('/board')"
+            >
+              Quest Board
+            </a>
+            <a
+              to="profile"
+              class="navbar-item"
+              v-on:click.prevent="goto('/headquarters')"
+            >
+              Headquarters
+            </a>
+          </div>
+          <div class="navbar-end is-primary-text">
+            <a class="navbar-item">Log Out</a>
           </div>
         </div>
       </div>
@@ -67,6 +53,9 @@ export default {
   computed: {
     user() {
       return this.$store.getters['user/getUser'];
+    },
+    routerName() {
+      return this.$route.name;
     }
   },
   methods: {
@@ -79,7 +68,13 @@ export default {
       this.$router.push('/signin');
     },
     goto: function goto(route) {
-      this.route = route;
+      let logContext;
+      if (route === '/board') {
+        logContext = 'VIEW_FEED';
+      } else if (route === '/headquarters') {
+        logContext = 'VIEW_HEADQUARTERS';
+      }
+      this.log(logContext);
       this.$router.push(route);
     },
     openDropdown: function openDropdown() {
@@ -90,8 +85,10 @@ export default {
         el.classList.add('is-active');
       }
     },
-    logEvent: function logEvent(eventContext) {
-      this.log(eventContext);
+    logEvent: function logEvent() {
+      // eslint-disable-next-line
+      console.log('hello');
+      // this.log(eventContext);
     }
   }
 };
@@ -140,11 +137,13 @@ ul {
   background-color: #17b79c !important;
   font-size: 1.2em !important;
 }
+.navbar-start .navbar-item,
 .navbar-end .navbar-item {
-  font-size: 0.8em;
-  font-weight: bold;
+  font-size: 0.7em !important;
+  font-weight: 550 !important;
   color: #ffffff !important;
 }
+.navbar-start .navbar-item:hover,
 .navbar-end .navbar-item:hover {
   color: #f4e46b !important;
 }
