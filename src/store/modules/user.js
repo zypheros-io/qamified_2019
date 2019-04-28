@@ -230,9 +230,26 @@ const actions = {
         console.log(error);
       });
   },
-  endTutorial({ commit, rootGetters }) {
+  endTutorial({ commit, dispatch, rootGetters }) {
     const updates = {};
     const user = rootGetters['user/getUser'];
+    const missions = rootGetters['user/getMissions'];
+    const missionIndex = missions.findIndex(
+      mission => mission.requirements.context === 'Finish Tutorial'
+    );
+    const currMission = user.missions[missionIndex];
+    console.log(currMission);
+    let clear = false;
+    if (missionIndex !== -1) {
+      let newCurrent = currMission.requirements.current + 1;
+      updates[
+        `user/${user.id}/missions/${missionIndex}/requirements/current`
+      ] = newCurrent;
+      if (newCurrent === currMission.requirements.required) {
+        clear = true;
+        updates[`user/${user.id}/missions/${missionIndex}/done`] = true;
+      }
+    }
     updates[`user/${user.id}/is_new`] = false;
     // Commit changes to database
     firebase
@@ -246,6 +263,19 @@ const actions = {
           duration: 3000,
           type: 'is-success'
         });
+        if (clear) {
+          Dialog.alert({
+            title: 'Mission Cleared!',
+            message:
+              'You have cleared a mission and received a trophy! Visit your headquarters to see it!',
+            type: 'is-success'
+          });
+          dispatch(
+            'user/addExperience',
+            { authorId: user.id, experience: currMission.experience },
+            { root: true }
+          );
+        }
       });
   },
   logOut({ commit }) {

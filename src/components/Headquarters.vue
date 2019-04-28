@@ -12,6 +12,27 @@
         ></Mission>
       </div>
       <div class="column">
+        <!-- Trophies -->
+        <article class="message">
+          <div class="message-header">
+            <p>Achievement Trophies</p>
+          </div>
+          <div class="message-body">
+            <Trophy
+              v-for="mission in missionsDone"
+              :key="mission.index"
+              v-bind:mission="mission"
+            ></Trophy>
+            <p
+              class="is-secondary-text"
+              style="text-align:center"
+              v-if="missionsDone.length === 0"
+            >
+              This adventure does not have any trophies yet.
+            </p>
+          </div>
+        </article>
+        <!-- Quests -->
         <article class="message">
           <div class="message-header">
             <p>Quests Posted</p>
@@ -22,8 +43,16 @@
               :key="quest.id"
               v-bind:quest="quest"
             ></Activity-Card>
+            <p
+              class="is-secondary-text"
+              style="text-align: center;"
+              v-if="quests.length === 0"
+            >
+              This adventurer has not posted any quests yet.
+            </p>
           </div>
         </article>
+        <!-- Solutions -->
         <div class="is-divider"></div>
         <article class="message">
           <div class="message-header">
@@ -35,6 +64,13 @@
               :key="quest.id"
               v-bind:quest="quest"
             ></Activity-Card>
+            <p
+              class="is-secondary-text"
+              style="text-align: center;"
+              v-if="responded.length === 0"
+            >
+              This adventurer has not responded to any quests yet.
+            </p>
           </div>
         </article>
       </div>
@@ -47,7 +83,7 @@ import { mapActions, mapGetters } from 'vuex';
 import ProfileCard from './ProfileCard';
 import Mission from './Mission';
 import ActivityCard from './ActivityCard';
-import QuestPreview from './QuestPreview';
+import Trophy from './Trophy';
 
 export default {
   beforeRouteUpdate(to, from, next) {
@@ -58,7 +94,7 @@ export default {
     ProfileCard,
     Mission,
     ActivityCard,
-    QuestPreview
+    Trophy
   },
   computed: {
     ...mapGetters({
@@ -66,7 +102,13 @@ export default {
       missions: 'headquarters/missions',
       quests: 'headquarters/quests',
       responded: 'headquarters/responded'
-    })
+    }),
+    missionsDone() {
+      const missionsArray = this.missions;
+      return missionsArray.filter(
+        m => m.requirements.current >= m.requirements.required
+      );
+    }
   },
   methods: {
     ...mapActions({

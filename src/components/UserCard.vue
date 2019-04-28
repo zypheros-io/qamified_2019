@@ -13,9 +13,11 @@
         <p class="title is-3 color-white">
           {{ user.fname + ' ' + user.lname }}
         </p>
-        <!-- User Rank -->
+        <p class="is-secondary-text subtitle is-5 color-white">
+          {{ user.description }}
+        </p>
         <p
-          class="is-secondary-text subtitle is-6 color-highlight"
+          class="is-primary-text subtitle is-6 color-highlight"
           style="padding-bottom: 1px;"
         >
           {{ user.rank }} Adventurer
@@ -73,39 +75,6 @@
         </p>
       </div>
       <br />
-      <!-- User stats -->
-      <div class="level" id="misc-stats">
-        <div class="level-item has-text-centered">
-          <div>
-            <p class="stats-head heading is-secondary-text color-white">
-              Quests posted
-            </p>
-            <p class="stats-count title is-primary color-highlight">
-              {{ userQuest.length }}
-            </p>
-          </div>
-        </div>
-        <div class="level-item has-text-centered">
-          <div>
-            <p class="stats-head heading is-secondary-text color-white">
-              Solutions posted
-            </p>
-            <p class="stats-count title is-primary color-highlight">
-              {{ user.solution.length }}
-            </p>
-          </div>
-        </div>
-        <div class="level-item has-text-centered">
-          <div>
-            <p class="stats-head heading is-secondary-text color-white">
-              Reputation
-            </p>
-            <p class="stats-count title is-primary color-highlight">
-              {{ user.reputation }}
-            </p>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>

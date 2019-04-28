@@ -54,37 +54,52 @@ const actions = {
           is_reported: false,
           missions: [
             {
+              description: 'Read and finish the tutorial!',
+              experience: 15,
+              title: 'Fast Learner!',
+              done: false,
+              requirements: {
+                context: 'Finish Tutorial',
+                current: 0,
+                required: 1
+              },
+              trophy_url: '/static/badges/Badge01.png'
+            },
+            {
               description: 'Post five (5) quests on the quest board',
               experience: 50,
-              title: 'Mission 1',
+              title: 'Fledgling Quest-setter!',
               done: false,
               requirements: {
                 context: 'Post Quest',
                 current: 0,
                 required: 5
-              }
+              },
+              trophy_url: '/static/badges/Badge02.png'
             },
             {
               description: 'Post three (3) solutions on any quest',
               experience: 20,
-              title: 'Mission 2',
+              title: 'Puzzle Solver',
               done: false,
               requirements: {
                 context: 'Post Solution',
                 current: 0,
                 required: 3
-              }
+              },
+              trophy_url: '/static/badges/Badge03.png'
             },
             {
               description: 'Post one (1) reply on any solution',
               experience: 20,
-              title: 'Mission 3',
+              title: 'Talk to me! Talk to me!',
               done: false,
               requirements: {
                 context: 'Post Reply',
                 current: 0,
                 required: 1
-              }
+              },
+              trophy_url: 'static/badges/Badge04.png'
             }
           ],
           last_access: moment().format(),

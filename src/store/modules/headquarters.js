@@ -68,7 +68,8 @@ const actions = {
                     .on('value', q => {
                       if (q.val()) {
                         let newQuest = q.val();
-                        if (!solArray.includes(newQuest)) solArray.unshift(newQuest);
+                        if (!solArray.includes(newQuest))
+                          solArray.unshift(newQuest);
                       }
                     });
                 }

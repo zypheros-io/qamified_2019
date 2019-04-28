@@ -26,6 +26,7 @@
         >
           {{ user.rank }} Adventurer
         </p>
+        <!-- buttons -->
         <button
           v-on:click.prevent="reportUser(user.id)"
           class="button is-primary-text"
@@ -34,6 +35,44 @@
         >
           Report User
         </button>
+        <social-sharing
+          :url="`http://qamified.tk/headquarters/${user.id}`"
+          title="Visit my headquarters in QAmifiED! Go sign in first, though!"
+          description="QAmifiED is a gamified collaborative QnA platform"
+          quote="Sign in and visit my headquarters in QAmifiED!"
+          hashtags="qamified,sablay2019"
+          inline-template
+          v-if="currUser.id === user.id"
+        >
+          <div>
+            <network network="facebook">
+              <button
+                class="button is-primary-text share-btn"
+                style="background: #f4e46b !important;
+                        color: #17b79c !important;
+                        border: none !important;
+                        border-radius: 8px !important;
+                        text-decoration: none !important;
+                        width: 40% !important;"
+              >
+                Share to Facebook
+              </button>
+            </network>
+            <network network="twitter">
+              <button
+                class="button is-primary-text"
+                style="background: #f4e46b !important;
+                        color: #17b79c !important;
+                        border: none !important;
+                        border-radius: 8px !important;
+                        text-decoration: none !important;
+                        width: 40% !important;"
+              >
+                Share to Twitter
+              </button>
+            </network>
+          </div>
+        </social-sharing>
       </div>
       <div class="is-divider" data-content="Adventurer Experience"></div>
       <div>
