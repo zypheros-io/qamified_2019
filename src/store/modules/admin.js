@@ -8,7 +8,6 @@ const state = {
     'VIEW_FEED',
     'VIEW_QUEST',
     'VIEW_USER',
-    'VIEW_ACHIEVEMENT',
     'VIEW_HEADQUARTERS',
     'POST_QUEST',
     'UPVOTE_QUEST',
@@ -22,14 +21,12 @@ const state = {
     'MARK_SOLUTION',
     'DELETE_SOLUTION',
     'POST_REPLY',
-    'CHANGE_CATEGORY',
     'REPORT_USER'
   ],
   values: [
     ['VIEW_FEED', 0],
     ['VIEW_QUEST', 0],
     ['VIEW_USER', 0],
-    ['VIEW_ACHIEVEMENT', 0],
     ['VIEW_HEADQUARTERS', 0],
     ['POST_QUEST', 0],
     ['UPVOTE_QUEST', 0],
@@ -43,7 +40,6 @@ const state = {
     ['MARK_SOLUTION', 0],
     ['DELETE_SOLUTION', 0],
     ['POST_REPLY', 0],
-    ['CHANGE_CATEGORY', 0],
     ['REPORT_USER', 0]
   ],
   user_count: 0,
@@ -139,7 +135,6 @@ const actions = {
       ['VIEW_FEED', 0],
       ['VIEW_QUEST', 0],
       ['VIEW_USER', 0],
-      ['VIEW_ACHIEVEMENT', 0],
       ['VIEW_HEADQUARTERS', 0],
       ['POST_QUEST', 0],
       ['UPVOTE_QUEST', 0],
@@ -153,7 +148,6 @@ const actions = {
       ['MARK_SOLUTION', 0],
       ['DELETE_SOLUTION', 0],
       ['POST_REPLY', 0],
-      ['CHANGE_CATEGORY', 0],
       ['REPORT_USER', 0]
     ];
     // Retrieve data from DB
