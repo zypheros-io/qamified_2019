@@ -51,10 +51,9 @@ import QuestPreview from './QuestPreview';
 
 export default {
   beforeRouteUpdate(to, from, next) {
-    this.populateProfile();
+    this.populateProfile(to.params.id);
     next();
   },
-  props: ['id'],
   components: {
     ProfileCard,
     Mission,
@@ -74,13 +73,13 @@ export default {
       populate: 'headquarters/populateProfile',
       log: 'user/updateLogs'
     }),
-    populateProfile: function populateProfile() {
+    populateProfile(id) {
       this.log('VIEW_HEADQUARTERS');
-      this.populate(this.id);
+      this.populate(id);
     }
   },
   created() {
-    this.populateProfile();
+    this.populateProfile(this.$route.params.id);
   }
 };
 </script>

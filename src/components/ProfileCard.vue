@@ -57,7 +57,7 @@
               Quests posted
             </p>
             <p class="stats-count title is-primary-text color-highlight">
-              3,456
+              {{ quests.length }}
             </p>
           </div>
         </div>
@@ -67,7 +67,7 @@
               Solutions posted
             </p>
             <p class="stats-count title is-primary-text color-highlight">
-              123
+              {{ user.solution.length }}
             </p>
           </div>
         </div>
@@ -87,10 +87,15 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   props: ['user'],
+  computed: {
+    ...mapGetters({
+      quests: 'headquarters/quests'
+    })
+  },
   methods: {
     ...mapActions({
       report: 'headquarters/reportUser'

@@ -47,7 +47,15 @@ const actions = {
       .ref(`/user/${currUser.uid}`)
       .on('value', user => {
         if (user.val() !== null) {
-          commit('setUser', user.val());
+          const solutions = [];
+          const u = user.val();
+          if (u.solution) {
+            Object.keys(u.solution).forEach(solution => {
+              solutions.push(solution);
+            });
+          }
+          u.solution = solutions;
+          commit('setUser', u);
         }
       });
   },

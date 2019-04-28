@@ -49,7 +49,6 @@ export default new Router({
     },
     {
       path: '/headquarters/:id',
-      props: true,
       name: 'Headquarters',
       component: Headquarters
     },

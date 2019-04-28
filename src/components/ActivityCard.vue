@@ -9,6 +9,7 @@
       >
         <router-link
           class="title is-5 is-primary-text"
+          id="misc-title"
           :to="`/quest/${quest.id}`"
         >
           {{ quest.title }}
@@ -19,7 +20,9 @@
     <div class="is-pulled-right">
       <span class="is-secondary-text" id="misc-details">
         Posted {{ quest.date_created | date }}&nbsp;by
-        <span>{{ quest.full_name }}</span>
+        <router-link :to="`/headquarters/${quest.user_id}`">
+          <span>{{ quest.full_name }}</span>
+        </router-link>
       </span>
     </div>
   </div>
@@ -34,5 +37,11 @@ export default {
 <style scoped>
 .box {
   background-color: #eef7ed !important;
+}
+#misc-title {
+  font-size: 1em !important;
+}
+#misc-details {
+  font-size: 0.8em !important;
 }
 </style>

@@ -41,13 +41,15 @@
         <div class="level-item has-text-centered">
           <div>
             <p class="stats-head heading is-secondary-text">Quests posted</p>
-            <p class="stats-count title is-primary">3,456</p>
+            <p class="stats-count title is-primary">{{ userQuest.length }}</p>
           </div>
         </div>
         <div class="level-item has-text-centered">
           <div>
             <p class="stats-head heading is-secondary-text">Solutions posted</p>
-            <p class="stats-count title is-primary">123</p>
+            <p class="stats-count title is-primary">
+              {{ user.solution.length }}
+            </p>
           </div>
         </div>
         <div class="level-item has-text-centered">
@@ -62,13 +64,20 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   data() {
     return {};
   },
   computed: {
-    user() {
-      return this.$store.getters['user/getUser'];
+    ...mapGetters({
+      user: 'user/getUser',
+      quests: 'feed/sortedQuests'
+    }),
+    userQuest() {
+      const questArray = this.quests;
+      return questArray.filter(q => q.user_id === this.user.id);
     }
   }
 };
