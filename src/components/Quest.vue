@@ -35,11 +35,56 @@
               v-else-if="!quest.downvote.includes(user.id)"
             ></span>
           </p>
+          <p class="is-divider"></p>
+          <p>
+            <b-tooltip
+              label="Flag quest as a duplicate quest"
+              type="is-light"
+              position="is-left"
+              animated
+            >
+              <span
+                v-if="!quest.is_duplicate"
+                v-on:click.prevent="flagAsDuplicate"
+                class="mdi mdi-flag-variant-outline"
+              ></span>
+              <span
+                v-else-if="quest.is_duplicate"
+                v-on:click.prevent="unflagQuest"
+                class="mdi mdi-flag-variant flagged"
+              ></span>
+            </b-tooltip>
+          </p>
         </div>
         <div class="media-content" id="quest-primary-container">
           <!-- Quest-primary-header -->
-          <div>
-            <p class="title is-3 is-primary-text">{{ quest.title }}</p>
+          <div class="is-clearfix">
+            <div class="is-pulled-left">
+              <p class="title is-3 is-primary-text">{{ quest.title }}</p>
+            </div>
+            <div class="is-pulled-right">
+              <b-tooltip
+                v-if="quest.is_answered"
+                label="Quest has already been answered correctly"
+                type="is-light"
+                position="is-bottom"
+              >
+                <span class="mdi mdi-check-outline" id="is-answered"></span>
+              </b-tooltip>
+              <b-tooltip
+                label="Delete this quest"
+                type="is-light"
+                position="is-right"
+                animated
+              >
+                <span
+                  class="mdi mdi-close"
+                  v-if="user.id === quest.user_id || user.is_admin"
+                  v-on:click.prevent="confirmDelete"
+                  id="quest-close"
+                ></span>
+              </b-tooltip>
+            </div>
           </div>
           <!-- Quest.description -->
           <div class="is-secondary-text" id="quest-description-container">
@@ -199,7 +244,10 @@ export default {
       upvote: 'feed/upvoteQuest',
       downvote: 'feed/downvoteQuest',
       post: 'quest/postSolution',
-      refresh: 'quest/populateSolutions'
+      refresh: 'quest/populateSolutions',
+      flag: 'feed/flagAsDuplicate',
+      unflag: 'feed/unflagQuest',
+      delete: 'feed/deleteQuest'
     }),
     upvoteQuest: function upvoteQuest() {
       this.upvote(this.loadQuest(this.id));
@@ -223,6 +271,24 @@ export default {
     },
     populateSolutions: function populateSolutions() {
       this.refresh(this.id);
+    },
+    flagAsDuplicate: function flagAsDuplicate() {
+      this.flag(this.loadQuest(this.quest.id));
+    },
+    unflagQuest: function unflagQuest() {
+      this.unflag(this.loadQuest(this.quest.id));
+    },
+    confirmDelete: function confirmDelete() {
+      this.$dialog.confirm({
+        title: 'Deleting quest',
+        message:
+          'Are you sure you want to <b>delete</b> this quest? This action cannot be undone.',
+        confirmText: 'Yes, I am sure.',
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: () => this.delete(this.quest.id)
+      });
+      this.$router.push('/board');
     }
   },
   mounted() {
@@ -282,5 +348,17 @@ export default {
 #sns-share {
   margin-right: 15px !important;
   margin-top: 5px !important;
+}
+.flagged {
+  color: #ff0266 !important;
+}
+#is-answered {
+  color: #45a163 !important;
+  font-size: 1.3em !important;
+}
+#quest-close {
+  font-size: 15px !important;
+  color: #b9b9b9 !important;
+  cursor: pointer !important;
 }
 </style>
