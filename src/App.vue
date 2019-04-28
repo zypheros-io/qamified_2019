@@ -24,6 +24,9 @@
             <router-link :to="`/headquarters/${user.id}`" class="navbar-item">
               Headquarters
             </router-link>
+            <router-link to="leaderboard" class="navbar-item">
+              Leaderboard
+            </router-link>
             <router-link
               :to="`/admin`"
               class="navbar-item"

@@ -7,6 +7,7 @@ import LogIn from '@/components/LogIn';
 import Landing from '@/components/Landing';
 import Headquarters from '@/components/Headquarters';
 import AdminPanel from '@/components/AdminPanel';
+import Leaderboard from '@/components/Leaderboard';
 import Error404 from '@/components/Error404';
 import AuthGuard from './auth-guard';
 
@@ -39,6 +40,12 @@ export default new Router({
       path: '/board',
       name: 'QuestBoard',
       component: QuestBoard,
+      beforeEnter: AuthGuard
+    },
+    {
+      path: '/leaderboard',
+      name: 'Leaderboard',
+      component: Leaderboard,
       beforeEnter: AuthGuard
     },
     {

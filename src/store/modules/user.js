@@ -199,6 +199,8 @@ const actions = {
 
     let previousRank = user.rank;
     user.reputation = user.reputation - REPUTATION;
+    // Make 0 if negative
+    if (user.reputation < 0) user.reputation = 0;
     let ratio = Math.floor(user.reputation / REPUTATION_RATIO);
     if (ratio <= 9 && ratio >= 0) {
       user.rank = RANKS[ratio];

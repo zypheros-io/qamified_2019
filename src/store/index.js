@@ -10,6 +10,7 @@ import solution from './modules/solution';
 import admin from './modules/admin';
 import headquarters from './modules/headquarters';
 import badges from './modules/badges';
+import leaderboard from './modules/leaderboard';
 
 Vue.use(Vuex);
 
@@ -23,7 +24,8 @@ export default new Vuex.Store({
     solution,
     admin,
     headquarters,
-    badges
+    badges,
+    leaderboard
   },
   plugins: [
     createPersistedState({
