@@ -139,7 +139,7 @@ const actions = {
       updates[`/solution/${solution.id}/downvote/${user.id}`] = null;
       updates[`/solution/${solution.id}/upvote/${user.id}`] = true;
       updates[`/solution/${solution.id}/votes`] = solution.votes + 1;
-      console.log('upvote when downvote', updates)
+      console.log('upvote when downvote', updates);
       firebase
         .database()
         .ref()
@@ -155,7 +155,7 @@ const actions = {
         })
         .catch(error => {
           console.log(error);
-        })
+        });
     } else if (!solution.upvote.includes(user.id)) {
       updates[`/solution/${solution.id}/upvote/${user.id}`] = true;
       updates[`/solution/${solution.id}/votes`] = solution.votes + 1;
@@ -216,11 +216,11 @@ const actions = {
             duration: 3000
           });
           dispatch('user/updateLogs', 'DOWNVOTE_SOLUTION', { root: true });
-          solution.votes -=  1;
+          solution.votes -= 1;
         })
         .catch(error => {
           console.log(error);
-        })
+        });
     } else if (!solution.downvote.includes(user.id)) {
       updates[`/solution/${solution.id}/downvote/${user.id}`] = true;
       updates[`/solution/${solution.id}/votes`] = solution.votes + 1;
@@ -240,7 +240,7 @@ const actions = {
         })
         .catch(error => {
           console.log(error);
-        })
+        });
     } else if (solution.downvote.includes(user.id)) {
       updates[`/solution/${solution.id}/downvote/${user.id}`] = null;
       updates[`/solution/${solution.id}/votes/`] = solution.votes + 1;
@@ -259,7 +259,7 @@ const actions = {
         })
         .catch(error => {
           console.log(error);
-        })
+        });
     }
   },
   deleteSolution({ dispatch }, solutionId) {
