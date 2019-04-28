@@ -262,7 +262,8 @@ const actions = {
         });
     }
   },
-  deleteSolution({ dispatch }, solutionId) {
+  deleteSolution({ dispatch, rootGetters }, solutionId) {
+    const user = rootGetters[`user/getUser`];
     const updates = {};
     // find all replies to solution
     firebase
@@ -286,6 +287,8 @@ const actions = {
       .on('value', () => {
         updates[`solution/${solutionId}`] = null;
       });
+
+    updates[`user/${user.id}/solution/${solutionId}`] = null;
     // commit changes
     firebase
       .database()

@@ -247,7 +247,8 @@ export default {
       refresh: 'quest/populateSolutions',
       flag: 'feed/flagAsDuplicate',
       unflag: 'feed/unflagQuest',
-      delete: 'feed/deleteQuest'
+      delete: 'feed/deleteQuest',
+      log: 'user/updateLogs'
     }),
     upvoteQuest: function upvoteQuest() {
       this.upvote(this.loadQuest(this.id));
@@ -270,6 +271,7 @@ export default {
       }
     },
     populateSolutions: function populateSolutions() {
+      this.log('VIEW_QUEST');
       this.refresh(this.id);
     },
     flagAsDuplicate: function flagAsDuplicate() {
