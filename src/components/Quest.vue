@@ -93,9 +93,18 @@
                 />
               </figure>
               <div class="media-content">
-                <p class="title is-secondary-text" id="info-name">
-                  {{ quest.full_name }}
-                </p>
+                <b-tooltip
+                  label="Click to view headquarters"
+                  type="is-light"
+                  position="is-right"
+                  animated
+                >
+                  <router-link :to="`/headquarters/${quest.user_id}`">
+                    <p class="title is-secondary-text" id="info-name">
+                      {{ quest.full_name }}
+                    </p>
+                  </router-link>
+                </b-tooltip>
                 <p class="subtitle is-secondary-text" id="info-time">
                   Posted {{ quest.date_created | date }}
                 </p>
@@ -266,6 +275,9 @@ export default {
 #info-name,
 #info-time {
   font-size: 0.8em !important;
+}
+#info-name:hover {
+  color: #17b79c !important;
 }
 #sns-share {
   margin-right: 15px !important;

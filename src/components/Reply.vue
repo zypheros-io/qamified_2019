@@ -17,6 +17,7 @@
         <div class="is-secondary-text" id="reply-response">
           {{ reply.description }}
         </div>
+        <br />
         <!-- Misc -->
         <div class="is-secondary-text is-clearfix" id="reply-actions">
           <a
@@ -24,7 +25,7 @@
             v-on:click.prevent="confirmDelete"
             v-if="user.id === reply.user_id || user.is_admin"
           >
-            Delete Reply&nbsp;·&nbsp;
+            Delete Reply
           </a>
           <p class="is-pulled-right">Posted {{ reply.date_created | date }}</p>
         </div>
@@ -65,8 +66,17 @@ export default {
   font-size: 1.1em !important;
 }
 #reply-response {
-  font-size: 1em !important;
-  margin-top: 0.4em !important;
+  background: #eff0f1 !important;
+  margin-top: 1em !important;
+  border: 3px solid #f4f4f4 !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+  hyphens: auto !important;
+  font-size: 1.1em !important;
+  padding: 5px !important;
+  color: #242729 !important;
 }
 #reply-actions {
   font-size: 0.8em !important;

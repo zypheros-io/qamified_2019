@@ -101,7 +101,7 @@
         <div id="solution-description">
           <vue-markdown>{{ solution.description }}</vue-markdown>
         </div>
-        <div class="is-divider"></div>
+        <br />
         <div class="is-clearfix is-secondary-text" id="user-actions">
           <div class="is-pulled-left">
             <a
@@ -127,8 +127,8 @@
             Posted {{ solution.date_created | date }}
           </div>
         </div>
+        <div class="is-divider"></div>
         <!-- Reply -->
-        <br />
         <article v-if="showReply" class="media">
           <figure class="media-left">
             <p class="image is-32x32">

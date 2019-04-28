@@ -95,7 +95,7 @@ export default {
   position: absolute !important;
   margin-left: 50% !important;
   margin-top: 13% !important;
-  width: 13% !important;
+  width: 11% !important;
 }
 #user-details {
   width: 100% !important;

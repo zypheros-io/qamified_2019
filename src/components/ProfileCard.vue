@@ -123,7 +123,7 @@ export default {
   position: absolute !important;
   margin-left: 50% !important;
   margin-top: 13% !important;
-  width: 13% !important;
+  width: 11% !important;
 }
 #report-btn {
   background: #f4e46b !important;
