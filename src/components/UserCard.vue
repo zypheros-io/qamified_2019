@@ -20,6 +20,43 @@
         >
           {{ user.rank }} Adventurer
         </p>
+        <social-sharing
+          :url="`http://qamified.tk/headquarters/${user.id}`"
+          title="Visit my headquarters in QAmifiED! Go sign in first, though!"
+          description="QAmifiED is a gamified collaborative QnA platform"
+          quote="Sign in and visit my headquarters in QAmifiED!"
+          hashtags="qamified,sablay2019"
+          inline-template
+        >
+          <div>
+            <network network="facebook">
+              <button
+                class="button is-primary-text share-btn"
+                style="background: #f4e46b !important;
+                        color: #17b79c !important;
+                        border: none !important;
+                        border-radius: 8px !important;
+                        text-decoration: none !important;
+                        width: 40% !important;"
+              >
+                Share to Facebook
+              </button>
+            </network>
+            <network network="twitter">
+              <button
+                class="button is-primary-text"
+                style="background: #f4e46b !important;
+                        color: #17b79c !important;
+                        border: none !important;
+                        border-radius: 8px !important;
+                        text-decoration: none !important;
+                        width: 40% !important;"
+              >
+                Share to Twitter
+              </button>
+            </network>
+          </div>
+        </social-sharing>
       </div>
       <div class="is-divider" data-content="ADVENTURER STATS"></div>
       <div id="card-user-experience">
@@ -40,22 +77,32 @@
       <div class="level" id="misc-stats">
         <div class="level-item has-text-centered">
           <div>
-            <p class="stats-head heading is-secondary-text">Quests posted</p>
-            <p class="stats-count title is-primary">{{ userQuest.length }}</p>
+            <p class="stats-head heading is-secondary-text color-white">
+              Quests posted
+            </p>
+            <p class="stats-count title is-primary color-highlight">
+              {{ userQuest.length }}
+            </p>
           </div>
         </div>
         <div class="level-item has-text-centered">
           <div>
-            <p class="stats-head heading is-secondary-text">Solutions posted</p>
-            <p class="stats-count title is-primary">
+            <p class="stats-head heading is-secondary-text color-white">
+              Solutions posted
+            </p>
+            <p class="stats-count title is-primary color-highlight">
               {{ user.solution.length }}
             </p>
           </div>
         </div>
         <div class="level-item has-text-centered">
           <div>
-            <p class="stats-head heading is-secondary-text">Reputation</p>
-            <p class="stats-count title is-primary">{{ user.reputation }}</p>
+            <p class="stats-head heading is-secondary-text color-white">
+              Reputation
+            </p>
+            <p class="stats-count title is-primary color-highlight">
+              {{ user.reputation }}
+            </p>
           </div>
         </div>
       </div>
@@ -143,8 +190,18 @@ progress::-webkit-progress-value {
 .stats-head {
   color: #242729 !important;
 }
-
 .stats-head {
   color: #ffffff !important;
+}
+.share-btn {
+  background: #f4e46b !important;
+  color: #17b79c !important;
+  border: none !important;
+  border-radius: 8px !important;
+  text-decoration: none !important;
+  width: 40% !important;
+}
+.share-btn:hover {
+  background: #ffffff !important;
 }
 </style>

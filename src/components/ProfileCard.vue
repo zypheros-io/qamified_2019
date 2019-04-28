@@ -30,6 +30,7 @@
           v-on:click.prevent="reportUser(user.id)"
           class="button is-primary-text"
           id="report-btn"
+          v-if="user.id !== currUser.id"
         >
           Report User
         </button>
@@ -93,7 +94,8 @@ export default {
   props: ['user'],
   computed: {
     ...mapGetters({
-      quests: 'headquarters/quests'
+      quests: 'headquarters/quests',
+      currUser: 'user/getUser'
     })
   },
   methods: {

@@ -7,12 +7,12 @@
 
 <style>
 .error-container {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  height: 100vh !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
 }
 h1 {
-  font-size: 50px;
+  font-size: 50px !important;
 }
 </style>

@@ -7,7 +7,6 @@ const state = {
   labels: [
     'VIEW_FEED',
     'VIEW_QUEST',
-    'VIEW_USER',
     'VIEW_HEADQUARTERS',
     'POST_QUEST',
     'UPVOTE_QUEST',
@@ -26,7 +25,6 @@ const state = {
   values: [
     ['VIEW_FEED', 0],
     ['VIEW_QUEST', 0],
-    ['VIEW_USER', 0],
     ['VIEW_HEADQUARTERS', 0],
     ['POST_QUEST', 0],
     ['UPVOTE_QUEST', 0],
@@ -134,7 +132,6 @@ const actions = {
     const values = [
       ['VIEW_FEED', 0],
       ['VIEW_QUEST', 0],
-      ['VIEW_USER', 0],
       ['VIEW_HEADQUARTERS', 0],
       ['POST_QUEST', 0],
       ['UPVOTE_QUEST', 0],

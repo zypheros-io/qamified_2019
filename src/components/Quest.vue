@@ -94,7 +94,7 @@
             <div class="is-pulled-right" id="sns-share">
               <span class="subtitle is-7 is-secondary-text">Share to: </span>
               <social-sharing
-                :url="`http://qamified.tk/${quest.id}`"
+                :url="`http://qamified.tk/quest/${quest.id}`"
                 title="I have posted/found a quest, can you help us with this one?"
                 description="QAmifiED is a gamified collaborative QnA platform"
                 quote="Can you help me in this quest?"
