@@ -60,7 +60,7 @@ const actions = {
         Dialog.alert({
           title: 'Mission cleared!',
           message:
-            "You have cleared a mission! Here's a trophy for your efforts, adventurer!",
+            'You have cleared a mission and received a trophy! Visit your headquarters to see it!',
           type: 'is-success'
         });
         dispatch(

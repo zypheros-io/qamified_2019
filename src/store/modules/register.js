@@ -63,7 +63,7 @@ const actions = {
                 current: 0,
                 required: 1
               },
-              trophy_url: '/static/badges/Badge01.png'
+              trophy_url: 'static/trophies/trophy4.png'
             },
             {
               description: 'Post five (5) quests on the quest board',
@@ -75,7 +75,7 @@ const actions = {
                 current: 0,
                 required: 5
               },
-              trophy_url: '/static/badges/Badge02.png'
+              trophy_url: 'static/trophies/trophy3.png'
             },
             {
               description: 'Post three (3) solutions on any quest',
@@ -87,7 +87,7 @@ const actions = {
                 current: 0,
                 required: 3
               },
-              trophy_url: '/static/badges/Badge03.png'
+              trophy_url: 'static/trophies/trophy2.png'
             },
             {
               description: 'Post one (1) reply on any solution',
@@ -99,7 +99,7 @@ const actions = {
                 current: 0,
                 required: 1
               },
-              trophy_url: 'static/badges/Badge04.png'
+              trophy_url: 'static/trophies/trophy1.png'
             }
           ],
           last_access: moment().format(),
