@@ -3,6 +3,10 @@
     <b-field label="Filter by:" style="text-align: right">
       <b-select v-model="filterKey" style="text-align: right">
         <option value="ALL">ALL</option>
+        <option value="VIEW_FEED">VIEW_FEED</option>
+        <option value="VIEW_QUEST">VIEW_QUEST</option>
+        <option value="VIEW_HEADQUARTERS">VIEW_HEADQUARTERS</option>
+        <option value="VIEW_LEADERBOARD">VIEW_LEADERBOARD</option>
         <option value="POST_QUEST">POST QUEST</option>
         <option value="POST_SOLUTION">POST SOLUTION</option>
         <option value="POST_REPLY">POST REPLY</option>
@@ -13,6 +17,10 @@
         <option value="UPVOTE_SOLUTION">UPVOTE_SOLUTION</option>
         <option value="DOWNVOTE_QUEST">DOWNVOTE_QUEST</option>
         <option value="DOWNVOTE_SOLUTION">DOWNVOTE_SOLUTION</option>
+        <option value="FLAG_QUEST">FLAG_QUEST</option>
+        <option value="UNFLAG_QUEST">UNFLAG_QUEST</option>
+        <option value="MARK_SOLUTION">MARK_SOLUTION</option>
+        <option value="REPORT_USER">REPORT_USER</option>
       </b-select>
     </b-field>
     <div class="scrollable">
@@ -74,7 +82,7 @@ export default {
   margin-top: 5vh !important;
 }
 .scrollable {
-  overflow: scroll !important;
+  overflow-y: scroll !important;
   height: 50vh !important;
 }
 </style>

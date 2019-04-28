@@ -15,6 +15,7 @@
             <th>Rank</th>
             <th>Reputation</th>
             <th>Reported</th>
+            <th>Banned</th>
             <th>Ban?</th>
           </tr>
         </thead>
@@ -27,6 +28,7 @@
             <td>{{ user.experience }}</td>
             <td>{{ user.rank }}</td>
             <td>{{ user.reputation }}</td>
+            <td>{{ user.is_reported }}</td>
             <td>{{ user.is_banned }}</td>
             <td>
               <button
@@ -78,7 +80,7 @@ export default {
   margin-top: 5vh !important;
 }
 .scrollable {
-  overflow: scroll !important;
+  overflow-y: scroll !important;
   height: 60vh !important;
 }
 </style>

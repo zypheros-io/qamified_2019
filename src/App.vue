@@ -24,9 +24,13 @@
             <router-link :to="`/headquarters/${user.id}`" class="navbar-item">
               Headquarters
             </router-link>
-            <router-link to="leaderboard" class="navbar-item">
+            <a
+              to="board"
+              class="navbar-item"
+              v-on:click.prevent="goto('/leaderboard')"
+            >
               Leaderboard
-            </router-link>
+            </a>
             <router-link
               :to="`/admin`"
               class="navbar-item"
@@ -79,8 +83,8 @@ export default {
       let logContext;
       if (route === '/board') {
         logContext = 'VIEW_FEED';
-      } else if (route === '/headquarters') {
-        logContext = 'VIEW_HEADQUARTERS';
+      } else if (route === '/leaderboard') {
+        logContext = 'VIEW_LEADERBOARD';
       }
       this.log(logContext);
       this.$router.push(route);

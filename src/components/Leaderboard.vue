@@ -32,11 +32,9 @@ export default {
   },
   methods: {
     ...mapActions({
-      populate: 'leaderboard/populateLeaderboard',
-      log: 'user/updateLogs'
+      populate: 'leaderboard/populateLeaderboard'
     }),
     populateLeaderboard: function populateLeaderboard() {
-      this.log('VIEW_LEADERBOARD');
       this.populate();
     }
   },
