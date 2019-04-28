@@ -5,13 +5,26 @@
         Leaderboard
       </p>
     </div>
+    <p class="is-divider"></p>
+    <div id="leaderboard-container">
+      <Leaderboard-Panel
+        v-for="user in users"
+        :key="user.id"
+        v-bind:user="user"
+      >
+      </Leaderboard-Panel>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import LeaderboardPanel from './LeaderboardPanel';
 
 export default {
+  components: {
+    LeaderboardPanel
+  },
   computed: {
     ...mapGetters({
       users: 'leaderboard/users'
@@ -41,5 +54,8 @@ export default {
 }
 #leaderboard-header {
   font-size: 3em;
+}
+#leaderboard-container {
+  width: 100%;
 }
 </style>
