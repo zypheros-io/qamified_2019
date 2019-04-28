@@ -1,101 +1,130 @@
 <template>
   <div class="box" id="solution-container">
     <article class="media">
-      <figure class="media-left has-text-centered">
-        <p class="image is-64x64">
-          <img :src="`../${user.img_url}`" />
+      <div class="media-left has-text-centered has-text-grey-lighter">
+        <p>
+          <b-tooltip
+            label="Solution is helpful and well-researched"
+            type="is-light"
+            position="is-left"
+            animated
+          >
+            <span
+              class="mdi mdi-arrow-up-bold-circle-outline active-vote"
+              v-on:click.prevent="upvoteSolution"
+              v-if="solution.upvote.includes(user.id)"
+            ></span>
+            <span
+              class="mdi mdi-arrow-up-bold-circle-outline"
+              v-on:click.prevent="upvoteSolution"
+              v-else-if="!solution.upvote.includes(user.id)"
+            ></span>
+          </b-tooltip>
         </p>
-      </figure>
+        <p>
+          <span class="is-primary-text" id="votes">
+            {{ solution.votes }}
+          </span>
+        </p>
+        <p>
+          <b-tooltip
+            label="Solution does not show any sign of effort"
+            type="is-light"
+            position="is-left"
+            animated
+          >
+            <span
+              class="mdi mdi-arrow-down-bold-circle-outline active-vote"
+              v-on:click.prevent="downvoteSolution"
+              v-if="solution.downvote.includes(user.id)"
+            ></span>
+            <span
+              class="mdi mdi-arrow-down-bold-circle-outline"
+              v-on:click.prevent="downvoteSolution"
+              v-else-if="!solution.downvote.includes(user.id)"
+            ></span>
+          </b-tooltip>
+        </p>
+        <b-tooltip
+          label="The quest owner marked this solution as the correct response"
+          type="is-light"
+          position="is-bottom"
+          v-if="solution.is_correct"
+          id="is-correct"
+        >
+          <span class="mdi mdi-check-outline"></span>
+        </b-tooltip>
+      </div>
       <div class="media-content">
-        <div class="content">
-          <!-- User name -->
-          <div class="is-clearfix">
-            <div class="is-pulled-left">
-              <div id="user-name">
-                <router-link
-                  :to="`/headquarters/${solution.user_id}`"
-                  class="is-primary-text color-secondary"
-                >
-                  {{ solution.full_name }}
-                </router-link>
-              </div>
-              <!-- Response -->
-              <div class="is-secondary-text" id="solution-response">
-                {{ solution.description }}
-              </div>
-            </div>
-            <div
-              v-if="solution.is_correct"
-              class="is-pulled-right"
-              id="is-correct"
+        <div class="solution-user-details is-clearfix">
+          <div class="is-pulled-left">
+            <figure class="image is-24x24" style="float:left">
+              <img
+                :src="`../${user.img_url}`"
+                alt="user-avatar"
+                class="is-rounded"
+              />
+            </figure>
+            &nbsp;
+            <b-tooltip
+              label="View profile"
+              type="is-light"
+              position="is-right"
+              animated
             >
-              <b-tooltip
-                label="The quest owner marked this solution as the correct response"
-                type="is-light"
-                position="is-bottom"
+              <router-link
+                class="title is-4 is-primary-text color-secondary"
+                id="user-name"
+                :to="`/headquarters/${solution.user_id}`"
+                style="display: inline"
               >
-                <span class="mdi mdi-check-outline"></span>
-              </b-tooltip>
-            </div>
+                {{ solution.full_name }}
+              </router-link>
+            </b-tooltip>
           </div>
-          <!-- Actions -->
-          <div class="is-secondary-text is-clearfix" id="user-actions">
-            <!-- Upvote -->
-            <div class="is-pulled-left">
-              <a
-                class="is-secondary-text is-anchor"
-                v-on:click.prevent="markAsAnswer"
-                v-if="user.id === quest.user_id && !solution.is_correct"
-              >
-                <span class="mdi mdi-check"></span>
-                Mark as Answer
-              </a>
-              <a
-                class="is-secondary-text is-anchor"
-                v-on:click.prevent="markAsAnswer"
-                v-else-if="user.id === quest.user_id && solution.is_correct"
-              >
-                <span class="mdi mdi-check"></span>
-                Unmark
-              </a>
-              &nbsp;·&nbsp;
-              <a
-                class="is-secondary-text is-anchor"
-                v-on:click.prevent="toggleReply"
-              >
-                <span class="mdi mdi-message-reply-text"></span>
-                Reply
-              </a>
-              &nbsp;·&nbsp;
-              <a
-                class="is-secondary-text is-anchor"
-                v-on:click.prevent="upvoteSolution"
-              >
-                <span class="mdi mdi-arrow-up-thick"></span>
-                Upvote
-              </a>
-              &nbsp;·&nbsp;
-              <a
-                class="is-secondary-text is-anchor"
-                v-on:click.prevent="downvoteSolution"
-              >
-                <span class="mdi mdi-arrow-down-thick"></span>
-                Downvote
-              </a>
-              &nbsp;|&nbsp;
-              <a
-                class="is-secondary-text is-anchor"
-                v-on:click.prevent="confirmDelete"
+          <div class="is-pulled-right">
+            <b-tooltip
+              label="Delete this quest"
+              type="is-light"
+              position="is-right"
+              animated
+            >
+              <span
+                class="mdi mdi-close"
                 v-if="user.id === solution.user_id || user.is_admin"
-              >
-                Delete Solution
-              </a>
-              &nbsp;·&nbsp;
-              {{ solution.votes }} votes
-            </div>
-            <div class="is-pulled-right">
-              Posted {{ solution.date_created | date }}
-            </div>
+                v-on:click.prevent="confirmDelete"
+                id="solution-delete"
+              ></span>
+            </b-tooltip>
+          </div>
+        </div>
+        <div id="solution-description">
+          <vue-markdown>{{ solution.description }}</vue-markdown>
+        </div>
+        <div class="is-divider"></div>
+        <div class="is-clearfix is-secondary-text" id="user-actions">
+          <div class="is-pulled-left">
+            <a
+              class="is-anchor"
+              v-on:click.prevent="markAsAnswer"
+              v-if="user.id === quest.user_id && !solution.is_correct"
+            >
+              Mark As Correct
+            </a>
+            <a
+              class="is-anchor"
+              v-on:click.prevent="markAsAnswer"
+              v-else-if="user.id === quest.user_id && solution.is_correct"
+            >
+              Unmark
+            </a>
+            &nbsp;·&nbsp;
+            <a class="is-anchor" v-on:click.prevent="toggleReply">
+              Reply
+            </a>
+          </div>
+          <div class="is-pulled-right">
+            Posted {{ solution.date_created | date }}
           </div>
         </div>
         <!-- Reply -->
@@ -142,12 +171,14 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import moment from 'moment';
+import VueMarkdown from 'vue-markdown';
 import Reply from './Reply';
 
 export default {
   props: ['solution'],
   components: {
-    Reply
+    Reply,
+    VueMarkdown
   },
   data() {
     return {
@@ -234,30 +265,44 @@ export default {
   margin-left: 3vw !important;
 }
 #user-name {
+  font-size: 1.4em !important;
+}
+#solution-description {
+  background: #eff0f1 !important;
+  margin-top: 1em !important;
+  border: 3px solid #f4f4f4 !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+  hyphens: auto !important;
   font-size: 1.1em !important;
-}
-#solution-response {
-  font-size: 1em !important;
-  margin-top: 0.4em !important;
-}
-#user-actions {
-  margin-top: 0.8em !important;
-  font-size: 0.9em !important;
-  cursor: pointer !important;
-}
-.media-left p span {
-  cursor: pointer !important;
-  font-weight: bold !important;
-  font-size: 24px !important;
-}
-.media-left p span:hover {
-  color: #fc6076 !important;
-}
-.active-vote {
-  color: #d7bce8 !important;
+  padding: 5px !important;
+  color: #242729 !important;
 }
 #is-correct {
-  font-size: 1.5em;
-  color: #45a163;
+  color: #45a163 !important;
+}
+.media-left .mdi {
+  font-size: 2em !important;
+  cursor: pointer !important;
+  font-weight: bold !important;
+}
+.media-left .mdi:hover {
+  color: #37ccb3 !important;
+}
+.active-vote {
+  color: #17b79c !important;
+}
+#votes {
+  font-size: 1.5em !important;
+}
+#solution-delete {
+  font-size: 15px !important;
+  color: #b9b9b9 !important;
+  cursor: pointer !important;
+}
+#user-actions {
+  font-size: 0.8em !important;
 }
 </style>

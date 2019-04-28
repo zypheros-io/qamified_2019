@@ -110,6 +110,20 @@ const actions = {
           const newSolutions = [];
           solutions.forEach(solution => {
             newSolution = solution.val();
+            const upvotes = [];
+            const downvotes = [];
+            if (newSolution.upvote) {
+              Object.keys(newSolution.upvote).forEach(u => {
+                upvotes.push(u);
+              });
+            }
+            if (newSolution.downvote) {
+              Object.keys(newSolution.downvote).forEach(d => {
+                downvotes.push(d);
+              });
+            }
+            newSolution.upvote = upvotes;
+            newSolution.downvote = downvotes;
             newSolutions.push(newSolution);
           });
           commit('setSolutions', newSolutions);
@@ -121,74 +135,61 @@ const actions = {
   upvoteSolution({ dispatch, rootGetters }, solution) {
     const updates = {};
     const user = rootGetters['user/getUser'];
-    // downvotes exist and wants upvote
-    if (solution.downvote && Object.keys(solution.downvote).includes(user.id)) {
+    if (solution.downvote.includes(user.id)) {
       updates[`/solution/${solution.id}/downvote/${user.id}`] = null;
       updates[`/solution/${solution.id}/upvote/${user.id}`] = true;
       updates[`/solution/${solution.id}/votes`] = solution.votes + 1;
-      // Commit changes to database
+      console.log('upvote when downvote', updates)
       firebase
         .database()
         .ref()
         .update(updates)
         .then(() => {
           Snackbar.open({
-            message: 'Solution upvoted!',
+            message: 'Solution successfully upvoted!',
             type: 'is-success',
             duration: 3000
           });
           dispatch('user/updateLogs', 'UPVOTE_SOLUTION', { root: true });
-          dispatch(
-            'user/addReputation',
-            { authorId: solution.user_id, reputation: 3 },
-            { root: true }
-          );
           solution.votes += 1;
         })
         .catch(error => {
           console.log(error);
-        });
-    }
-    // downvotes doesn't exist and wants upvote
-    else if (
-      !solution.upvote ||
-      !Object.keys(solution.upvote).includes(user.id)
-    ) {
+        })
+    } else if (!solution.upvote.includes(user.id)) {
       updates[`/solution/${solution.id}/upvote/${user.id}`] = true;
       updates[`/solution/${solution.id}/votes`] = solution.votes + 1;
-      // Commit changes
+      console.log('upvote only', updates);
       firebase
         .database()
         .ref()
         .update(updates)
         .then(() => {
           Snackbar.open({
-            message: 'Solution upvoted!',
+            message: 'Solution successfully upvoted!',
             type: 'is-success',
             duration: 3000
           });
           dispatch('user/updateLogs', 'UPVOTE_SOLUTION', { root: true });
-          dispatch(
-            'user/addReputation',
-            { authorId: solution.user_id, reputation: 3 },
-            { root: true }
-          );
           solution.votes += 1;
         })
         .catch(error => {
           console.log(error);
         });
-    }
-    // upvote when already upvoted
-    else if (Object.keys(solution.upvote).includes(user.id)) {
-      updates[`solution/${solution.id}/upvotes/${user.id}`] = false;
-      updates[`solution/${solution.id}/votes`] = solution.votes - 1;
-
+    } else if (solution.upvote.includes(user.id)) {
+      updates[`/solution/${solution.id}/upvote/${user.id}`] = null;
+      updates[`/solution/${solution.id}/votes/`] = solution.votes - 1;
+      console.log('nadah');
       firebase
         .database()
         .ref()
         .update(updates)
         .then(() => {
+          Snackbar.open({
+            message: 'Upvote removed',
+            type: 'is-success',
+            duration: 3000
+          });
           solution.votes -= 1;
         })
         .catch(error => {
@@ -198,80 +199,67 @@ const actions = {
   },
   downvoteSolution({ dispatch, rootGetters }, solution) {
     const updates = {};
-    const message = 'hellothere';
     const user = rootGetters['user/getUser'];
-    // Upvotes exist and wants downvote
-    if (!solution.upvote && Object.keys(solution.upvote).includes(user.id)) {
+    if (solution.upvote.includes(user.id)) {
       updates[`/solution/${solution.id}/upvote/${user.id}`] = null;
       updates[`/solution/${solution.id}/downvote/${user.id}`] = true;
       updates[`/solution/${solution.id}/votes`] = solution.votes - 1;
-      // Commit changes to database
+      console.log('downvote when downvote', updates);
       firebase
         .database()
         .ref()
         .update(updates)
         .then(() => {
           Snackbar.open({
-            message: 'Solution downvoted!',
+            message: 'Solution successfully downvoted!',
             type: 'is-success',
             duration: 3000
           });
           dispatch('user/updateLogs', 'DOWNVOTE_SOLUTION', { root: true });
-          dispatch(
-            'user/deductReputation',
-            { authorId: solution.user_id, reputation: 3 },
-            { root: true }
-          );
+          solution.votes -=  1;
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    } else if (!solution.downvote.includes(user.id)) {
+      updates[`/solution/${solution.id}/downvote/${user.id}`] = true;
+      updates[`/solution/${solution.id}/votes`] = solution.votes + 1;
+      console.log('upvote only', updates);
+      firebase
+        .database()
+        .ref()
+        .update(updates)
+        .then(() => {
+          Snackbar.open({
+            message: 'Solution successfully upvoted!',
+            type: 'is-success',
+            duration: 3000
+          });
+          dispatch('user/updateLogs', 'DOWNVOTE_SOLUTION', { root: true });
           solution.votes -= 1;
         })
         .catch(error => {
           console.log(error);
-        });
-    }
-    // Wants to downvote
-    else if (
-      !solution.downvote ||
-      !Object.keys(solution.downvote).includes(user.id)
-    ) {
-      updates[`/solution/${solution.id}/downvote/${user.id}`] = true;
-      updates[`/solution/${solution.id}/votes`] = solution.votes -= 1;
-      // Commit changes to database
+        })
+    } else if (solution.downvote.includes(user.id)) {
+      updates[`/solution/${solution.id}/downvote/${user.id}`] = null;
+      updates[`/solution/${solution.id}/votes/`] = solution.votes + 1;
+      console.log('nadah');
       firebase
         .database()
         .ref()
         .update(updates)
         .then(() => {
           Snackbar.open({
-            message: 'Solution downvoted!',
+            message: 'Downvote removed!',
             type: 'is-success',
             duration: 3000
           });
-          dispatch('user/updateLogs', 'DOWNVOTE_SOLUTION', { root: true });
-          dispatch(
-            'user/deductReputation',
-            { authorId: solution.user_id, reputation: 3 },
-            { root: true }
-          );
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    }
-    // Downvote when already downvoted
-    else if (Object.keys(solution.downvote).includes(user.id)) {
-      updates[`solution/${solution.id}/downvote/${user.id}`] = false;
-      updates[`solution/${solution.id}/votes`] = solution.votes + 1;
-
-      firebase
-        .database()
-        .ref()
-        .update(updates)
-        .then(() => {
           solution.votes += 1;
         })
         .catch(error => {
           console.log(error);
-        });
+        })
     }
   },
   deleteSolution({ dispatch }, solutionId) {
@@ -305,7 +293,11 @@ const actions = {
       .update(updates)
       .then(() => {
         dispatch('user/updateLogs', 'DELETE_SOLUTION', { root: true });
-        Toast.open('Solution has been deleted!');
+        Snackbar.open({
+          message: 'Solution successfully deleted!',
+          type: 'is-success',
+          duration: 3000
+        });
       })
       .catch(error => {
         console.log(error);

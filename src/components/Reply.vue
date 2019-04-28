@@ -1,14 +1,17 @@
 <template>
-  <article class="media">
+  <article class="media" id="reply-container">
     <figure class="media-left image is-64x64">
       <img :src="`../${reply.user_img_url}`" />
     </figure>
     <div class="media-content">
       <div class="content">
         <div id="user-name">
-          <p class="is-primary-text color-primary">
+          <router-link
+            :to="`/headquarters/${reply.user_id}`"
+            class="is-primary-text color-primary"
+          >
             {{ reply.full_name }}
-          </p>
+          </router-link>
         </div>
         <!-- Response -->
         <div class="is-secondary-text" id="reply-response">
