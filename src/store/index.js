@@ -25,5 +25,18 @@ export default new Vuex.Store({
     headquarters,
     badges
   },
-  plugins: [createPersistedState()]
+  plugins: [
+    createPersistedState({
+      paths: [
+        'user',
+        'register',
+        'login',
+        'feed',
+        'quest',
+        'solution',
+        'headquarters',
+        'badges'
+      ]
+    })
+  ]
 });
