@@ -37,7 +37,6 @@ const actions = {
     // Store changes
     const updates = {};
     updates[`reply/${newReply.id}`] = newReply;
-    updates[`user/${reply.user_id}/solution/${newReply.id}`] = true;
     // Commit changes to database
     // Clear mission
     const user = rootGetters['user/getUser'];

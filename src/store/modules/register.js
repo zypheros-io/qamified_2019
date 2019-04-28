@@ -46,7 +46,7 @@ const actions = {
           rank: 'Pathfinder',
           reputation: 0,
           badge_url: '../../static/badges/Badge01.png',
-          img_url: 'static/avatars/avatar_boy.png',
+          img_url: payload.img_url,
           // Hidden information
           is_banned: false,
           is_admin: false,

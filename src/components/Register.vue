@@ -70,13 +70,32 @@
               </b-field>
               <b-field></b-field>
               <b-field label="Institution*" class="margin-top-1">
-                <b-input
-                  v-model="user.institution"
-                  placeholder="Institution ex. CAS, CEM, etc."
-                  type="text"
-                  size="is-medium"
-                  required
-                ></b-input>
+                <b-select v-model="user.institution" expanded>
+                  <optgroup label="Los Banos">
+                    <option value="CAS">CAS</option>
+                    <option value="CDC">CDC</option>
+                    <option value="CAFS">CAFS</option>
+                    <option value="CHE">CHE</option>
+                    <option value="CEAT">CEAT</option>
+                    <option value="CFNR">CFNR</option>
+                    <option value="CVM">CVM</option>
+                    <option value="CEM">CEM</option>
+                  </optgroup>
+                </b-select>
+              </b-field>
+              <b-field>
+                <b-radio
+                  v-model="user.img_url"
+                  native-value="static/avatars/avatar_boy.png"
+                >
+                  Male Avatar
+                </b-radio>
+                <b-radio
+                  v-model="user.img_url"
+                  native-value="static/avatars/avatar_girl.png"
+                >
+                  Female Avatar
+                </b-radio>
               </b-field>
               <b-field class="margin-top-1">
                 <button
@@ -125,7 +144,8 @@ export default {
         password: '',
         firstname: '',
         lastname: '',
-        institution: ''
+        institution: '',
+        img_url: ''
       },
       step: 1,
       formOneClear: false,

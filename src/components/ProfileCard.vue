@@ -17,8 +17,8 @@
         <p class="title is-3 color-white">
           {{ user.fname + ' ' + user.lname }}
         </p>
-        <p class="is-secondary-text subtitle is-5 color-white">
-          {{ user.description }}
+        <p class="subtitle is-5 is-primary-text">
+          Student of {{ user.institution }}
         </p>
         <p
           class="is-primary-text subtitle is-6 color-highlight"

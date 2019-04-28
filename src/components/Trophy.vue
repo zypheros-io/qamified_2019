@@ -36,6 +36,6 @@ export default {
   padding-top: 13px !important;
 }
 #trophy {
-  width: 60% !important;
+  width: 80% !important;
 }
 </style>
