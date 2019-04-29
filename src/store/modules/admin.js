@@ -122,7 +122,7 @@ const actions = {
           type: 'is-success',
           duration: 3000
         });
-        dispatch('dismissReport', payload)
+        dispatch('dismissReport', payload);
       })
       .catch(error => {
         console.log(error);
@@ -178,7 +178,7 @@ const actions = {
           duration: 3000
         });
         dispatch('dismissFlag', payload.flagId);
-      })
+      });
   },
   refreshChart({ commit, rootGetters }) {
     commit('setLoading', true);
