@@ -223,7 +223,7 @@ const actions = {
         });
     } else if (!solution.downvote.includes(user.id)) {
       updates[`/solution/${solution.id}/downvote/${user.id}`] = true;
-      updates[`/solution/${solution.id}/votes`] = solution.votes + 1;
+      updates[`/solution/${solution.id}/votes`] = solution.votes - 1;
       console.log('upvote only', updates);
       firebase
         .database()

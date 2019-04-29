@@ -1,18 +1,22 @@
 <template>
-  <div class="error-container">
-    <h1>ERROR 404</h1>
-    <router-link :to="'/board'">go back to board</router-link>
+  <div class="container has-text-centered">
+    <div>
+      <router-link :to="'/board'" class="is-primary-text is-anchor">
+        Go back to board
+      </router-link>
+    </div>
+    <br />
+    <div>
+      <figure class="image">
+        <img src="../assets/404.png" alt="Error 404" />
+      </figure>
+    </div>
   </div>
 </template>
 
-<style>
-.error-container {
-  height: 100vh !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-}
-h1 {
-  font-size: 50px !important;
+<style scoped>
+.container {
+  padding-top: 75px !important;
+  width: 100%;
 }
 </style>

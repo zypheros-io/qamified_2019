@@ -48,7 +48,6 @@ export default {
 #leaderboard {
   width: 100% !important;
   padding-top: 75px !important;
-  padding-bottom: 15px !important;
 }
 #leaderboard-header {
   font-size: 3em;
