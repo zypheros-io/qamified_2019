@@ -174,7 +174,8 @@ export default {
   methods: {
     ...mapActions({
       post: 'feed/postQuest',
-      refresh: 'feed/populateFeed'
+      refresh: 'feed/populateFeed',
+      updateAccessDate: 'user/updateLogin'
     }),
     postQuest: function postQuest() {
       // if fields are not empty
@@ -197,10 +198,14 @@ export default {
     },
     populateFeed: function refreshFeed() {
       this.refresh();
+    },
+    updateLastLogin: function updateLastLogin() {
+      this.updateAccessDate();
     }
   },
   mounted() {
     this.populateFeed();
+    this.updateLastLogin();
   }
 };
 </script>

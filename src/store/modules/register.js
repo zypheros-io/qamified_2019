@@ -100,6 +100,18 @@ const actions = {
                 required: 1
               },
               trophy_url: 'static/trophies/trophy1.png'
+            },
+            {
+              description: 'Log into the app 7 days straight',
+              experience: 40,
+              title: 'Committed Adventurer',
+              done: false,
+              requirements: {
+                context: 'Weekly Login',
+                current: 0,
+                required: 7
+              },
+              trophy_url: 'static/trophies/trophy4.png'
             }
           ],
           last_access: moment().format(),

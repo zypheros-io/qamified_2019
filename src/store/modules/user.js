@@ -59,6 +59,66 @@ const actions = {
         }
       });
   },
+  updateLogin({ dispatch, rootGetters }) {
+    const user = rootGetters['user/getUser'];
+    const prevAccess = moment(user.last_access);
+    const newAccess = moment(new Date());
+
+    let dayDifference = newAccess.diff(prevAccess, 'days');
+    const updates = {};
+    updates[`user/${user.id}/last_access`] = newAccess.format();
+
+    const missions = rootGetters['user/getMissions'];
+    const missionIndex = missions.findIndex(
+      mission => mission.requirements.context === 'Weekly Login'
+    );
+    const currMission = user.missions[missionIndex];
+
+    let clear = false;
+    if (missionIndex !== -1) {
+      if (dayDifference == 1) {
+        let newCurrent = currMission.requirements.current + 1;
+        updates[
+          `user/${user.id}/missions/${missionIndex}/requirements/current`
+        ] = newCurrent;
+
+        if (newCurrent === currMission.requirements.required) {
+          clear = true;
+          updates[`user/${user.id}/missions/${missionIndex}/done`] = true;
+          Dialog.alert({
+            title: 'Mission cleared!',
+            message:
+              'You have cleared a mission and received a trophy! Visit your headquarters to see it!',
+            type: 'is-success'
+          });
+        }
+      } else if (dayDifference > 1) {
+        currMission.requirements.current = 0;
+        Dialog.alert({
+          title: 'Mission failed...',
+          message:
+            'You have failed in reaching a 7-login streak. Your mission progress has been reset',
+          type: 'is-danger'
+        });
+        updates[
+          `user/${user.id}/missions/${missionIndex}/requirements/current`
+        ] = currMission.requirements.current;
+      }
+    }
+
+    firebase
+      .database()
+      .ref()
+      .update(updates)
+      .then(() => {
+        if (clear) {
+          dispatch('addExperience', {
+            authorId: user.id,
+            experience: currMission.experience
+          });
+        }
+      });
+  },
   updateLogs({ rootGetters }, log) {
     // Retrieve user of action
     const user = rootGetters['user/getUser'];
@@ -121,9 +181,7 @@ const actions = {
       .database()
       .ref()
       .update(updates)
-      .then(() => {
-        console.log('hello exp yay');
-      })
+      .then(() => {})
       .catch(error => {
         console.log(error);
       });
