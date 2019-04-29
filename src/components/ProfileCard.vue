@@ -28,7 +28,7 @@
         </p>
         <!-- buttons -->
         <button
-          v-on:click.prevent="reportUser(user.id)"
+          v-on:click.prevent="reportUser(user)"
           class="button is-primary-text"
           id="report-btn"
           v-if="user.id !== currUser.id"
@@ -127,7 +127,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
   props: ['user'],
@@ -138,11 +138,8 @@ export default {
     })
   },
   methods: {
-    ...mapActions({
-      report: 'headquarters/reportUser'
-    }),
     reportUser: function reportUser(userId) {
-      this.report(userId);
+      this.$emit('reported', userId);
     }
   }
 };

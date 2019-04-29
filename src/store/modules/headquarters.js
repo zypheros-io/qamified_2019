@@ -80,25 +80,30 @@ const actions = {
         }
       });
   },
-  reportUser({ dispatch }, userId) {
+  submitReport({ dispatch }, payload) {
+    const newReport = payload;
+    const reportKey = firebase
+      .database()
+      .ref()
+      .child('/reports')
+      .push().key;
+    newReport.id = reportKey;
     const updates = {};
-    updates[`user/${userId}/is_reported`] = true;
+    updates[`/reports/${newReport.id}`] = newReport;
+    updates[`/user/${newReport.reported_user_id}/is_reported`] = true;
 
     firebase
       .database()
       .ref()
       .update(updates)
       .then(() => {
+        dispatch('user/updateLogs', 'SUBMIT_REPORT', { root: true });
         Snackbar.open({
-          message: 'User successfully reported',
+          message: 'Report ticket successfully submitted for review.',
           type: 'is-success',
           duration: 3000
-        });
-        dispatch('user/updateLogs', 'REPORT_USER', { root: true });
+        })
       })
-      .catch(error => {
-        console.log(error);
-      });
   }
 };
 

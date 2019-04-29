@@ -1,8 +1,37 @@
 <template>
   <div class="headquarters container">
+    <!-- Report modal -->
+    <b-modal :active.sync="showReportModal" :width="450">
+      <div id="modal">
+        <div class="box has-text-centered">
+          <p class="is-primary-text">I am reporting this user for...</p>
+          <p class="is-secondary-text">(Click the dropdown to see choices)</p>
+          <b-field class="margin-top-1">
+            <b-select placeholder="hmm..." v-model="reportReason" expanded>
+              <option value="False information">False information</option>
+              <option value="Trolling">Trolling</option>
+              <option value="Spamming">Spamming</option>
+              <option value="Negative Attitude">Negative Attitude</option>
+            </b-select>
+          </b-field>
+          <b-field>
+            <button
+              class="button is-fullwidth primary-btn"
+              v-on:click.prevent="submitReport"
+            >
+              SUBMIT
+            </button>
+          </b-field>
+        </div>
+      </div>
+    </b-modal>
+    <!-- End report modal -->
     <div class="columns">
       <div class="column is-two-fifths">
-        <Profile-Card v-bind:user="user"></Profile-Card>
+        <Profile-Card
+          @reported="popReportModal"
+          v-bind:user="user"
+        ></Profile-Card>
         <div class="is-divider"></div>
         <p class="title is-4 is-primary-text">Missions</p>
         <Mission
@@ -80,6 +109,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import moment from 'moment';
 import ProfileCard from './ProfileCard';
 import Mission from './Mission';
 import ActivityCard from './ActivityCard';
@@ -89,6 +119,13 @@ export default {
   beforeRouteUpdate(to, from, next) {
     this.populateProfile(to.params.id);
     next();
+  },
+  data() {
+    return {
+      showReportModal: false,
+      reportReason: '',
+      reportedUser: null
+    };
   },
   components: {
     ProfileCard,
@@ -101,7 +138,8 @@ export default {
       user: 'headquarters/user',
       missions: 'headquarters/missions',
       quests: 'headquarters/quests',
-      responded: 'headquarters/responded'
+      responded: 'headquarters/responded',
+      currUser: 'user/getUser'
     }),
     missionsDone() {
       const missionsArray = this.missions;
@@ -113,11 +151,30 @@ export default {
   methods: {
     ...mapActions({
       populate: 'headquarters/populateProfile',
-      log: 'user/updateLogs'
+      log: 'user/updateLogs',
+      report: 'headquarters/submitReport'
     }),
     populateProfile(id) {
       this.log('VIEW_HEADQUARTERS');
       this.populate(id);
+    },
+    popReportModal: function popReportModal(value) {
+      this.showReportModal = true;
+      this.reportedUser = value;
+    },
+    submitReport: function submitReport() {
+      this.report({
+        date_created: moment().format(),
+        reporter_id: this.currUser.id,
+        reporter_name: this.currUser.fname,
+        reported_user_id: this.reportedUser.id,
+        reported_user_name: this.reportedUser.fname,
+        reason: this.reportReason
+      });
+      // reset
+      this.reportReason = '';
+      this.reportedUser = null;
+      this.showReportModal = false;
     }
   },
   created() {

@@ -323,8 +323,7 @@ const actions = {
       .then(() => {
         dispatch('user/updateLogs', 'SUBMIT_FLAG', { root: true });
         Snackbar.open({
-          message:
-            'Flag ticket successfully submitted. The administrator has been notified.',
+          message: 'Flag ticket successfully submitted for review',
           type: 'is-success',
           duration: 3000
         });
