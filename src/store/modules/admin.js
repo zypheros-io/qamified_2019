@@ -1,5 +1,6 @@
 /* eslint-disable */
 import firebase from 'firebase';
+import { Snackbar } from 'buefy/dist/components/snackbar';
 
 const state = {
   users: [],
@@ -13,15 +14,14 @@ const state = {
     'UPVOTE_QUEST',
     'DOWNVOTE_QUEST',
     'DELETE_QUEST',
-    'FLAG_QUEST',
-    'UNFLAG_QUEST',
     'POST_SOLUTION',
     'UPVOTE_SOLUTION',
     'DOWNVOTE_SOLUTION',
     'MARK_SOLUTION',
     'DELETE_SOLUTION',
     'POST_REPLY',
-    'REPORT_USER'
+    'SUBMIT_REPORT',
+    'SUBMIT_FLAG'
   ],
   values: [
     ['VIEW_FEED', 0],
@@ -32,15 +32,14 @@ const state = {
     ['UPVOTE_QUEST', 0],
     ['DOWNVOTE_QUEST', 0],
     ['DELETE_QUEST', 0],
-    ['FLAG_QUEST', 0],
-    ['UNFLAG_QUEST', 0],
     ['POST_SOLUTION', 0],
     ['UPVOTE_SOLUTION', 0],
     ['DOWNVOTE_SOLUTION', 0],
     ['MARK_SOLUTION', 0],
     ['DELETE_SOLUTION', 0],
     ['POST_REPLY', 0],
-    ['REPORT_USER', 0]
+    ['SUBMIT_REPORT', 0],
+    ['SUBMIT_FLAG', 0]
   ],
   user_count: 0,
   quest_count: 0,
@@ -86,55 +85,100 @@ const mutations = {
 
 const actions = {
   retrieveData({ commit }) {
-    // Access db/users
     firebase
       .database()
       .ref('user')
       .on('value', users => {
-        // Array of users
         let userArray = [];
         users.forEach(user => {
           let u = user.val();
-          // Add user to array
           userArray.unshift(u);
         });
         commit('setUsers', userArray);
       });
-    // Retrieve logs
+
     firebase
       .database()
       .ref('logs')
       .on('value', logs => {
-        // Array of logs
         let logArray = [];
         logs.forEach(log => {
           let l = log.val();
-          // Add log to array
           logArray.unshift(l);
         });
         commit('setLogs', logArray);
       });
   },
-  banUser({}, user) {
-    const banId = user.id;
+  banUser({ dispatch }, payload) {
     const updates = {};
-    console.log(banId);
-    updates[`user/${banId}/is_banned`] = true;
-    console.log(updates);
+    updates[`user/${payload.user_id}/is_banned`] = true;
     firebase
       .database()
       .ref()
       .update(updates)
       .then(() => {
-        Toast.open({
+        Snackbar.open({
           message: 'User has been banned',
-          duration: 3000,
-          type: 'is-danger'
+          type: 'is-success',
+          duration: 3000
         });
+        dispatch('dismissReport', payload)
       })
       .catch(error => {
         console.log(error);
       });
+  },
+  dismissReport({}, payload) {
+    const reportId = payload.reportId;
+    const reportUserId = payload.reportUserId;
+
+    const updates = {};
+    updates[`user/${reportUserId}/is_reported`] = false;
+    updates[`reports/${reportId}`] = null;
+
+    firebase
+      .database()
+      .ref()
+      .update(updates)
+      .then(() => {
+        Snackbar.open({
+          message: 'Report ticket dismissed',
+          type: 'is-success',
+          duration: 3000
+        });
+      });
+  },
+  dismissFlag({}, id) {
+    const flagId = id;
+    const updates = {};
+    updates[`flags/${flagId}`] = null;
+    firebase
+      .database()
+      .ref()
+      .update(updates)
+      .then(() => {
+        Snackbar.open({
+          message: 'Flag dismissed',
+          type: 'is-success',
+          duration: 3000
+        });
+      });
+  },
+  markAsDuplicate({ dispatch }, payload) {
+    const updates = {};
+    updates[`quest/${payload.questId}/is_duplicate`] = true;
+    firebase
+      .database()
+      .ref()
+      .update(updates)
+      .then(() => {
+        Snackbar.open({
+          message: 'Quest marked as duplicate',
+          type: 'is-success',
+          duration: 3000
+        });
+        dispatch('dismissFlag', payload.flagId);
+      })
   },
   refreshChart({ commit, rootGetters }) {
     commit('setLoading', true);
@@ -148,17 +192,16 @@ const actions = {
       ['UPVOTE_QUEST', 0],
       ['DOWNVOTE_QUEST', 0],
       ['DELETE_QUEST', 0],
-      ['FLAG_QUEST', 0],
-      ['UNFLAG_QUEST', 0],
       ['POST_SOLUTION', 0],
       ['UPVOTE_SOLUTION', 0],
       ['DOWNVOTE_SOLUTION', 0],
       ['MARK_SOLUTION', 0],
       ['DELETE_SOLUTION', 0],
       ['POST_REPLY', 0],
-      ['REPORT_USER', 0]
+      ['SUBMIT_REPORT', 0],
+      ['SUBMIT_FLAG', 0]
     ];
-    // Retrieve data from DB
+
     firebase
       .database()
       .ref('logs')
@@ -173,50 +216,51 @@ const actions = {
           });
         }
       });
-    // fake load
+
     setTimeout(() => {
       commit('setData', values);
       commit('setLoading', false);
     }, 2000);
   },
   refreshCounters({ commit }) {
-    // User Count
-    let userCount = 0;
     firebase
       .database()
       .ref('user')
       .on('value', users => {
+        let userCount = 0;
         users.forEach(u => {
           userCount += 1;
         });
         commit('setUserCount', userCount);
       });
-    // Quest Count
-    let questCount = 0;
+
     firebase
       .database()
       .ref('quest')
       .on('value', quests => {
+        let questCount = 0;
         quests.forEach(q => {
           questCount += 1;
         });
         commit('setQuestCount', questCount);
       });
-    let solutionCount = 0;
+
     firebase
       .database()
       .ref('solution')
       .on('value', solutions => {
+        let solutionCount = 0;
         solutions.forEach(s => {
           solutionCount += 1;
         });
         commit('setSolutionCount', solutionCount);
       });
-    let replyCount = 0;
+
     firebase
       .database()
       .ref('reply')
       .on('value', replies => {
+        let replyCount = 0;
         replies.forEach(r => {
           replyCount += 1;
         });
@@ -289,6 +333,12 @@ const getters = {
   },
   replyCount(state) {
     return state.reply_count;
+  },
+  reports(state) {
+    return state.reportTickets;
+  },
+  flags(state) {
+    return state.flagTickets;
   }
 };
 

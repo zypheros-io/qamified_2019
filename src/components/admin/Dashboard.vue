@@ -52,11 +52,101 @@
       </div>
     </div>
     <p class="is-divider"></p>
+    <div class="columns" id="reports-container">
+      <div class="column">
+        <div class="has-text-centered">
+          <p class="is-primary-text">Report Tickets</p>
+        </div>
+        <br />
+        <div
+          v-for="report in reports"
+          :key="report.index"
+          class="notification color-white"
+          id="reports"
+        >
+          <div class="is-clearfix">
+            <p class="is-pulled-left">
+              <router-link :to="`/headquarters/${report.reporter_id}`">
+                {{ report.reporter_name }}
+              </router-link>
+              has reported
+              <router-link :to="`/headquarters/${report.reported_user_id}`">
+                {{ report.reported_user_name }}
+              </router-link>
+              for {{ report.reason }}
+            </p>
+            <p class="is-pulled-right">
+              <a v-on:click.prevent="confirmDismiss(report)">
+                dismiss
+              </a>
+              |
+              <a
+                v-on:click.prevent="
+                  confirmBan(report.reported_user_id, report.id)
+                "
+              >
+                ban
+              </a>
+            </p>
+          </div>
+          <br />
+        </div>
+        <div class="has-text-centered">
+          <p v-if="reports.length === 0" class="is-secondary-text">
+            No report tickets as of the moment
+          </p>
+        </div>
+      </div>
+      <p class="is-divider-vertical"></p>
+      <div class="column">
+        <div class="has-text-centered">
+          <p class="is-primary-text">Flag Tickets</p>
+        </div>
+        <br />
+        <div
+          v-for="flag in flags"
+          :key="flag.index"
+          class="notification color-white"
+          id="reports"
+        >
+          <div class="is-clearfix">
+            <p class="is-pulled-left">
+              <router-link :to="`/headquarters/${flag.user_id}`">
+                {{ flag.user_name }}
+              </router-link>
+              has flagged
+              <router-link :to="`/quest/${flag.duplicate_id}`">
+                this quest
+              </router-link>
+              as duplicate of
+              <router-link :to="`/quest/${flag.quest_id}`">
+                this quest.
+              </router-link>
+            </p>
+            <p class="is-pulled-right">
+              <a v-on:click.prevent="confirmDismissFlag(flag.id)">
+                dismiss
+              </a>
+              |
+              <a v-on:click.prevent="confirmMark(flag.duplicate_id, flag.id)">
+                mark
+              </a>
+            </p>
+          </div>
+          <br />
+        </div>
+        <div class="has-text-centered">
+          <p v-if="flags.length === 0" class="is-secondary-text">
+            No flag tickets as of the moment
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'Dashboard',
@@ -66,15 +156,80 @@ export default {
       userCount: 'admin/userCount',
       questCount: 'admin/questCount',
       solutionCount: 'admin/solutionCount',
-      replyCount: 'admin/replyCount'
+      replyCount: 'admin/replyCount',
+      reports: 'admin/reports',
+      flags: 'admin/flags'
     })
   },
   methods: {
+    ...mapActions({
+      refreshChart: 'admin/refreshChart',
+      refreshCounters: 'admin/refreshCounters',
+      refreshReport: 'admin/refreshReportTickets',
+      refreshFlags: 'admin/refreshFlagTickets',
+      ban: 'admin/banUser',
+      mark: 'admin/markAsDuplicate',
+      dismissReport: 'admin/dismissReport',
+      dismissFlag: 'admin/dismissFlag'
+    }),
     refresh: function refresh() {
-      this.$store.dispatch('admin/refreshChart');
-      this.$store.dispatch('admin/refreshCounters');
-      this.$store.dispatch('admin/refreshReportTickets');
-      this.$store.dispatch('admin/refreshFlagTickets');
+      this.refreshChart();
+      this.refreshCounters();
+      this.refreshReport();
+      this.refreshFlags();
+    },
+    confirmBan: function confirmBan(id, reportTicketId) {
+      this.$dialog.confirm({
+        title: 'Ban User',
+        message: 'Are you sure you want to <b>ban</b> this user?',
+        confirmText: 'Yes, I am sure.',
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: () =>
+          this.ban({
+            reportUserId: id,
+            reportId: reportTicketId
+          })
+      });
+    },
+    confirmDismiss: function confirmDismiss(report) {
+      this.$dialog.confirm({
+        title: 'Dismiss Report Ticket',
+        message: 'Are you sure you want to <b>dismiss</b> this ticket?',
+        confirmText: 'Yes, I am sure.',
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: () =>
+          this.dismissReport({
+            reportId: report.id,
+            reportUserId: report.reported_user_id
+          })
+      });
+    },
+    confirmDismissFlag: function confirmDismissFlag(id) {
+      this.$dialog.confirm({
+        title: 'Delete Flag Ticket',
+        message: 'Are you sure you want to <b>dismiss</b> this ticket?',
+        confirmText: 'Yes, I am sure.',
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: () => this.dismissFlag(id)
+      });
+    },
+    confirmMark: function confirmMark(id, flagTicketId) {
+      this.$dialog.confirm({
+        title: 'Mark Quest as Duplicate',
+        message:
+          'Are you sure you want to <b>mark</b> this quest as duplicate?',
+        confirmText: 'Yes, I am sure.',
+        type: 'is-danger',
+        hasIcon: true,
+        onConfirm: () =>
+          this.mark({
+            questId: id,
+            flagId: flagTicketId
+          })
+      });
     }
   },
   mounted() {
@@ -93,5 +248,9 @@ export default {
 }
 #stats-container {
   background: #f4f4f4 !important;
+}
+#reports {
+  background: #37ccb3 !important;
+  font-size: 0.9em !important;
 }
 </style>
