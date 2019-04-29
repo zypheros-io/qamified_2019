@@ -10,9 +10,13 @@
         </div>
         <div class="media-content is-clearfix">
           <div class="is-pulled-left" id="user-details">
-            <p class="is-primary-text" id="panel-fullname">
+            <router-link
+              :to="`/headquarters/${user.id}`"
+              class="is-primary-text"
+              id="panel-fullname"
+            >
               {{ user.fname + ' ' + user.lname }}
-            </p>
+            </router-link>
             <p class="is-primary-text" id="panel-institution">
               Institution: {{ user.institution }}
             </p>
