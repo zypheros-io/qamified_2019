@@ -102,8 +102,8 @@ const actions = {
           message: 'Report ticket successfully submitted for review.',
           type: 'is-success',
           duration: 3000
-        })
-      })
+        });
+      });
   }
 };
 

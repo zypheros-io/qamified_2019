@@ -1,18 +1,21 @@
 <template>
   <div class="box has-text-centered" id="dashboard">
     <div id="chart-container">
-      <button
-        v-if="!loading"
-        @click.prevent="refresh()"
-        class="button primary-btn is-medium"
-      >
-        Refresh
-      </button>
-      <button
-        v-if="loading"
-        class="button is-loading primary-btn is-medium"
-      ></button>
+      <div class="is-clearfix">
+        <button
+          v-if="!loading"
+          @click.prevent="refresh()"
+          class="button primary-btn is-medium is-pulled-right"
+        >
+          <span class="mdi mdi-refresh"></span>&nbsp;Refresh Dashboard
+        </button>
+        <button
+          v-if="loading"
+          class="button is-loading primary-btn is-medium is-pulled-right"
+        ></button>
+      </div>
     </div>
+    <br />
     <column-chart
       :data="this.$store.getters['admin/chart']"
       xtitle="User Activity"
@@ -48,6 +51,7 @@
         </div>
       </div>
     </div>
+    <p class="is-divider"></p>
   </div>
 </template>
 
@@ -69,6 +73,8 @@ export default {
     refresh: function refresh() {
       this.$store.dispatch('admin/refreshChart');
       this.$store.dispatch('admin/refreshCounters');
+      this.$store.dispatch('admin/refreshReportTickets');
+      this.$store.dispatch('admin/refreshFlagTickets');
     }
   },
   mounted() {

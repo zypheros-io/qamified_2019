@@ -46,6 +46,8 @@ const state = {
   quest_count: 0,
   solution_count: 0,
   reply_count: 0,
+  reportTickets: [],
+  flagTickets: [],
   loading: false
 };
 
@@ -73,6 +75,12 @@ const mutations = {
   },
   setReplyCount(state, payload) {
     state.reply_count = payload;
+  },
+  setReports(state, payload) {
+    state.reportTickets = payload;
+  },
+  setFlags(state, payload) {
+    state.flagTickets = payload;
   }
 };
 
@@ -213,6 +221,40 @@ const actions = {
           replyCount += 1;
         });
         commit('setReplyCount', replyCount);
+      });
+  },
+  refreshReportTickets({ commit }) {
+    firebase
+      .database()
+      .ref('/reports')
+      .on('value', reports => {
+        if (reports) {
+          const reportsArray = [];
+          reports.forEach(report => {
+            if (report.val()) {
+              const r = report.val();
+              reportsArray.unshift(r);
+            }
+          });
+          commit('setReports', reportsArray);
+        }
+      });
+  },
+  refreshFlagTickets({ commit }) {
+    firebase
+      .database()
+      .ref('/flags')
+      .on('value', flags => {
+        if (flags) {
+          const flagsArray = [];
+          flags.forEach(flag => {
+            if (flag.val()) {
+              const f = flag.val();
+              flagsArray.unshift(f);
+            }
+          });
+          commit('setFlags', flagsArray);
+        }
       });
   }
 };
