@@ -49,7 +49,6 @@ const actions = {
       mission => mission.requirements.context === 'Post Solution'
     );
     const currMission = user.missions[missionIndex];
-    console.log(currMission);
     // If mission exists
     if (missionIndex !== -1) {
       let newCurrent = currMission.requirements.current + 1;
@@ -298,6 +297,34 @@ const actions = {
         dispatch('user/updateLogs', 'DELETE_SOLUTION', { root: true });
         Snackbar.open({
           message: 'Solution successfully deleted!',
+          type: 'is-success',
+          duration: 3000
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
+  submitFlagToAdmin({ dispatch }, payload) {
+    const newFlag = payload;
+    const flagKey = firebase
+      .database()
+      .ref()
+      .child('/flags')
+      .push().key;
+    newFlag.id = flagKey;
+    const updates = {};
+    updates[`/flags/${newFlag.id}`] = newFlag;
+
+    firebase
+      .database()
+      .ref()
+      .update(updates)
+      .then(() => {
+        dispatch('user/updateLogs', 'SUBMIT_FLAG', { root: true });
+        Snackbar.open({
+          message:
+            'Flag ticket successfully submitted. The administrator has been notified.',
           type: 'is-success',
           duration: 3000
         });

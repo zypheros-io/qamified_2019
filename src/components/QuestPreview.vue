@@ -49,26 +49,6 @@
             ></span>
           </b-tooltip>
         </p>
-        <p class="is-divider"></p>
-        <p>
-          <b-tooltip
-            label="Flag quest as a duplicate quest"
-            type="is-light"
-            position="is-left"
-            animated
-          >
-            <span
-              v-if="!quest.is_duplicate"
-              v-on:click.prevent="flagAsDuplicate"
-              class="mdi mdi-flag-variant-outline"
-            ></span>
-            <span
-              v-else-if="quest.is_duplicate"
-              v-on:click.prevent="unflagQuest"
-              class="mdi mdi-flag-variant flagged"
-            ></span>
-          </b-tooltip>
-        </p>
       </div>
       <!-- Main quest container -->
       <div class="media-content" id="quest-primary-container">
@@ -230,12 +210,6 @@ export default {
         hasIcon: true,
         onConfirm: () => this.delete(this.quest.id)
       });
-    },
-    flagAsDuplicate: function flagAsDuplicate() {
-      this.flag(this.load(this.quest.id));
-    },
-    unflagQuest: function unflagQuest() {
-      this.unflag(this.load(this.quest.id));
     }
   }
 };

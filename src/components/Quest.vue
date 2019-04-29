@@ -1,5 +1,25 @@
 <template>
   <div class="container" id="quest">
+    <b-modal :active.sync="showFlagModal" :width="650">
+      <div id="modal">
+        <div class="box has-text-centered">
+          <p class="is-primary-text">This quest is a duplicate of...</p>
+          <p class="is-secondary-text">(Choose from the following)</p>
+          <p class="is-divider"></p>
+          <div class="scrollable">
+            <div
+              v-for="q in questList"
+              :key="q.index"
+              class="notification is-primary-text color-white"
+              id="quest-list-panel"
+              v-on:click.prevent="flagQuest(quest, q)"
+            >
+              {{ q.title }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </b-modal>
     <div class="box" id="quest-container">
       <div class="media">
         <!-- Votes container -->
@@ -45,13 +65,8 @@
             >
               <span
                 v-if="!quest.is_duplicate"
-                v-on:click.prevent="flagAsDuplicate"
+                v-on:click.prevent="popFlagModal"
                 class="mdi mdi-flag-variant-outline"
-              ></span>
-              <span
-                v-else-if="quest.is_duplicate"
-                v-on:click.prevent="unflagQuest"
-                class="mdi mdi-flag-variant flagged"
               ></span>
             </b-tooltip>
           </p>
@@ -225,7 +240,8 @@ export default {
         full_name: '',
         is_correct: false,
         quest_id: this.id
-      }
+      },
+      showFlagModal: false
     };
   },
   computed: {
@@ -233,10 +249,15 @@ export default {
       user: 'user/getUser',
       loading: 'quest/isLoading',
       solutions: 'quest/sortedSolutions',
-      loadQuest: 'feed/loadQuest'
+      loadQuest: 'feed/loadQuest',
+      quests: 'feed/sortedQuests'
     }),
     quest() {
       return this.loadQuest(this.id);
+    },
+    questList() {
+      const questArray = this.quests;
+      return questArray.filter(q => this.id !== q.id);
     }
   },
   methods: {
@@ -245,10 +266,9 @@ export default {
       downvote: 'feed/downvoteQuest',
       post: 'quest/postSolution',
       refresh: 'quest/populateSolutions',
-      flag: 'feed/flagAsDuplicate',
-      unflag: 'feed/unflagQuest',
       delete: 'feed/deleteQuest',
-      log: 'user/updateLogs'
+      log: 'user/updateLogs',
+      submit: 'quest/submitFlagToAdmin'
     }),
     upvoteQuest: function upvoteQuest() {
       this.upvote(this.loadQuest(this.id));
@@ -274,12 +294,6 @@ export default {
       this.log('VIEW_QUEST');
       this.refresh(this.id);
     },
-    flagAsDuplicate: function flagAsDuplicate() {
-      this.flag(this.loadQuest(this.quest.id));
-    },
-    unflagQuest: function unflagQuest() {
-      this.unflag(this.loadQuest(this.quest.id));
-    },
     confirmDelete: function confirmDelete() {
       this.$dialog.confirm({
         title: 'Deleting quest',
@@ -291,6 +305,21 @@ export default {
         onConfirm: () => this.delete(this.quest.id)
       });
       this.$router.push('/board');
+    },
+    flagQuest: function flagQuest(duplicate, quest) {
+      this.submit({
+        user_id: this.user.id,
+        user_name: this.user.fname,
+        duplicate_id: duplicate.id,
+        duplicate_title: duplicate.title,
+        quest_id: quest.id,
+        quest_title: quest.title,
+        date_created: moment().format()
+      });
+      this.showFlagModal = false;
+    },
+    popFlagModal() {
+      this.showFlagModal = true;
     }
   },
   mounted() {
@@ -362,5 +391,17 @@ export default {
   font-size: 15px !important;
   color: #b9b9b9 !important;
   cursor: pointer !important;
+}
+.scrollable {
+  overflow-y: scroll !important;
+  height: 450px !important;
+  padding: 15px;
+}
+#quest-list-panel {
+  background-color: #37ccb3 !important;
+  cursor: pointer;
+}
+#quest-list-panel:hover {
+  background-color: #17b79c !important;
 }
 </style>
