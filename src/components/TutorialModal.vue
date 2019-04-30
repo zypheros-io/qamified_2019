@@ -63,26 +63,6 @@
             src="../assets/tutorial/tut12.png"
             alt="Image"
           />
-          <img
-            v-if="currentPage === 13"
-            src="../assets/tutorial/tut13.png"
-            alt="Image"
-          />
-          <img
-            v-if="currentPage === 14"
-            src="../assets/tutorial/tut14.png"
-            alt="Image"
-          />
-          <img
-            v-if="currentPage === 15"
-            src="../assets/tutorial/tut15.png"
-            alt="Image"
-          />
-          <img
-            v-if="currentPage === 16"
-            src="../assets/tutorial/tut16.png"
-            alt="Image"
-          />
         </figure>
       </div>
       <div class="card-content">
@@ -97,7 +77,7 @@
           <button
             class="button is-pulled-right primary-btn is-primary-text"
             v-on:click.prevent="next"
-            v-if="currentPage < 16"
+            v-if="currentPage < 12"
           >
             Next
           </button>
@@ -106,14 +86,14 @@
               id="skip-button"
               class="button is-primary-text"
               v-on:click.prevent="skip"
-              v-if="currentPage < 16"
+              v-if="currentPage < 12"
             >
               Skip Tutorial
             </button>
             <button
               class="button primary-btn is-primary-text"
               v-on:click.prevent="confirm"
-              v-if="currentPage == 16"
+              v-if="currentPage == 12"
             >
               Understood
             </button>
@@ -133,7 +113,7 @@ export default {
   },
   methods: {
     next: function next() {
-      if (this.currentPage < 16) this.currentPage += 1;
+      if (this.currentPage < 12) this.currentPage += 1;
     },
     prev: function prev() {
       if (this.currentPage > 1) this.currentPage -= 1;
@@ -150,7 +130,7 @@ export default {
         type: 'is-danger',
         hasIcon: true,
         onConfirm: () => {
-          this.currentPage = 16;
+          this.currentPage = 12;
         }
       });
     }
