@@ -98,7 +98,7 @@
             </b-tooltip>
           </div>
         </div>
-        <div id="solution-description">
+        <div class="is-secondary-text" id="solution-description">
           <vue-markdown>{{ solution.description }}</vue-markdown>
         </div>
         <br />

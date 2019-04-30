@@ -15,7 +15,7 @@
         </div>
         <!-- Response -->
         <div class="is-secondary-text" id="reply-response">
-          {{ reply.description }}
+          <vue-markdown>{{ reply.description }}</vue-markdown>
         </div>
         <br />
         <!-- Misc -->
@@ -36,9 +36,11 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import VueMarkdown from 'vue-markdown';
 
 export default {
   props: ['reply'],
+  components: { VueMarkdown },
   computed: {
     ...mapGetters({
       user: 'user/getUser'
