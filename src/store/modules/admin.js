@@ -166,7 +166,8 @@ const actions = {
   },
   markAsDuplicate({ dispatch }, payload) {
     const updates = {};
-    updates[`quest/${payload.questId}/is_duplicate`] = true;
+    updates[`quest/${payload.duplicateId}/is_duplicate`] = true;
+    updates[`quest/${payload.duplicateId}/duplicate_of`] = payload.questId;
     firebase
       .database()
       .ref()

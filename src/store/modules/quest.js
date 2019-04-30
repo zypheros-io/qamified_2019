@@ -147,7 +147,7 @@ const actions = {
           Snackbar.open({
             message: 'Solution successfully upvoted!',
             type: 'is-success',
-            duration: 3000
+            duration: 1000
           });
           dispatch('user/updateLogs', 'UPVOTE_SOLUTION', { root: true });
           solution.votes += 1;
@@ -167,7 +167,7 @@ const actions = {
           Snackbar.open({
             message: 'Solution successfully upvoted!',
             type: 'is-success',
-            duration: 3000
+            duration: 1000
           });
           dispatch('user/updateLogs', 'UPVOTE_SOLUTION', { root: true });
           solution.votes += 1;
@@ -187,7 +187,7 @@ const actions = {
           Snackbar.open({
             message: 'Upvote removed',
             type: 'is-success',
-            duration: 3000
+            duration: 1000
           });
           solution.votes -= 1;
         })
@@ -212,7 +212,7 @@ const actions = {
           Snackbar.open({
             message: 'Solution successfully downvoted!',
             type: 'is-success',
-            duration: 3000
+            duration: 1000
           });
           dispatch('user/updateLogs', 'DOWNVOTE_SOLUTION', { root: true });
           solution.votes -= 1;
@@ -232,7 +232,7 @@ const actions = {
           Snackbar.open({
             message: 'Solution successfully upvoted!',
             type: 'is-success',
-            duration: 3000
+            duration: 1000
           });
           dispatch('user/updateLogs', 'DOWNVOTE_SOLUTION', { root: true });
           solution.votes -= 1;
@@ -243,7 +243,6 @@ const actions = {
     } else if (solution.downvote.includes(user.id)) {
       updates[`/solution/${solution.id}/downvote/${user.id}`] = null;
       updates[`/solution/${solution.id}/votes/`] = solution.votes + 1;
-      console.log('nadah');
       firebase
         .database()
         .ref()
@@ -252,7 +251,7 @@ const actions = {
           Snackbar.open({
             message: 'Downvote removed!',
             type: 'is-success',
-            duration: 3000
+            duration: 1000
           });
           solution.votes += 1;
         })
@@ -298,7 +297,7 @@ const actions = {
         Snackbar.open({
           message: 'Solution successfully deleted!',
           type: 'is-success',
-          duration: 3000
+          duration: 1000
         });
       })
       .catch(error => {
@@ -325,7 +324,7 @@ const actions = {
         Snackbar.open({
           message: 'Flag ticket successfully submitted for review',
           type: 'is-success',
-          duration: 3000
+          duration: 1000
         });
       })
       .catch(error => {
@@ -339,7 +338,9 @@ const getters = {
     return state.loading;
   },
   sortedSolutions(state) {
-    return state.solutions;
+    return state.solutions.sort((solutionA, solutionB) => {
+      return solutionB.votes - solutionA.votes;
+    });
   },
   loadSolution(state) {
     return solutionId => {

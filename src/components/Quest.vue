@@ -20,6 +20,16 @@
         </div>
       </div>
     </b-modal>
+    <div
+      v-if="quest.is_duplicate"
+      class="notification has-text-centered"
+      id="duplicate-notif"
+    >
+      This quest was deemed as a duplicate of
+      <router-link :to="`/quest/${quest.duplicate_of}`">
+        this quest
+      </router-link>
+    </div>
     <div class="box" id="quest-container">
       <div class="media">
         <!-- Votes container -->
@@ -64,7 +74,6 @@
               animated
             >
               <span
-                v-if="!quest.is_duplicate"
                 v-on:click.prevent="popFlagModal"
                 class="mdi mdi-flag-variant-outline"
               ></span>
@@ -403,5 +412,10 @@ export default {
 }
 #quest-list-panel:hover {
   background-color: #17b79c !important;
+}
+#duplicate-notif {
+  width: 100% !important;
+  background: #ffffff !important;
+  border: 2px solid #b33a3a !important;
 }
 </style>

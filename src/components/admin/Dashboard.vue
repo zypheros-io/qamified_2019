@@ -128,7 +128,11 @@
                 dismiss
               </a>
               |
-              <a v-on:click.prevent="confirmMark(flag.duplicate_id, flag.id)">
+              <a
+                v-on:click.prevent="
+                  confirmMark(flag.duplicate_id, flag.id, flag.quest_id)
+                "
+              >
                 mark
               </a>
             </p>
@@ -216,7 +220,7 @@ export default {
         onConfirm: () => this.dismissFlag(id)
       });
     },
-    confirmMark: function confirmMark(id, flagTicketId) {
+    confirmMark: function confirmMark(id, flagTicketId, copyOfId) {
       this.$dialog.confirm({
         title: 'Mark Quest as Duplicate',
         message:
@@ -226,7 +230,8 @@ export default {
         hasIcon: true,
         onConfirm: () =>
           this.mark({
-            questId: id,
+            duplicateId: id,
+            questId: copyOfId,
             flagId: flagTicketId
           })
       });

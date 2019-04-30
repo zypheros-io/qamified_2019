@@ -147,7 +147,7 @@ const actions = {
           Snackbar.open({
             message: 'Quest upvoted!',
             type: 'is-success',
-            duration: 3000
+            duration: 1000
           });
           dispatch('user/updateLogs', 'UPVOTE_QUEST', { root: true });
           quest.votes += 1;
@@ -169,7 +169,7 @@ const actions = {
           Snackbar.open({
             message: 'Quest upvoted!',
             type: 'is-success',
-            duration: 3000
+            duration: 1000
           });
           dispatch('user/updateLogs', 'UPVOTE_QUEST', { root: true });
           quest.votes += 1;
@@ -189,6 +189,11 @@ const actions = {
         .update(updates)
         .then(() => {
           quest.votes -= 1;
+          Snackbar.open({
+            message: 'Upvote removed!',
+            type: 'is-success',
+            duration: 1000
+          });
         })
         .catch(error => {
           console.log(error);
@@ -212,7 +217,7 @@ const actions = {
           Snackbar.open({
             message: 'Quest downvoted!',
             type: 'is-success',
-            duration: 3000
+            duration: 1000
           });
           dispatch('user/updateLogs', 'DOWNVOTE_QUEST', { root: true });
           quest.votes -= 1;
@@ -234,7 +239,7 @@ const actions = {
           Snackbar.open({
             message: 'Quest downvoted!',
             type: 'is-success',
-            duration: 3000
+            duration: 1000
           });
           dispatch('user/updateLogs', 'DOWNVOTE_QUEST', { root: true });
           quest.votes -= 1;
@@ -253,6 +258,11 @@ const actions = {
         .ref()
         .update(updates)
         .then(() => {
+          Snackbar.open({
+            message: 'Downvote removed!',
+            type: 'is-success',
+            duration: 1000
+          });
           quest.votes += 1;
         })
         .catch(error => {
@@ -313,7 +323,7 @@ const actions = {
         Snackbar.open({
           message: 'Quest successfully deleted',
           type: 'is-success',
-          duration: 3000
+          duration: 1000
         });
         dispatch('user/updateLogs', 'DELETE_QUEST', { root: true });
       })
