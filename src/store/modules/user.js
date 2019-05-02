@@ -192,16 +192,16 @@ const actions = {
     Also checks if the user's rank changed and updates the badge and rank accordingly
   */
   addReputation({ commit, rootGetters }, payload) {
-    const REPUTATION = payload.reputation;
-    const REPUTATION_RATIO = 10;
-    const BADGES = rootGetters['badges/getBadges'];
-    const RANKS = rootGetters['badges/getRanks'];
     firebase
       .database()
       .ref(`user/${payload.authorId}`)
       .once('value')
       .then(snap => {
         if (snap.val()) {
+          const REPUTATION = payload.reputation;
+          const REPUTATION_RATIO = 10;
+          const BADGES = rootGetters['badges/getBadges'];
+          const RANKS = rootGetters['badges/getRanks'];
           let user = snap.val();
           let previousRank = user.rank;
           user.reputation += REPUTATION;
