@@ -149,6 +149,11 @@ const actions = {
             type: 'is-success',
             duration: 1000
           });
+          dispatch(
+            'user/addReputation',
+            { authorId: solution.user_id, reputation: 5 },
+            { root: true }
+          );
           dispatch('user/updateLogs', 'UPVOTE_SOLUTION', { root: true });
           solution.votes += 1;
         })
@@ -169,6 +174,11 @@ const actions = {
             type: 'is-success',
             duration: 1000
           });
+          dispatch(
+            'user/addReputation',
+            { authorId: solution.user_id, reputation: 5 },
+            { root: true }
+          );
           dispatch('user/updateLogs', 'UPVOTE_SOLUTION', { root: true });
           solution.votes += 1;
         })
@@ -189,6 +199,11 @@ const actions = {
             type: 'is-success',
             duration: 1000
           });
+          dispatch(
+            'user/deductReputation',
+            { authorId: solution.user_id, reputation: 5 },
+            { root: true }
+          );
           solution.votes -= 1;
         })
         .catch(error => {
@@ -214,6 +229,11 @@ const actions = {
             type: 'is-success',
             duration: 1000
           });
+          dispatch(
+            'user/deductReputation',
+            { authorId: solution.user_id, reputation: 2 },
+            { root: true }
+          );
           dispatch('user/updateLogs', 'DOWNVOTE_SOLUTION', { root: true });
           solution.votes -= 1;
         })
@@ -230,10 +250,15 @@ const actions = {
         .update(updates)
         .then(() => {
           Snackbar.open({
-            message: 'Solution successfully upvoted!',
+            message: 'Solution successfully downvoted!',
             type: 'is-success',
             duration: 1000
           });
+          dispatch(
+            'user/deductReputation',
+            { authorId: solution.user_id, reputation: 2 },
+            { root: true }
+          );
           dispatch('user/updateLogs', 'DOWNVOTE_SOLUTION', { root: true });
           solution.votes -= 1;
         })
@@ -253,6 +278,11 @@ const actions = {
             type: 'is-success',
             duration: 1000
           });
+          dispatch(
+            'user/addReputation',
+            { authorId: solution.user_id, reputation: 2 },
+            { root: true }
+          );
           solution.votes += 1;
         })
         .catch(error => {

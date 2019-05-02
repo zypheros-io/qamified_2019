@@ -196,98 +196,95 @@ const actions = {
     const REPUTATION_RATIO = 10;
     const BADGES = rootGetters['badges/getBadges'];
     const RANKS = rootGetters['badges/getRanks'];
-    let user;
     firebase
       .database()
       .ref(`user/${payload.authorId}`)
-      .on('value', u => {
-        if (u.val() !== null) {
-          user = u.val();
+      .once('value')
+      .then(snap => {
+        if (snap.val()) {
+          let user = snap.val();
+          let previousRank = user.rank;
+          user.reputation += REPUTATION;
+          let ratio = Math.floor(user.reputation / REPUTATION_RATIO);
+          if (ratio <= 9 && ratio >= 0) {
+            user.rank = RANKS[ratio];
+          } else if (ratio > 9) {
+            user.rank = RANKS[9];
+          }
+
+          user.badge_url = BADGES[user.rank];
+          let rankedUp = false;
+          if (user.rank !== previousRank) rankedUp = true;
+
+          const updates = {};
+          updates[`user/${payload.authorId}/reputation`] = user.reputation;
+          updates[`user/${payload.authorId}/rank`] = user.rank;
+          updates[`user/${payload.authorId}/badge_url`] = user.badge_url;
+          console.log(updates);
+          firebase
+            .database()
+            .ref()
+            .update(updates)
+            .then(() => {
+              commit('updateReputation', user.reputation);
+              if (rankedUp) {
+                commit('updateRank', user.rank);
+                commit('updateBadge', user.badge_url);
+              }
+            })
+            .catch(error => {
+              console.log(error);
+            });
         }
-      });
-
-    let previousRank = user.rank;
-    user.reputation += REPUTATION;
-    let ratio = Math.floor(user.reputation / REPUTATION_RATIO);
-    if (ratio <= 9 && ratio >= 0) {
-      user.rank = RANKS[ratio];
-    } else if (ratio > 9) {
-      user.rank = RANKS[9];
-    }
-
-    user.badge_url = BADGES[user.rank];
-    let rankedUp = false;
-    if (user.rank !== previousRank) rankedUp = true;
-
-    const updates = {};
-    updates[`user/${payload.authorId}/reputation`] = user.reputation;
-    updates[`user/${payload.authorId}/rank`] = user.rank;
-    updates[`user/${payload.authorId}/badge_url`] = user.badge_url;
-    console.log(updates);
-    firebase
-      .database()
-      .ref()
-      .update(updates)
-      .then(() => {
-        commit('updateReputation', user.reputation);
-        if (rankedUp) {
-          commit('updateRank', user.rank);
-          commit('updateBadge', user.badge_url);
-        }
-      })
-      .catch(error => {
-        console.log(error);
       });
   },
   deductReputation({ commit, rootGetters }, payload) {
-    const REPUTATION = payload.reputation;
-    const REPUTATION_RATIO = 10;
-    const BADGES = rootGetters['user/getBadges'];
-    const RANKS = rootGetters['user/getRanks'];
-
-    let user;
     firebase
       .database()
       .ref(`user/${payload.authorId}`)
-      .on('value', u => {
-        if (u.val() !== null) {
-          user = u.val();
-        }
-      });
+      .once('value')
+      .then(snap => {
+        if (snap.val()) {
+          const REPUTATION = payload.reputation;
+          const REPUTATION_RATIO = 10;
+          const BADGES = rootGetters['badges/getBadges'];
+          const RANKS = rootGetters['badges/getRanks'];
+          let user = snap.val();
+          let previousRank = user.rank;
+          user.reputation = user.reputation - REPUTATION;
+          // Make 0 if negative
+          if (user.reputation < 0) user.reputation = 0;
+          let ratio = Math.floor(user.reputation / REPUTATION_RATIO);
+          if (ratio <= 9 && ratio >= 0) {
+            user.rank = RANKS[ratio];
+          } else if (ratio < 0) {
+            user.rank = RANKS[0];
+          }
+          
+          user.badge_url = BADGES[user.rank];
+          let rankedDown = false;
+          if (user.rank !== previousRank) rankedDown = true;
 
-    let previousRank = user.rank;
-    user.reputation = user.reputation - REPUTATION;
-    // Make 0 if negative
-    if (user.reputation < 0) user.reputation = 0;
-    let ratio = Math.floor(user.reputation / REPUTATION_RATIO);
-    if (ratio <= 9 && ratio >= 0) {
-      user.rank = RANKS[ratio];
-    } else if (ratio < 0) {
-      user.rank = RANKS[0];
-    }
+          const updates = {};
+          updates[`user/${payload.authorId}/reputation`] = user.reputation;
+          updates[`user/${payload.authorId}/rank`] = user.rank;
+          updates[`user/${payload.authorId}/badge_url`] = user.badge_url;
 
-    user.badge_url = BADGES[user.rank];
-    let rankedDown = false;
-    if (user.rank !== previousRank) rankedDown = true;
-
-    const updates = {};
-    updates[`user/${payload.authorId}/reputation`] = user.reputation;
-    updates[`user/${payload.authorId}/rank`] = user.rank;
-    updates[`user/${payload.authorId}/badge_url`] = user.badge_url;
-
-    firebase
-      .database()
-      .ref()
-      .update(updates)
-      .then(() => {
-        commit('updateReputation', user.reputation);
-        if (rankedDown) {
-          commit('updateRank', user.rank);
-          commit('updateBadge', user.badge_url);
-        }
-      })
-      .catch(error => {
-        console.log(error);
+          firebase
+            .database()
+            .ref()
+            .update(updates)
+            .then(() => {
+              commit('updateReputation', user.reputation);
+              if (rankedDown) {
+                commit('updateRank', user.rank);
+                commit('updateBadge', user.badge_url);
+              }
+            })
+            .catch(error => {
+              console.log(error);
+            });
+          }
       });
   },
   endTutorial({ commit, dispatch, rootGetters }) {
