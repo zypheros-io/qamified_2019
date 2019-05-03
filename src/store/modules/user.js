@@ -88,7 +88,6 @@ const actions = {
             type: 'is-success'
           });
         }
-      // Not 1
       } else if (difference > 1) {
         currMission.requirements.current = 0;
         Dialog.alert({
