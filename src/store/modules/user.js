@@ -61,48 +61,41 @@ const actions = {
   },
   updateLogin({ dispatch, rootGetters }) {
     const user = rootGetters['user/getUser'];
-    const prevAccess = moment(user.last_access);
-    const newAccess = moment(new Date());
-
-    let dayDifference = newAccess.diff(prevAccess, 'days');
-    const updates = {};
-    updates[`user/${user.id}/last_access`] = newAccess.format();
-
-    const missions = rootGetters['user/getMissions'];
+    const prev = moment(user.last_access);
+    const curr = moment(new Date());
+    const missions = user.missions;
     const missionIndex = missions.findIndex(
       mission => mission.requirements.context === 'Weekly Login'
     );
     const currMission = user.missions[missionIndex];
-
+    const updates = {};
     let clear = false;
-    if (missionIndex !== -1) {
-      if (dayDifference == 1) {
+    // Compare the month
+    if (prev.format('MMMM') === curr.format('MMMM')) {
+      const difference = parseInt(curr.format('DD')) - parseInt(prev.format('DD'))
+      // Check if the difference between dates === 1
+      if (difference === 1) {
         let newCurrent = currMission.requirements.current + 1;
-        updates[
-          `user/${user.id}/missions/${missionIndex}/requirements/current`
-        ] = newCurrent;
-
+        // Update the requirement counter
+        updates[`user/${user.id}/missions/${missionIndex}/requirements/current`] = newCurrent;
         if (newCurrent === currMission.requirements.required) {
           clear = true;
           updates[`user/${user.id}/missions/${missionIndex}/done`] = true;
           Dialog.alert({
             title: 'Mission cleared!',
-            message:
-              'You have cleared a mission and received a trophy! Visit your headquarters to see it!',
+            message: 'You have cleared a mission and received a trophy! Visit your headquarters to see it!',
             type: 'is-success'
           });
         }
-      } else if (dayDifference > 1) {
+      // Not 1
+      } else if (difference > 1) {
         currMission.requirements.current = 0;
         Dialog.alert({
           title: 'Mission failed...',
-          message:
-            'You have failed in reaching a 7-login streak. Your mission progress has been reset',
+          message: 'You have failed in reaching a 2-day login streak. Your mission progress has been reset',
           type: 'is-danger'
         });
-        updates[
-          `user/${user.id}/missions/${missionIndex}/requirements/current`
-        ] = currMission.requirements.current;
+        updates[`user/${user.id}/missions/${missionIndex}/requirements/current`] = currMission.requirements.current;
       }
     }
 
