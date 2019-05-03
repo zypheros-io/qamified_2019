@@ -69,6 +69,7 @@ const actions = {
     );
     const currMission = user.missions[missionIndex];
     const updates = {};
+    updates[`user/${user.id}/last_access`] = curr.format();
     let clear = false;
     // Compare the month
     if (prev.format('MMMM') === curr.format('MMMM')) {
