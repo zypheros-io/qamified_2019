@@ -6,9 +6,9 @@ QAmifiED is a question-and-answer platform that aims to increase the users' moti
 This will guide you through the installation and deployment process of the application.
 
 ### Pre-requisites
-[Node JS](https://nodejs.org/en/download/)
-[Vue.js v2.5.22](https://vuejs.org/v2/guide/installation.html)
-[Surge](https://surge.sh/help/getting-started-with-surge) (optional)
+* [Node JS](https://nodejs.org/en/download/)
+* [Vue.js v2.5.22](https://vuejs.org/v2/guide/installation.html)
+* [Surge](https://surge.sh/help/getting-started-with-surge) (optional)
 
 ### Clone the repository
 ```
