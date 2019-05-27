@@ -1,78 +1,41 @@
-## Gamified Question and Answer Platform
+# QAMIFIED: A Web-based Gamified Question-and-Answer Platform
 
-# System Requirements
+QAmifiED is a question-and-answer platform that aims to increase the users' motivation to participate in discussions within the app. It utilizes gamification in order to perform this feat. This application was developed in partial fulfillment of the requirements for the degree of Bachelor of Science in Computer Science of the University of the Philippines Los Baños.
 
-* [x] Generate Vue App
-* [x] Create Firebase Project
-  
-* [x] Login / Register
-* [x] Post / Delete Quest/Solutions/Replies
-* [x] Upvote/Downvote Quests/Solutions
-* [x] Flag Quests as duplicate
+## Getting Started
+This will guide you through the installation and deployment process of the application.
 
-# System Features
+### Pre-requisites
+[Node JS](https://nodejs.org/en/download/)
+[Vue.js v2.5.22](https://vuejs.org/v2/guide/installation.html)
+[Surge](https://surge.sh/help/getting-started-with-surge) (optional)
 
-* [x] Players
-* [x] Quests
-    * [x] Update User Interface
-* [x] Quest Board
-    * [x] Update Quest Board
-    * [x] Add User Card
-      * [x] Name
-      * [x] Username
-      * [x] Avatar
-      * [x] Level
-      * [x] EXP + EXP requirement Progress Bar
-      * [x] Rank
-      * [x] Reputation
-      * [x] Badges
-      * [x] # of Quests Posted
-      * [x] # of Solutions Posted
-* [x] Tutorial
-    * [x] Short modal that appears upon signing up
-* [x] Experience
-    * [x] Give EXP for posting quest
-    * [x] Give EXP for posting solution
-    * [x] Give EXP for posting reply
-* [x] Level Progression
-    * [x] Change user's level according to current EXP
-* [x] Rank
-* [x] Rank Progression
-    * [x] Update user's rank depending on reputation
-* [x] Reputation
-    * [x] Give REP for every user that upvotes your solution
-    * [x] Deduct REP for every user that downvotes your solution
-* [x] Headquarters
-    * [ ] Showcase user card same to feed
-    * [ ] Elaborate display of achievements/trophies
-* [ ] Trophies
-    * [x] Design trophies
-* [ ] Badges
-    * [x] Design badges
-* [x] Progress Tracker
-* [ ] Report System
-    * [x] Add report button to user profile
-    * [x] Allow admin to ban users
-* [x ] Rich Text Format Handling
-    * [x] Allow users to format their posts/solutions/replies with Markdown Editor
-* [ ] Social Media Integration
-    * [ ] Allow users to share quests/achievements to one social media of choice
-* [x] User Activity Logging
-* [x] Admin Panel
+### Clone the repository
+```
+git clone https://github.com/kenichiiana/qamified_2019.git
+```
 
-# Miscellaneous features
-* [ ] Notifications
-* [x] Mission
-* [ ] Allow user to view other players' profile
-* [x] Sorting and searching (feed)
-* [x] SNS integration
-* [ ] Permissions (user/admin)
+### Install the necessary node modules
+```
+npm install
+```
 
-# Bugs
+### Run the application
+```
+npm run dev
+```
 
-* [x] User is still able to go to landing/signin/signup even after logging in
-* [x] Chart disappears after logging in
-* [x] Table isn't scrollable (not really a bug lol)
-* [x] Input seems slower due to markdown in feed
-* [x] Posting sometimes doesn't work when just logged in (need testing)
-* [x] Doesn't detect when user doesn't exist (infinite loading)
+## Production Deployment
+```
+npm run build
+cd dist
+surge
+```
+## Built With
+
+* [VueJS v2.5.22](https://vuejs.org/v2/guide/installation.html)
+* [BulmaCSS](https://bulma.io/documentation/)
+* [Google Firebase](https://firebase.google.com/docs)
+
+## Author
+* **Kenichii A. Ana** - *Initial Work* - [kenichiiana](https://github.com/kenichiiana)
