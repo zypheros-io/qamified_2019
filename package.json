@@ -14,7 +14,7 @@
   "dependencies": {
     "animate.css": "^3.7.0",
     "animated-vue": "^0.5.3",
-    "buefy": "^0.7.1",
+    "buefy": "^0.7.2",
     "bulma-divider": "^0.2.0",
     "bulma-pageloader": "^2.1.0",
     "bulma-steps": "^2.2.1",
